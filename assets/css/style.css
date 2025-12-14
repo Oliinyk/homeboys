@@ -542,7 +542,12 @@ section {
 
 .custom-prev,
 .custom-next {
+	position: absolute;
+	z-index: 10;
+    cursor: pointer;
     top: 50%;
+	align-items: center;
+    justify-content: center;
     transform: translateY(-50%);
 	background-color: var(--gray);
 	height: 100%;
@@ -560,8 +565,8 @@ section {
     right: -100px;
 }
 
-.swiper-button-next:after,
-.swiper-button-prev:after {
+.custom-prev:after,
+.custom-next:after {
 	display: none;
 }
 
@@ -583,16 +588,17 @@ section {
 	fill: var(--dark-gray);
 }
 
-.item-description {
+.swiper-wrapper .item-description {
 	font-size: 14px;
 	color: var(--gray);
 	margin: 15px 0 0;
 }
 
-.item-title {
+.swiper-wrapper .item-title {
 	font-size: 16px;
 	color: var(--dark-gray);
 	font-weight: 700;
+	margin: 0 0 8px;
 }
 
 /* find-home-section */

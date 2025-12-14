@@ -56,3 +56,55 @@ window.addEventListener('resize', () => {
         closeMobileMenu();
     }
 });
+
+// --- Initialize Swiper ---
+var swiper = new Swiper(".mySwiper", {
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+});
+
+// From Our People swiper
+var swiper2 = new Swiper(".mySwiper2", {
+    spaceBetween: 30,
+    loop: true,
+    navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+        enabled: false,
+    },
+    breakpoints: {
+        768: {
+            slidesPerView: 2,
+            spaceBetween: 40,
+            navigation: {
+                enabled: true,
+            },
+        },
+    },
+});
+
+// Blog swiper
+var swiper3 = new Swiper(".mySwiper3", {
+    slidesPerView: 1.2,
+    spaceBetween: 20,
+    centeredSlides: true,
+    // initialSlide: 0,
+    navigation: {
+        nextEl: ".swiper-blog-button-next",
+        prevEl: ".swiper-blog-button-prev",
+    },
+    breakpoints: {
+        768: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+            centeredSlides: false,
+        },
+        992: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            centeredSlides: false,
+        },
+    },
+});
