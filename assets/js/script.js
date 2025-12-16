@@ -57,6 +57,7 @@ window.addEventListener('resize', () => {
     }
 });
 
+
 // --- Initialize Swiper ---
 var swiper = new Swiper(".mySwiper", {
     pagination: {
@@ -108,3 +109,30 @@ var swiper3 = new Swiper(".mySwiper3", {
         },
     },
 });
+
+
+// filter
+function updateSlider(minInput, maxInput, rangeEl, maxValue, format) {
+    const min = +minInput.value;
+    const max = +maxInput.value;
+    const left = (min / maxValue) * 100;
+    const width = ((max - min) / maxValue) * 100;
+    rangeEl.style.left = left + '%';
+    rangeEl.style.width = width + '%';
+}
+
+// Price slider
+const priceMin = document.getElementById('priceMinSlider');
+const priceMax = document.getElementById('priceMaxSlider');
+const priceRange = document.getElementById('priceRange');
+
+priceMin.oninput = priceMax.oninput = () => updateSlider(priceMin, priceMax, priceRange, 500000);
+updateSlider(priceMin, priceMax, priceRange, 500000);
+
+// Size slider
+const sizeMin = document.getElementById('sizeMinSlider');
+const sizeMax = document.getElementById('sizeMaxSlider');
+const sizeRange = document.getElementById('sizeRange');
+
+sizeMin.oninput = sizeMax.oninput = () => updateSlider(sizeMin, sizeMax, sizeRange, 5000);
+updateSlider(sizeMin, sizeMax, sizeRange, 5000);
