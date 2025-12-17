@@ -892,6 +892,7 @@ section {
 .card-item .item-title {
     font-size: 20px;
 	background-color: var(--yellow);
+	color: var(--dark-gray);
 	display: inline-block;
 	padding: 3px 6px;
 }
