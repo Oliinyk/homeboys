@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
-<body class="home-page">
+<body class="display-homes-page">
     <header class="site-header">
         <div class="container header-inner">
             <a href="/" class="logo">
@@ -82,144 +82,270 @@
     <div class="nav-overlay" id="navOverlay"></div>
 
     <section class="hero-section">
-        <!-- Swiper -->
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="assets/img/hero.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="assets/img/hero.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="assets/img/hero.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="assets/img/hero.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="assets/img/hero.jpg" alt=""></div>
-            </div>
-            <div class="swiper-pagination"></div>
-        </div>
+        <div class="container">
+            <ul class="breadcrumbs">
+                <li class="crumb-item"><a href="#">Display Homes</a></li>
+                <li class="crumb-item"><a href="#">Spokane Valley</a></li>
+            </ul>
+            <h4 class="subtitle-section">Our</h4>
+            <h1 class="title-section">Display Homes</h1>
+            
+            <div class="location-list">
+                <div class="location-list-item">
+                    <h4 class="location-title">Spokane Valley</h4>
+                    <p class="location-subtitle">Display Lot</p>
 
-        <div class="filter-wrap">
-            <h1 class="title-section">Find Your Manufactured Home</h1>
-            <!-- filter -->
-            <div class="filter-container">
-                <div class="filter-grid">
-                    <div class="filter-group">
-                        <div class="filter-label">Price</div>
-                        <div class="value-display">
-                            <div class="value-box" id="priceMin">$ 76,391</div>
-                            <span>-</span>
-                            <div class="value-box" id="priceMax">$ 235,867</div>
-                        </div>
-                        <div class="slider-container">
-                            <div class="slider-track"></div>
-                            <div class="slider-range" id="priceRange"></div>
-                            <div class="filter-slider">
-                                <input type="range" id="priceMinSlider" min="0" max="500000" value="76391" step="1000">
-                                <input type="range" id="priceMaxSlider" min="0" max="500000" value="235867" step="1000">
-                            </div>
-                        </div>
+                    <div class="location-bottom-content">
+                        <a href="tel:509-481-9830" class="phone-link">509-481-9830</a>
+                        <p class="address-link">15906 E Sprague Ave, Spokane Valley, WA 99037</p>
                     </div>
+                </div>
+                <!-- 2 -->
+                <div class="location-list-item active">
+                    <h4 class="location-title">Tri-Cities</h4>
+                    <p class="location-subtitle">Display Lot</p>
 
-                    <div class="filter-group">
-                        <div class="filter-label">Size</div>
-                        <div class="value-display">
-                            <div class="value-box" id="sizeMin">800 ft²</div>
-                            <span>-</span>
-                            <div class="value-box" id="sizeMax">2 999 ft²</div>
-                        </div>
-                        <div class="slider-container">
-                            <div class="slider-track"></div>
-                            <div class="slider-range" id="sizeRange"></div>
-                            <div class="filter-slider">
-                                <input type="range" id="sizeMinSlider" min="0" max="5000" value="800" step="50">
-                                <input type="range" id="sizeMaxSlider" min="0" max="5000" value="2999" step="50">
-                            </div>
-                        </div>
+                    <div class="location-bottom-content">
+                        <a href="tel:509-416-2840" class="phone-link">509-416-2840</a>
+                        <p class="address-link">3335 Travel Plaza Way, Pasco, WA 99301</p>
                     </div>
+                </div>
+                <!-- 3 -->
+                <div class="location-list-item active">
+                    <h4 class="location-title">Montana</h4>
+                    <p class="location-subtitle">Display Lot</p>
 
-                    <div class="counter-group">
-                        <div class="filter-label">Beds</div>
-                        <div class="counter-container">
-                            <button class="counter-btn arrow-left" id="bedsDown"></button>
-                            <div class="counter-value" id="bedsValue">2</div>
-                            <button class="counter-btn arrow-right" id="bedsUp"></button>
-                        </div>
-                    </div>
-
-                    <div class="counter-group">
-                        <div class="filter-label">Baths</div>
-                        <div class="counter-container">
-                            <button class="counter-btn arrow-left" id="bathsDown"></button>
-                            <div class="counter-value" id="bathsValue">2</div>
-                            <button class="counter-btn arrow-right" id="bathsUp"></button>
-                        </div>
-                    </div>
-
-                    <div class="btn-wrap">
-                        <button class="btn submit-btn" id="submitBtn">
-                            Find Your Home
-                            <svg width="17" height="11" viewBox="0 0 17 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7848 5.09934L6.89478e-08 5.02649L5.60551e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 -2.71811e-07L10.4539 0.874172L14.7848 5.09934Z" fill="white"></path>
-                            </svg>
-                        </button>
+                    <div class="location-bottom-content">
+                        <a href="tel:509-416-9830" class="phone-link">509-416-9830</a>
+                        <p class="address-link">25980 US-93, Arlee, MT 59821</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="welcome-section">
+    <section class="gallery-section">
         <div class="container">
-            <h4 class="subtitle-section">Welcome to</h4>
-            <h2 class="title-section">The Home Boys</h2>
-            <p class="section-description">The Home Boys sells new manufactured homes, new modular homes, used mobile homes, duplex homes built to the HUD code, and new park model homes (Tiny Homes), Accessory Dwelling Units (ADU) for Washington State (WA), Idaho (ID), Oregon (OR), Montana (MT) and South East Alaska (AK).</p>
+            <div class="swiper gallery-slider gallerySlider">
+                <div class="swiper-wrapper">
+                    <!-- Slide Group 1 -->
+                    <div class="swiper-slide">
+                        <div class="slides-group">
+                            <div class="card-item">
+                                <img src="assets/img/ING762G.png" alt="#" class="slide-image">
+                                <ul class="card-top-info">
+                                    <li>2,280 ft²</li>
+                                    <li>4 BEDS</li>
+                                    <li>2 BATHS</li>
+                                </ul>
+                                <div class="card-labels">
+                                    <div class="label">$186,284</div>
+                                </div>
+                                <div class="item-info">
+                                    <h4 class="item-title">Giant Sequoia ING762G</h4>
+                                    <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
+                                </div>
+                            </div>
 
-            <h4 class="delivering-title">Delivering to:</h4>
-            <ul class="delivering-wrap">
-                <li class="delivering-item">
-                    <img src="assets/img/washington.png" alt="washington">
-                    <h5 class="">Washington</h5>
-                </li>
-                <li class="delivering-item">
-                    <img src="assets/img/idaho.png" alt="idaho">
-                    <h5>Idaho</h5>
-                </li>
-                <li class="delivering-item">
-                    <img src="assets/img/oregon.png" alt="oregon">
-                    <h5>Oregon</h5>
-                </li>
-                <li class="delivering-item">
-                    <img src="assets/img/montana.png" alt="montana">
-                    <h5>Montana</h5>
-                </li>
-                <li class="delivering-item">
-                    <img src="assets/img/alaska.png" alt="alaska">
-                    <h5>Alaska</h5>
-                </li>
-            </ul>
+                            <div class="card-item">
+                                <img src="assets/img/ING762G.png" alt="Mt Anderson" class="slide-image">
+                                <ul class="card-top-info">
+                                    <li>1,609 ft²</li>
+                                    <li>3 BEDS</li>
+                                    <li>2 BATHS</li>
+                                </ul>
+                                <div class="card-labels">
+                                    <div class="label">$186,284</div>
+                                </div>
+                                <div class="item-info">
+                                    <div class="item-title">N4P360F5 Mt Anderson</div>
+                                    <div class="item-subtitle">Olympic Range | Cavco Millersburg</div>
+                                </div>
+                            </div>
 
-            <!-- video -->
-            <div class="video-wrap">
-                <iframe width="1034" height="582" 
-                    src="https://www.youtube.com/embed/GNLO3jhL02w" 
-                    title="YouTube video player" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen>
-                </iframe>
+                            <div class="card-item">
+                                <img src="assets/img/ING762G.png" alt="Clover" class="slide-image">
+                                <ul class="card-top-info">
+                                    <li>1,770 ft²</li>
+                                    <li>3 BEDS</li>
+                                    <li>2 BATHS</li>
+                                </ul>
+                                <div class="card-labels">
+                                    <div class="label">$186,284</div>
+                                </div>
+                                <div class="item-info">
+                                    <div class="item-title">Clover 30603F</div>
+                                    <div class="item-subtitle">Fleetwood | Waverly Crest Prestige</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide Group 2 -->
+                    <div class="swiper-slide">
+                        <div class="slides-group">
+                            <div class="card-item">
+                                <img src="assets/img/ING762G.png" alt="#" class="slide-image">
+                                <ul class="card-top-info">
+                                    <li>2,280 ft²</li>
+                                    <li>4 BEDS</li>
+                                    <li>2 BATHS</li>
+                                </ul>
+                                <div class="card-labels">
+                                    <div class="label">$186,284</div>
+                                </div>
+                                <div class="item-info">
+                                    <h4 class="item-title">Giant Sequoia ING762G</h4>
+                                    <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
+                                </div>
+                            </div>
+
+                            <div class="card-item">
+                                <img src="assets/img/ING762G.png" alt="Mt Anderson" class="slide-image">
+                                <ul class="card-top-info">
+                                    <li>1,609 ft²</li>
+                                    <li>3 BEDS</li>
+                                    <li>2 BATHS</li>
+                                </ul>
+                                <div class="card-labels">
+                                    <div class="label">$186,284</div>
+                                </div>
+                                <div class="item-info">
+                                    <div class="item-title">N4P360F5 Mt Anderson</div>
+                                    <div class="item-subtitle">Olympic Range | Cavco Millersburg</div>
+                                </div>
+                            </div>
+
+                            <div class="card-item">
+                                <img src="assets/img/ING762G.png" alt="Clover" class="slide-image">
+                                <ul class="card-top-info">
+                                    <li>1,770 ft²</li>
+                                    <li>3 BEDS</li>
+                                    <li>2 BATHS</li>
+                                </ul>
+                                <div class="card-labels">
+                                    <div class="label">$186,284</div>
+                                </div>
+                                <div class="item-info">
+                                    <div class="item-title">Clover 30603F</div>
+                                    <div class="item-subtitle">Fleetwood | Waverly Crest Prestige</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide Group 3 -->
+                    <div class="swiper-slide">
+                        <div class="slides-group">
+                            <div class="card-item">
+                                <img src="assets/img/ING762G.png" alt="#" class="slide-image">
+                                <ul class="card-top-info">
+                                    <li>2,280 ft²</li>
+                                    <li>4 BEDS</li>
+                                    <li>2 BATHS</li>
+                                </ul>
+                                <div class="card-labels">
+                                    <div class="label">$186,284</div>
+                                </div>
+                                <div class="item-info">
+                                    <h4 class="item-title">Giant Sequoia ING762G</h4>
+                                    <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
+                                </div>
+                            </div>
+
+                            <div class="card-item">
+                                <img src="assets/img/ING762G.png" alt="Mt Anderson" class="slide-image">
+                                <ul class="card-top-info">
+                                    <li>1,609 ft²</li>
+                                    <li>3 BEDS</li>
+                                    <li>2 BATHS</li>
+                                </ul>
+                                <div class="card-labels">
+                                    <div class="label">$186,284</div>
+                                </div>
+                                <div class="item-info">
+                                    <div class="item-title">N4P360F5 Mt Anderson</div>
+                                    <div class="item-subtitle">Olympic Range | Cavco Millersburg</div>
+                                </div>
+                            </div>
+
+                            <div class="card-item">
+                                <img src="assets/img/ING762G.png" alt="Clover" class="slide-image">
+                                <ul class="card-top-info">
+                                    <li>1,770 ft²</li>
+                                    <li>3 BEDS</li>
+                                    <li>2 BATHS</li>
+                                </ul>
+                                <div class="card-labels">
+                                    <div class="label">$186,284</div>
+                                </div>
+                                <div class="item-info">
+                                    <div class="item-title">Clover 30603F</div>
+                                    <div class="item-subtitle">Fleetwood | Waverly Crest Prestige</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-pagination"></div>
             </div>
 
-            <p class="video-description">
-                We post all of our prices with local delivery and set up on our manufactured homes, modular homes, ADU & park model homes, ALL homes include standard delivery and set within 100 miles of EITHER of our 2 locations. Our locations are at the following addresses, 15906 E Sprague Ave, Spokane Valley WA 99037 (509-481-9830) and our Tri Cities (Kennewick, Richland, Pasco) location @ 3335 Travel Plaza Way Pasco WA 99301 (509-416-2840).
-            </p>
-        </div>
-    </section>
-
-    <section class="partner-section">
-        <div class="container">
-            <h3 class="subtitle-section">Our partner manufactures:</h3>
-            <div class="partner-wrap">
-                <img src="assets/img/clayton-homes-logo.png" alt="clayton-homes">
-                <img src="assets/img/golden-west-logo.png" alt="golden-west">
-                <img src="assets/img/cavco-millersburg-logo.png" alt="cavco-millersburg">
-                <img src="assets/img/marlette-logo.png" alt="marlette">
-                <img src="assets/img/cavco-nampa-logo.png" alt="cavco-nampa">
+            <div class="card-item">
+                <img src="assets/img/ING762G.png" alt="#" class="slide-image">
+                <ul class="card-top-info">
+                    <li>2,280 ft²</li>
+                    <li>4 BEDS</li>
+                    <li>2 BATHS</li>
+                </ul>
+                <div class="card-labels">
+                    <div class="label">$186,284</div>
+                </div>
+                <div class="item-info">
+                    <h4 class="item-title">Giant Sequoia ING762G</h4>
+                    <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
+                </div>
             </div>
+
+            <a href="#" class="btn primary-btn">
+                Show All
+                <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.90066 9.7689L5.97351 0L4.85651 0L4.83223 9.52L0.874172 5.4629L-4.94673e-09 6.35895L5.48786 11.9841H5.51214L6.36203 11.0881L11 6.33406L10.1258 5.43801L5.90066 9.7689Z" fill="#D43031"/>
+                </svg>
+            </a>
+
+            <div class="location-list">
+                <div class="location-list-item">
+                    <h4 class="location-title">Spokane Valley</h4>
+                    <p class="location-subtitle">Display Lot</p>
+
+                    <div class="location-bottom-content">
+                        <a href="tel:509-481-9830" class="phone-link">509-481-9830</a>
+                        <p class="address-link">15906 E Sprague Ave, Spokane Valley, WA 99037</p>
+                    </div>
+                </div>
+                <!-- 2 -->
+                <div class="location-list-item active">
+                    <h4 class="location-title">Tri-Cities</h4>
+                    <p class="location-subtitle">Display Lot</p>
+
+                    <div class="location-bottom-content">
+                        <a href="tel:509-416-2840" class="phone-link">509-416-2840</a>
+                        <p class="address-link">3335 Travel Plaza Way, Pasco, WA 99301</p>
+                    </div>
+                </div>
+                <!-- 3 -->
+                <div class="location-list-item active">
+                    <h4 class="location-title">Montana</h4>
+                    <p class="location-subtitle">Display Lot</p>
+
+                    <div class="location-bottom-content">
+                        <a href="tel:509-416-9830" class="phone-link">509-416-9830</a>
+                        <p class="address-link">25980 US-93, Arlee, MT 59821</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -249,115 +375,7 @@
         </div>
     </section>
 
-    <section class="our-people-section">
-        <div class="container">
-            <h4 class="subtitle-section">Stories</h4>
-            <h2 class="title-section">From Our People</h2>
-            <div class="slider-wrap">
-                <!-- Swiper -->
-                <div class="swiper-outer">
-                    <div class="swiper mySwiper2">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <img src="assets/img/The-Brook-Haven.png" alt="">
-                                <div class="item-description">
-                                    <h4 class="item-title">The Brook Haven</h4>
-                                    <p>jessica jenkins</p>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="assets/img/Sweet-Dream.png" alt="">
-                                <div class="item-description">
-                                    <h4 class="item-title">Sweet Dream</h4>
-                                    <p>Marilyn Manson</p>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="assets/img/The-Brook-Haven.png" alt="">
-                                <div class="item-description">
-                                    <h4 class="item-title">The Brook Haven</h4>
-                                    <p>jessica jenkins</p>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="assets/img/Sweet-Dream.png" alt="">
-                                <div class="item-description">
-                                    <h4 class="item-title">Sweet Dream</h4>
-                                    <p>Marilyn Manson</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-button-prev custom-prev">
-                        <svg class="arrow-ico" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.8047 23.125L7.92969 14.7656L25.2031 14.7656L25.2031 8.55469L7.83203 8.55469L11.8047 0L5.76953 0L0 11.5625L5.76953 23.125H11.8047Z" />
-                        </svg>
-                    </div>
-                    <div class="swiper-button-next custom-next">
-                        <svg class="arrow-ico" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.3984 23.125L17.2734 14.7656L0 14.7656L0 8.55469L17.3711 8.55469L13.3984 0L19.4336 0L25.2031 11.5625L19.4336 23.125H13.3984Z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section class="blog-section">
-        <div class="container">
-            <h4 class="subtitle-section">Latest from</h4>
-            <h2 class="title-section">Blog</h2>
-            <div class="slider-wrap">
-                <!-- Swiper -->
-                <div class="swiper-outer">
-                    <div class="swiper mySwiper3">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <img src="assets/img/why-more-homeowners.png" alt="#">
-                                <div class="item-description">
-                                    <h4 class="item-title">Why More Homeowners Are Choosing Manufactured Homes in the Northwest</h4>
-                                    <p>June 13th, 2025</p>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="assets/img/cottonwood-by-golden-west.png" alt="#">
-                                <div class="item-description">
-                                    <h4 class="item-title">The Cottonwood by Golden West: A Manufactured Home Built for Real Life</h4>
-                                    <p>July 10th, 2025</p>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="assets/img/golden-west-dream.png" alt="#">
-                                <div class="item-description">
-                                    <h4 class="item-title">Golden West Dream 386A - Compact Comfort with Big Potential</h4>
-                                    <p>July 10th, 2025</p>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="assets/img/why-more-homeowners.png" alt="#">
-                                <div class="item-description">
-                                    <h4 class="item-title">Why More Homeowners Are Choosing Manufactured Homes in the Northwest</h4>
-                                    <p>June 13th, 2025</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-blog-button-prev custom-prev">
-                        <svg class="arrow-ico" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.8047 23.125L7.92969 14.7656L25.2031 14.7656L25.2031 8.55469L7.83203 8.55469L11.8047 0L5.76953 0L0 11.5625L5.76953 23.125H11.8047Z" />
-                        </svg>
-                    </div>
-                    <div class="swiper-blog-button-next custom-next">
-                        <svg class="arrow-ico" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.3984 23.125L17.2734 14.7656L0 14.7656L0 8.55469L17.3711 8.55469L13.3984 0L19.4336 0L25.2031 11.5625L19.4336 23.125H13.3984Z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="find-home-section dark-section">
+    <section class="find-home-section">
         <div class="container">
             <h4 class="subtitle-section">Find</h4>
             <h2 class="title-section">Your Home</h2>

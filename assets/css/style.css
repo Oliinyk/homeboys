@@ -512,22 +512,31 @@ a {
 	width: 100%;
 }
 
-.submit-btn {
+.btn {
 	position: relative;
-	color: var(--white);
-	background: linear-gradient(90deg, #D43031 0%, #9D1818 100%);
-	border: none;
-	max-width: max-content;
-	padding: 10px 25px;
-	margin: 0 auto;
-	z-index: 1;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 	transition: all 0.3s;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	font-size: 14px;
+	max-width: max-content;
+	padding: 10px 25px;
+	margin: 0 auto;
+	z-index: 1;
+}
+
+.submit-btn {
+	position: relative;
+	color: var(--white);
+	background: linear-gradient(90deg, #D43031 0%, #9D1818 100%);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	border: none;
+}
+
+.primary-btn {
+	color: var(--primary);
+	border: 1px solid var(--primary)
 }
 
 .submit-btn svg {
@@ -589,12 +598,17 @@ section {
 }
 .hero-section {
 	position: relative;
-	padding: 0;
+	padding: 25px 0 0;
 }
 .hero-section .title-section {
+	margin: 0 0 10px;
+}
+.home-page .hero-section {
+	padding: 0;
+}
+.home-page .hero-section .title-section {
 	font-size: 20px;
 	color: var(--white);
-	margin: 0 0 10px;
 }
 
 .swiper-pagination {
@@ -605,7 +619,7 @@ section {
 	background-color: var(--gray);
 	opacity: 1;
 }
-.swiper-pagination-bullet.swiper-pagination-bullet-active {
+.swiper-pagination-bullet-active {
 	background-color: var(--white);
 }
 
@@ -825,26 +839,30 @@ section {
 	font-family: "Anton", sans-serif;
 }
 
-.card-img {
-    position: relative;
-}
-
-.card-img img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
 .card-top-info {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 20px;
+    left: 15px;
     display: flex;
-    gap: 10px;
+    gap: 20px;
     color: var(--white);
-    font-weight: 700;
+	line-height: 1;
     text-transform: uppercase;
     font-size: 10px;
+}
+
+.card-top-info li {
+	position: relative;
+}
+
+.card-top-info li:not(:last-child)::after {
+    position: absolute;
+    content: '';
+    background-color: var(--white);
+    width: 1px;
+    height: 100%;
+    top: 0;
+    right: -10px;
 }
 
 .card-labels {
@@ -1147,6 +1165,113 @@ footer {
 	}
 }
 
+/* display-homes page */
+
+/* breadcrumbs */
+.breadcrumbs {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+	gap: 20px;
+	padding: 15px 0;
+}
+.breadcrumbs a {
+	color: #9B9B9B;
+}
+.breadcrumbs .crumb-item:first-child {
+	font-weight: 800;
+}
+.breadcrumbs .crumb-item {
+	position: relative;
+}
+.breadcrumbs .crumb-item:not(:last-child)::after {
+	position: absolute;
+	content: '';
+	background-color: #9B9B9B;
+	width: 1px;
+	height: 100%;
+	top: 0;
+	right: -10px;
+}
+
+/* location-list section */
+.location-list {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 5px;
+	padding: 25px 0;
+}
+.location-list-item {
+	display: flex;
+	flex-direction: column;
+	color: var(--dark-gray);
+	padding: 10px 20px;
+}
+.location-list-item.active {
+	background-color: var(--primary);
+	color: var(--white);
+}
+.location-list .location-title {
+	font-family: "Anton", sans-serif;
+	font-size: 22px;
+	line-height: 1;
+}
+.location-list .location-subtitle {
+	font-family: "Georgia";
+	font-weight: bold;
+    font-style: italic;
+	font-size: 14px;
+	margin: 0 0 10px;
+}
+.location-bottom-content {
+	display: flex;
+	font-size: 14px;
+	line-height: 1.2;
+	gap: 20px;
+}
+a.phone-link {
+	font-family: "Anton", sans-serif;
+    font-size: 24px;
+	flex: 1 0 auto;
+	color: var(--primary);
+    text-transform: uppercase;
+    text-decoration: underline;
+}
+.location-list-item .address-link {
+	color: var(--dark-gray);
+	max-width: 190px;
+}
+.location-list-item.active .phone-link,
+.location-list-item.active .address-link  {
+	color: var(--white);
+	text-decoration: none;
+}
+
+/* gallery-section */
+.gallery-section .gallery-slider {
+	margin: 0 0 10px;
+}
+.gallery-section .slides-group {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	padding-bottom: 30px;
+}
+.gallery-section .card-item .item-title {
+	margin: 0;
+}
+.gallery-section .swiper-pagination {
+	bottom: 0px;
+}
+.gallery-section .swiper-pagination-bullet-active {
+	background-color: var(--primary);
+}
+.gallery-section .btn {
+	margin: 25px auto 0;
+}
+
+
 @media (min-width: 992px) {
 	.burger {
 		display: none;
@@ -1243,6 +1368,24 @@ footer {
 	/* find-home-section */
 	.card-list {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	/* location-list */
+	.location-list .location-title {
+		font-size: 32px;
+	}
+
+	.gallery-section .card-top-info {
+		font-size: 24px;
+	}
+	.gallery-section .label {
+		font-size: 24px;
+	}
+	.gallery-section .card-item .item-title {
+		font-size: 48px;
+	}
+	.gallery-section .card-item .item-subtitle {
+		font-size: 24px;
 	}
 
 	/* footer */

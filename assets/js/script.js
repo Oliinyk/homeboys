@@ -110,6 +110,20 @@ var swiper3 = new Swiper(".mySwiper3", {
     },
 });
 
+// Our Display Homes slider
+const gallerySlider = new Swiper('.gallerySlider', {
+    slidesPerView: 1,
+    spaceBetween: 0,
+    loop: true,
+    // autoplay: {
+    //     delay: 6000,
+    //     disableOnInteraction: false,
+    // },
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    }
+});
 
 // filter
 function updateSlider(minInput, maxInput, rangeEl, maxValue, format) {
