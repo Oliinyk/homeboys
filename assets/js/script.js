@@ -140,13 +140,48 @@ const priceMin = document.getElementById('priceMinSlider');
 const priceMax = document.getElementById('priceMaxSlider');
 const priceRange = document.getElementById('priceRange');
 
-priceMin.oninput = priceMax.oninput = () => updateSlider(priceMin, priceMax, priceRange, 500000);
-updateSlider(priceMin, priceMax, priceRange, 500000);
+if (priceMin && priceMax && priceRange) {
+    priceMin.oninput = priceMax.oninput = () => updateSlider(priceMin, priceMax, priceRange, 500000);
+    updateSlider(priceMin, priceMax, priceRange, 500000);
+}
 
 // Size slider
 const sizeMin = document.getElementById('sizeMinSlider');
 const sizeMax = document.getElementById('sizeMaxSlider');
 const sizeRange = document.getElementById('sizeRange');
 
-sizeMin.oninput = sizeMax.oninput = () => updateSlider(sizeMin, sizeMax, sizeRange, 5000);
-updateSlider(sizeMin, sizeMax, sizeRange, 5000);
+if (sizeMin && sizeMax && sizeRange) {
+    sizeMin.oninput = sizeMax.oninput = () => updateSlider(sizeMin, sizeMax, sizeRange, 5000);
+    updateSlider(sizeMin, sizeMax, sizeRange, 5000);
+}
+
+
+// gallery-thumbs-slider
+// Спочатку ініціалізуємо слайдер мініатюр
+const galleryThumbs = new Swiper('.gallery-thumbs', {
+    spaceBetween: 0,
+    slidesPerView: 'auto',
+    watchSlidesProgress: true,
+    allowTouchMove: false,
+    simulateTouch: false,
+});
+
+// Потім основний слайдер з прив'язкою до мініатюр
+const galleryMain = new Swiper('.gallery-main', {
+    spaceBetween: 10,
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    thumbs: {
+        swiper: galleryThumbs
+    }
+});
+
+// Додаємо клік на мініатюри
+const thumbSlides = document.querySelectorAll('.gallery-thumbs .swiper-slide');
+thumbSlides.forEach((thumb, index) => {
+    thumb.addEventListener('click', () => {
+        galleryMain.slideTo(index); // Перемикаємо головний слайдер на відповідний слайд
+    });
+});
