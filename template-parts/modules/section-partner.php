@@ -1,17 +1,32 @@
+<?php
+$id = $args['id'];
+
+$partners       = carbon_get_post_meta( $id, 'partners' );
+$section_title  = carbon_get_post_meta( $id, 'partners_section_title' );
+if ( empty( $partners ) ) {
+    return;
+}
+?>
 <section class="partner-section">
     <div class="container">
-        <h3 class="subtitle-section">Our partner manufactures:</h3>
+        <?php
+        if ( ! empty( $section_title ) ) :
+            ?>
+            <h3 class="subtitle-section">
+                <?php echo __( $section_title, 'home-boys-2' ) ?>
+            </h3>
+            <?php
+        endif;
+        ?>
 
         <div class="partner-wrap">
-            <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/clayton-homes-logo.png'?>" alt="clayton-homes">
-
-            <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/golden-west-logo.png'?>" alt="golden-west">
-
-            <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/cavco-millersburg-logo.png'?>" alt="cavco-millersburg">
-
-            <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/marlette-logo.png'?>" alt="marlette">
-            
-            <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/cavco-nampa-logo.png'?>" alt="cavco-nampa">
+            <?php
+            foreach( $partners as $item ) :
+            ?>
+            <img src="<?php echo esc_url( $item['partner_image'] )?>" alt="<?php echo esc_attr( $item['partner_image'] )?>">
+            <?php
+            endforeach;
+            ?>
         </div>
     </div>
 </section>

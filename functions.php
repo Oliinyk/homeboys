@@ -190,6 +190,8 @@ require get_template_directory() . '/inc/template-functions.php';
  */
 require get_template_directory() . '/inc/customizer.php';
 
+require get_template_directory() . '/inc/custom-actions.php';
+
 /**
  * Load Jetpack compatibility file.
  */
@@ -198,3 +200,5 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 }
 
 require get_template_directory() . '/inc/custom-fields/index.php';
+
+// require_once get_template_directory() . '/custom-importer.php';
