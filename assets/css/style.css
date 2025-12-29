@@ -908,6 +908,10 @@ section {
     gap: 10px;
 }
 
+.card-list + .btn {
+	margin: 25px auto 0;
+}
+
 .card-item {
 	position: relative;
     display: flex;
