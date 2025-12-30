@@ -142,9 +142,17 @@ function home_boys_2_styles() {
 	wp_style_add_data( 'home-boys-2-style', 'rtl', 'replace' );
 
 	// Fonts
-	wp_enqueue_style( 'home-boys-2-googlefonts', 'https://fonts.googleapis.com', array(), _S_VERSION );
-	wp_enqueue_style( 'home-boys-2-gstatic', 'https://fonts.gstatic.com', array(), _S_VERSION );
-	wp_enqueue_style( 'home-boys-2-montserrat', 'https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap', array(), _S_VERSION );
+	//wp_enqueue_style( 'home-boys-2-googlefonts', 'https://fonts.googleapis.com', array(), _S_VERSION );
+	//wp_enqueue_style( 'home-boys-2-gstatic', 'https://fonts.gstatic.com', array(), _S_VERSION );
+	//wp_enqueue_style( 'home-boys-2-montserrat', 'https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap', array(), _S_VERSION );
+	
+	// Fonts
+	wp_enqueue_style(
+	  'home-boys-2-fonts',
+	  'https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap',
+	  array(),
+	  null
+	);
 
 	// Swiper style
 	wp_enqueue_style( 'home-boys-2-swiper-style', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), _S_VERSION );

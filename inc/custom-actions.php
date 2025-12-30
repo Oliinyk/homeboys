@@ -1,5 +1,6 @@
 <?php
 add_action( 'init'  , 'hb2_register_post_types', 10 );
+add_filter( 'hb2_locations_list', 'hb2_get_locations_list' );
 
 function hb2_register_post_types() {
     register_post_type( 'plans', [
@@ -34,4 +35,54 @@ function hb2_register_post_types() {
         'rewrite'             => true,
         'query_var'           => true,
     ] );
+
+    register_post_type( 'stories', [
+        'label' => null,
+        'labels' => [
+            'name'                  => __( 'Stories', 'home-boys-2' ),
+            'singular_name'         => __( 'Story', 'home-boys-2' ),
+            'add_new'               => __( 'Add New Story', 'home-boys-2' ),
+            'add_new_item'          => __( 'Add Story', 'home-boys-2' ),
+            'edit_item'             => __( 'Edit Story', 'home-boys-2' ),
+            'new_item'              => __( 'New Story', 'home-boys-2' ),
+            'view_item'             => __( 'View Story', 'home-boys-2' ),
+            'search_items'          => __( 'Search', 'home-boys-2' ),
+            'not_found'             => __( 'Not Found', 'home-boys-2' ),
+            'not_found_in_trash'    => __( 'Not Found in Trash', 'home-boys-2' ),
+            'parent_item_colon'     => '',
+            'menu_name'             => __( 'Stories', 'home-boys-2' ),
+        ],
+        'description'         => '',
+        'public'              => true,
+        'publicly_queryable'  => false,
+        'show_in_menu'        => true,
+        'show_in_rest'        => true,
+        'rest_base'           => null,
+        'show_in_nav_menus'   => true,
+        'menu_icon'           => 'dashicons-format-video',
+        'menu_position'       => 100,
+        'hierarchical'        => false,
+        'supports'            => ['title', 'editir', 'shedule-settings', 'thumbnail'],
+        'taxonomies'          => [],
+        'has_archive'         => false,
+        'rewrite'             => true,
+        'query_var'           => true,
+    ] );
+}
+
+// Get locations list
+function hb2_get_locations_list() {
+    $locations = carbon_get_theme_option( 'locations_list' );
+    return is_array( $locations ) ? $locations : [];
+}
+
+// Get locations options for select fields
+function hb2_get_locations_options() {
+    $locations = hb2_get_locations_list();
+
+    $options = [ -1 => '-Select-' ];
+    // foreach ( $locations as $key => $loc ) {
+    //     $options[ $key ] = $loc['location_name'];
+    // }
+    return $locations;
 }

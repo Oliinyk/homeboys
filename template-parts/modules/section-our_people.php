@@ -1,40 +1,64 @@
+<?php
+// $id = $args['id'];
+$section_small_title = carbon_get_theme_option( 'stories_section__subtitle' );
+$section_title       = carbon_get_theme_option( 'stories_section_title' );
+$stories_query_args = [
+    'post_type'   => 'stories',
+    'post_status' => 'publish',
+    'orderby'     => 'date',
+    'order'       => 'DESC',
+];
+
+$stories = new WP_Query( $stories_query_args );
+
+if ( ! $stories->have_posts() ) {
+    return;
+}
+?>
 <section class="our-people-section">
     <div class="container">
-        <h4 class="subtitle-section">Stories</h4>
-        <h2 class="title-section">From Our People</h2>
+        <h4 class="subtitle-section">
+            <?php echo esc_html( $section_small_title ); ?>
+        </h4>
+        <h2 class="title-section">
+            <?php echo esc_html( $section_title ); ?>
+        </h2>
+        
         <div class="slider-wrap">
             <!-- Swiper -->
             <div class="swiper-outer">
                 <div class="swiper mySwiper2">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/The-Brook-Haven.png'?>" alt="">
-                            <div class="item-description">
-                                <h4 class="item-title">The Brook Haven</h4>
-                                <p>jessica jenkins</p>
+                        <?php
+                        while ( $stories->have_posts() ):
+                            $stories->the_post();
+                            
+                            $story_id     = get_the_ID();
+                            $title        = get_the_title( $story_id );
+                            $author       = carbon_get_post_meta( $story_id, 'story_author' );
+                            $thumbnail    = get_the_post_thumbnail_url();
+                            $story_review = carbon_get_post_meta( $story_id, 'story_review' );
+
+                            if ( empty( $story_review ) ) {
+                                continue;
+                            }
+                            ?>
+                            <div class="swiper-slide">
+                                <?php
+                                echo $story_review;
+                                ?>
+
+                                <div class="item-description">
+                                    <h4 class="item-title">
+                                        <?php echo $title?>
+                                    </h4>
+
+                                    <p><?php echo $author?></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/Sweet-Dream.png'?>" alt="">
-                            <div class="item-description">
-                                <h4 class="item-title">Sweet Dream</h4>
-                                <p>Marilyn Manson</p>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/The-Brook-Haven.png'?>" alt="">
-                            <div class="item-description">
-                                <h4 class="item-title">The Brook Haven</h4>
-                                <p>jessica jenkins</p>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/Sweet-Dream.png'?>" alt="">
-                            <div class="item-description">
-                                <h4 class="item-title">Sweet Dream</h4>
-                                <p>Marilyn Manson</p>
-                            </div>
-                        </div>
+                            <?php
+                        endwhile;
+                        ?>
                     </div>
                 </div>
                 <div class="swiper-button-prev custom-prev">
@@ -51,3 +75,5 @@
         </div>
     </div>
 </section>
+<?php
+wp_reset_postdata();
