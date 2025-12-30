@@ -11,9 +11,31 @@ if ( empty( $locations ) ) {
     <?php
     foreach ( $locations as $key => $location ) :
         $aclive_class = ( $key === $active_index ) ? ' active' : '';
+
+        $location_page_query = new WP_Query( [
+            'post_type'      => 'page',
+            'posts_per_page' => 1,
+            'post_status'    => 'publish',
+            'meta_query'     => [
+                [
+                    'key'     => 'display_homes_location',
+                    'value'   => $key,
+                    'compare' => '=',
+                ],
+            ],
+        ] );
+
+        $location_page_id  = ! empty ( $location_page_query->posts ) ? $location_page_query->posts[0]->ID : null;
+        $location_page_url = ! is_null( $location_page_id ) ? get_permalink( $location_page_id ) : '#';
         ?>
         <div class="location-list-item<?php echo esc_attr( $aclive_class ); ?>">
             <?php
+            if ( ! is_null( $location_page_id ) ) :
+                ?>
+                    <a href="<?php echo esc_url( $location_page_url ); ?>">
+                <?php
+            endif;
+                        
             if ( ! empty( $location['location_name'] ) ) :
                 ?>
                     <h4 class="location-title">
@@ -29,9 +51,9 @@ if ( empty( $locations ) ) {
                 <?php
                 if ( ! empty( $location['location_phone'] ) ) :
                     ?>
-                    <a href="tel:<?php echo esc_attr( preg_replace( '/\D+/', '', $location['location_phone'] ) ); ?>" class="phone-link">
+                    <span class="phone-link">
                         <?php echo esc_html( $location['location_phone'] ); ?>
-                    </a>
+                    </span>
                     <?php
                 endif;
                 ?>
@@ -44,6 +66,13 @@ if ( empty( $locations ) ) {
                 endif;
                 ?>
             </div>
+            <?php
+            if ( ! is_null( $location_page_id ) ) :
+            ?>
+            </a>
+            <?php
+            endif;
+            ?>
         </div>
         <?php
     endforeach;

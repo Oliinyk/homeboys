@@ -27,69 +27,13 @@ function hb2_meta_fields() {
     ];
 
     // Options
-    $plan_series_opt = [
-        -1 => '-Select-',
-        16 => '400 Series',
-        32 => '5000 Series',
-        17 => 'American Dream',
-        0  => 'Broadmore',
-        28 => 'Canyon View',
-        24 => 'Columbia River',
-        7  => 'Dream Silver',
-        34 => 'Imagine',
-        35 => 'Inspiration (Cavco)',
-        8  => 'Inspiration Gold',
-        26 => 'Independence Series',
-        27 => 'Majestic Series',
-        25 => 'Marlette Special',
-        13 => 'McKenzie',
-        18 => 'Olympic Range',
-        10 => 'Patriot',
-        9  => 'Platinum Series',
-        31 => 'Pure Series',
-        33 => 'Rhythm Series',
-        23 => 'Schult Series',
-        15 => 'Siskyou Series',
-        11 => 'Special Series',
-        29 => 'Summit View',
-        30 => 'Tempo',
-        36 => 'Vista (Cavco)',
-        5  => 'Waverly Crest Prestige',
-        37 => 'Alpha',
-    ];
+    $plan_series_opt = hb2_get_series_options();
 
-    $plan_manufacturer_opt = [
-       -1 => '-Select-',
-        6 => 'Clayton Homes',
-        3 => 'Cavco Nampa (Fleetwood)',
-        1 => 'Cavco Millersburg (Palm Harbor)',
-        7 => 'Cavco Montevideo (Friendship)',
-        0 => 'Golden West',
-        2 => 'Karsten Homes',
-        5 => 'Marlette Homes',
-        4 => 'Schult Homes',
-    ];
+    $plan_manufacturer_opt = hb2_get_manufacturers_options();
 
-    $plan_width_opt = [
-       -1 => '-Select-',
-        0 => 'Single Wide',
-        1 => 'Double Wide',
-        2 => 'Triple Wide',
-    ];
+    $plan_width_opt = hb2_get_width_options();
 
-    $plan_type_opt = [
-        0 => 'None',
-        1 => 'Manufactured Home',
-        2 => '1 Story',
-        3 => '1.5 Story',
-        4 => '2 Story',
-        5 => 'Bi-Level',
-        6 => 'Duplex',
-        7 => 'Multi-Family',
-        8 => 'Multi-Level',
-        9 => 'Split-Level',
-        10 => 'Townhouse',
-    ];
+    $plan_type_opt = hb2_get_type_options();
 
     $plan_location_opt = [
         0 => 'Spokane Only',
@@ -98,7 +42,7 @@ function hb2_meta_fields() {
         3 => 'Montana',
     ];
 
-    $locations_opt = hb2_get_locations_options();
+    $locations_opt = hb2_get_locations_options();   
 
     // Hero variable section
     Container::make( 'post_meta', __( 'Hero', 'home-boys-2' ) )
@@ -196,6 +140,7 @@ function hb2_meta_fields() {
     Container::make( 'post_meta', __( 'Home plain data', 'home-boys-2' ) )
         ->where( 'post_type', '=', 'plans' )
         ->add_fields( array(
+            Field::make( 'text', 'plan_name', __( 'Display Name', 'home-boys-2' ) ),
             Field::make( 'text', 'plan_order', __( 'Display Order', 'home-boys-2' ) )
                 ->set_width(33)
                 ->set_required( true )
@@ -253,6 +198,15 @@ function hb2_meta_fields() {
             Field::make( 'media_gallery', 'plan_photos', __( 'Photos', 'home-boys-2' ) )     
         ) );
 
+    Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
+        ->where( 'post_type', '=', 'plans' )
+        ->set_context( 'side' )
+        ->add_fields( array(
+            Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) )
+                ->set_width( 20 )
+                ->set_default_value( false ),
+        ) );
+
     // Contact form
     Container::make( 'post_meta', __( 'Contact Form' ) )
         ->add_fields( array(
@@ -283,12 +237,12 @@ function hb2_meta_fields() {
             Field::make( 'textarea', 'story_review', __( 'Video review code', 'home-boys-2' ) ),
         ) );
 
-    // Container::make( 'post_meta', __( 'Display Homes location', 'home-boys-2' ) )
-    //     ->where( 'post_template', '=', 'display-homes-template.php' )
-    //     ->set_context( 'side')
-    //     ->set_priority( 'high' )
-    //     ->add_fields( array(
-    //         Field::make( 'select', 'display_homes_location', __( 'Select location', 'home-boys-2' ) )
-    //             ->add_options( $locations_opt )
-    //     ) );
+    // Display Homes location select
+    Container::make( 'post_meta', __( 'Display Homes location', 'home-boys-2' ) )
+        ->where( 'post_template', '=', 'display-homes-template.php' )
+        ->set_context( 'side')
+        ->add_fields( array(
+            Field::make( 'select', 'display_homes_location', __( 'Select location', 'home-boys-2' ) )
+                ->add_options( $locations_opt )
+        ) );
 };

@@ -4,13 +4,24 @@
  */
 $post_id = get_the_ID();
 
-$locations = apply_filters( 'hb2_locations_list', true );
+$locations          = apply_filters( 'hb2_locations_list', true );
+$selected_location  = carbon_get_post_meta( $post_id, 'display_homes_location' );
+$manufacturer_arr   = apply_filters( 'hb2_get_manufacturers_list', true );
+$series_arr         = apply_filters( 'hb2_get_series_list', true );
 
 $plans_query_args = [
     'post_type'      => 'plans',
     'posts_per_page' => 4,
     'post_status'    => 'publish',
     'orderby'        => 'date',
+    'page'           => get_query_var( 'paged', 1 ),
+    'meta_query'     => [
+        [
+            'key'     => 'plan_location',
+            'value'   => $selected_location,
+            'compare' => '=',
+        ],
+    ],
 ];
 
 $plans = new WP_Query( $plans_query_args );
@@ -23,7 +34,17 @@ get_header();
     <div class="container">
         <ul class="breadcrumbs">
             <li class="crumb-item"><a href="#">Display Homes</a></li>
-            <li class="crumb-item"><a href="#">Spokane Valley</a></li>
+            <?php
+            if ( 0 <= $selected_location ) :
+                ?>
+                <li class="crumb-item">
+                    <a href="#">
+                        <?php echo esc_html( $locations[ $selected_location ]['location_name'] ); ?>
+                    </a>
+                </li>
+                <?php
+            endif;
+            ?>
         </ul>
         <h4 class="subtitle-section">Our</h4>
         <h1 class="title-section">Display Homes</h1>
@@ -33,6 +54,7 @@ get_header();
             'locations'        => $locations,
             'settings' => [
                 'additional_class' => 'location-top',
+                'active_index'     => $selected_location,
             ],
         ] );
         ?>
@@ -41,195 +63,94 @@ get_header();
 
 <section class="gallery-section">
     <div class="container">
-        <div class="swiper gallery-slider gallerySlider">
-            <div class="swiper-wrapper">
-                <!-- Slide Group 1 -->
-                <div class="swiper-slide">
-                    <div class="slides-group">
-                        <div class="card-item">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="#" class="slide-image">
+        <?php 
 
-                            <ul class="card-top-info">
-                                <li>2,280 ft²</li>
-                                <li>4 BEDS</li>
-                                <li>2 BATHS</li>
-                            </ul>
-                            <div class="card-labels">
-                                <div class="label">$186,284</div>
-                            </div>
-                            <div class="item-info">
-                                <h4 class="item-title">Giant Sequoia ING762G</h4>
-                                <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
-                            </div>
-                        </div>
+        while ( $plans->have_posts() ) :
+            $plans->the_post();
+            $plan_id        = get_the_ID();
+            $plan_title     = carbon_get_post_meta( $plan_id, 'plan_name' );
+            $thumbmail_id   = get_post_thumbnail_id( $plan_id );
+            $plan_photos    = carbon_get_post_meta( $plan_id, 'plan_photos' );
+            $plan_price     = carbon_get_post_meta( $plan_id, 'plan_price' );
+            $plan_sqft      = carbon_get_post_meta( $plan_id, 'plan_size' );
+            $plan_beds      = carbon_get_post_meta( $plan_id, 'plan_beds' );
+            $plan_baths     = carbon_get_post_meta( $plan_id, 'plan_baths' );
+            $plan_manuf     = carbon_get_post_meta( $plan_id, 'plan_manufacturer' );
+            $plan_series    = carbon_get_post_meta( $plan_id, 'plan_series' );
+            
 
-                        <div class="card-item">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="Mt Anderson" class="slide-image">
+            if ( empty( $thumbmail_id ) &&  ! empty( $plan_photos ) ) {
+                $gallery = unserialize( $plan_photos[0] );
 
-                            <ul class="card-top-info">
-                                <li>1,609 ft²</li>
-                                <li>3 BEDS</li>
-                                <li>2 BATHS</li>
-                            </ul>
-                            <div class="card-labels">
-                                <div class="label">$186,284</div>
-                            </div>
-                            <div class="item-info">
-                                <div class="item-title">N4P360F5 Mt Anderson</div>
-                                <div class="item-subtitle">Olympic Range | Cavco Millersburg</div>
-                            </div>
-                        </div>
+                if ( is_string( $gallery ) ) {
+                    $gallery = unserialize( $gallery );
+                }
 
-                        <div class="card-item">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="Clover" class="slide-image">
+                $thumbmail_id = $gallery[0];
+            }
 
-                            <ul class="card-top-info">
-                                <li>1,770 ft²</li>
-                                <li>3 BEDS</li>
-                                <li>2 BATHS</li>
-                            </ul>
-                            <div class="card-labels">
-                                <div class="label">$186,284</div>
-                            </div>
-                            <div class="item-info">
-                                <div class="item-title">Clover 30603F</div>
-                                <div class="item-subtitle">Fleetwood | Waverly Crest Prestige</div>
-                            </div>
-                        </div>
+            $plan_thumbnail = wp_get_attachment_image_url( $thumbmail_id, 'large' );
+
+            if ( empty( $plan_thumbnail ) ) {
+                $plan_thumbnail = get_stylesheet_directory_uri() . '/assets/img/Giant-Sequoia-ING762G.png';
+            }
+
+            ?>
+            <div class="card-item">
+                <img src="<?php echo esc_url( $plan_thumbnail ); ?>" alt="#" class="slide-image">
+
+                <ul class="card-top-info">
+                    <?php
+                    if ( ! empty( $plan_sqft ) ) :
+                        ?>
+                        <li><?php echo esc_html( $plan_sqft ); ?> ft²</li>
+                     <?php
+                    endif;
+
+                    if ( ! empty( $plan_beds ) ) :
+                        ?>
+                    <li><?php echo esc_html( $plan_beds ); ?> BEDS</li>
+                    <?php
+                    endif;
+                    if ( ! empty( $plan_baths ) ) :
+                        ?>
+                    <li><?php echo esc_html( $plan_baths ); ?> BATHS</li>
+                    <?php
+                    endif;
+                    ?>
+                </ul>
+                <?php
+                if ( ! empty( $plan_price ) ) :
+                    ?>
+                    <div class="card-labels">
+                        <div class="label">$ <?php echo esc_html( $plan_price ); ?></div>
                     </div>
-                </div>
-
-                <!-- Slide Group 2 -->
-                <div class="swiper-slide">
-                    <div class="slides-group">
-                        <div class="card-item">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="#" class="slide-image">
-
-                            <ul class="card-top-info">
-                                <li>2,280 ft²</li>
-                                <li>4 BEDS</li>
-                                <li>2 BATHS</li>
-                            </ul>
-                            <div class="card-labels">
-                                <div class="label">$186,284</div>
-                            </div>
-                            <div class="item-info">
-                                <h4 class="item-title">Giant Sequoia ING762G</h4>
-                                <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
-                            </div>
-                        </div>
-
-                        <div class="card-item">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="Mt Anderson" class="slide-image">
-                            <ul class="card-top-info">
-                                <li>1,609 ft²</li>
-                                <li>3 BEDS</li>
-                                <li>2 BATHS</li>
-                            </ul>
-                            <div class="card-labels">
-                                <div class="label">$186,284</div>
-                            </div>
-                            <div class="item-info">
-                                <div class="item-title">N4P360F5 Mt Anderson</div>
-                                <div class="item-subtitle">Olympic Range | Cavco Millersburg</div>
-                            </div>
-                        </div>
-
-                        <div class="card-item">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="Clover" class="slide-image">
-                            <ul class="card-top-info">
-                                <li>1,770 ft²</li>
-                                <li>3 BEDS</li>
-                                <li>2 BATHS</li>
-                            </ul>
-                            <div class="card-labels">
-                                <div class="label">$186,284</div>
-                            </div>
-                            <div class="item-info">
-                                <div class="item-title">Clover 30603F</div>
-                                <div class="item-subtitle">Fleetwood | Waverly Crest Prestige</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide Group 3 -->
-                <div class="swiper-slide">
-                    <div class="slides-group">
-                        <div class="card-item">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="#" class="slide-image">
-
-                            <ul class="card-top-info">
-                                <li>2,280 ft²</li>
-                                <li>4 BEDS</li>
-                                <li>2 BATHS</li>
-                            </ul>
-                            <div class="card-labels">
-                                <div class="label">$186,284</div>
-                            </div>
-                            <div class="item-info">
-                                <h4 class="item-title">Giant Sequoia ING762G</h4>
-                                <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
-                            </div>
-                        </div>
-
-                        <div class="card-item">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="Mt Anderson" class="slide-image">
-                            
-                            <ul class="card-top-info">
-                                <li>1,609 ft²</li>
-                                <li>3 BEDS</li>
-                                <li>2 BATHS</li>
-                            </ul>
-                            <div class="card-labels">
-                                <div class="label">$186,284</div>
-                            </div>
-                            <div class="item-info">
-                                <div class="item-title">N4P360F5 Mt Anderson</div>
-                                <div class="item-subtitle">Olympic Range | Cavco Millersburg</div>
-                            </div>
-                        </div>
-
-                        <div class="card-item">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="Clover" class="slide-image">
-
-                            <ul class="card-top-info">
-                                <li>1,770 ft²</li>
-                                <li>3 BEDS</li>
-                                <li>2 BATHS</li>
-                            </ul>
-                            <div class="card-labels">
-                                <div class="label">$186,284</div>
-                            </div>
-                            <div class="item-info">
-                                <div class="item-title">Clover 30603F</div>
-                                <div class="item-subtitle">Fleetwood | Waverly Crest Prestige</div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                endif;
+                ?>
+                <div class="item-info">
+                    <?php
+                    if ( ! empty( $plan_title ) ) :
+                        ?>
+                        <h4 class="item-title">
+                            <?php echo esc_html( $plan_title ); ?>
+                        </h4>
+                        <?php
+                    endif;
+                    ?>
+                    
+                    <p class="item-subtitle">
+                        <?php
+                            echo isset( $manufacturer_arr[$plan_manuf] ) ? $manufacturer_arr[$plan_manuf] : '';
+                            echo isset( $series_arr[$plan_series] ) ? ' | ' . $series_arr[$plan_series] : '';
+                        ?>
+                    </p>
                 </div>
             </div>
-
-            <div class="swiper-pagination"></div>
-        </div>
-
-        <div class="card-item">
-            <img src="<?php echo get_template_directory_uri() . '/assets/img/ING762G.png'?>" alt="#" class="slide-image">
-
-            <ul class="card-top-info">
-                <li>2,280 ft²</li>
-                <li>4 BEDS</li>
-                <li>2 BATHS</li>
-            </ul>
-            <div class="card-labels">
-                <div class="label">$186,284</div>
-            </div>
-            <div class="item-info">
-                <h4 class="item-title">Giant Sequoia ING762G</h4>
-                <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
-            </div>
-        </div>
-
+            <?php
+        endwhile;
+        wp_reset_postdata();
+        ?>
         <a href="#" class="btn primary-btn">
             Show All
             <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
