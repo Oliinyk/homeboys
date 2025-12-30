@@ -5,6 +5,6 @@ function crb_load() {
     \Carbon_Fields\Carbon_Fields::boot();
 }
 
+include_once 'theme-options.php';
 include_once 'post-meta.php';
 include_once 'term-meta.php';
-include_once 'theme-options.php';
