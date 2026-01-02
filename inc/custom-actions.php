@@ -1,10 +1,18 @@
 <?php
 add_action( 'init'                      , 'hb2_register_post_types', 10 );
+// add_action( 'after_setup_theme'         , 'hb2_register_custom_menus' );
 add_filter( 'hb2_locations_list'        , 'hb2_get_locations_list' );
 add_filter( 'hb2_get_manufacturers_list', 'hb2_get_manufacturers_list' );
 add_filter( 'hb2_get_series_list'       , 'hb2_get_series_list' );
 add_filter( 'hb2_get_width_list'        , 'hb2_get_width_list' );
 add_filter( 'hb2_get_type_list'         , 'hb2_get_type_list' );
+
+// Register custom menus
+function hb2_register_custom_menus() {
+    register_nav_menus( [
+        'main_menu' => __( 'Main Menu', 'home-boys-2' ),
+    ] );
+};
 
 // Register custom post types
 function hb2_register_post_types() {
@@ -192,9 +200,101 @@ function hb2_get_width_options() {
 function hb2_get_type_options() {
     $types = hb2_get_type_list();
     $options = [ 0 => 'None' ];
-    
+
     foreach ( $types as $key => $type ) {
         $options[ $key ] = $type;
     }
     return $options;
-}  
+}
+
+// Get min and max prices of all homes
+function hb2_get_all_homes_prices_range() {
+    global $wpdb;
+
+    $results = $wpdb->get_row( "
+        SELECT 
+            MIN( CAST( REPLACE( meta_value, ',', '' ) AS SIGNED ) ) as min_price, 
+            MAX( CAST( REPLACE( meta_value, ',', '' ) AS SIGNED ) ) as max_price 
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = '_plan_price' 
+          AND meta_value != ''
+    " );
+
+    if ( is_null( $results->min_price ) ) {
+        return null;
+    }
+
+    return [
+        'min' => floatval( $results->min_price ),
+        'max' => floatval( $results->max_price ),
+    ];
+}
+
+// Get min and max sizes of all homes
+function hb2_get_all_homes_sizes_range() {
+    global $wpdb;
+ 
+    $results = $wpdb->get_row( "
+        SELECT 
+            MIN( CAST( meta_value AS SIGNED ) ) as min_size, 
+            MAX( CAST( meta_value AS SIGNED ) ) as max_size 
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = '_plan_size' 
+          AND meta_value != ''
+    " );
+
+    if ( is_null( $results->min_size ) ) {
+        return null;
+    }
+
+    return [
+        'min' => floatval( $results->min_size ),
+        'max' => floatval( $results->max_size ),
+    ];
+}
+
+// Get min and max beds of all homes
+function hb2_get_all_homes_beds_range() {
+    global $wpdb;
+ 
+    $results = $wpdb->get_row( "
+        SELECT 
+            MIN( CAST( meta_value AS SIGNED ) ) as min_beds, 
+            MAX( CAST( meta_value AS SIGNED ) ) as max_beds 
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = '_plan_beds' 
+          AND meta_value != ''
+    " );
+
+    if ( is_null( $results->min_beds ) ) {
+        return null;
+    }
+
+    return [
+        'min' => floatval( $results->min_beds ),
+        'max' => floatval( $results->max_beds ),
+    ];
+}
+
+// Get min and max baths of all homes
+function hb2_get_all_homes_baths_range() {
+    global $wpdb;
+ 
+    $results = $wpdb->get_row( "
+        SELECT 
+            MIN( CAST( meta_value AS SIGNED ) ) as min_baths, 
+            MAX( CAST( meta_value AS SIGNED ) ) as max_baths 
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = '_plan_baths' 
+          AND meta_value != ''
+    " );
+
+    if ( is_null( $results->min_baths ) ) {
+        return null;
+    }
+
+    return [
+        'min' => floatval( $results->min_baths ),
+        'max' => floatval( $results->max_baths ),
+    ];
+}
