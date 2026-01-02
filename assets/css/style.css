@@ -70,6 +70,7 @@ body {
 	font-style: normal;
 	line-height: 1.5;
 	color: var(--dark-gray);
+	margin: 0;
 }
 .btn,
 a {
