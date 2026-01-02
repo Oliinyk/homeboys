@@ -69,6 +69,7 @@ get_header();
             $plans->the_post();
             $plan_id        = get_the_ID();
             $plan_title     = carbon_get_post_meta( $plan_id, 'plan_name' );
+            $plan_permalink = get_permalink( $plan_id );
             $thumbmail_id   = get_post_thumbnail_id( $plan_id );
             $plan_photos    = carbon_get_post_meta( $plan_id, 'plan_photos' );
             $plan_price     = carbon_get_post_meta( $plan_id, 'plan_price' );
@@ -163,6 +164,7 @@ get_header();
                 'locations' => $locations,
                 'settings' => [
                     'additional_class' => 'location-bottom',
+                    'active_index'     => $selected_location,
                 ],
             ] );
         ?>
