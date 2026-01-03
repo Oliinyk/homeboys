@@ -39,7 +39,7 @@ if ( empty( $locations ) ) {
             if ( ! empty( $location['location_name'] ) ) :
                 ?>
                     <h4 class="location-title">
-                        <?php echo esc_html( $location['location_name'] ); ?>
+                        <?php echo $location['location_name']; ?>
                     </h4>
 
                     <p class="location-subtitle">Display Lot</p>

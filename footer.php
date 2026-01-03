@@ -87,7 +87,7 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                         <?php
                         if ( ! empty( $locations ) ) :
                             ?>
-                            <div class="footer-row col-span-3 sm-col-3">
+                            <div class="location-wrap footer-row col-span-3 sm-col-3">
                                 <?php
                                 foreach ( $locations as $loc ) :
                                     ?>
@@ -97,7 +97,7 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                                                 <path d="M5.34334 20.4173C5.3536 20.4278 5.35873 20.4383 5.36387 20.4487L8.49969 26L15.8491 13C17.3836 10.2847 17.3836 7.04516 15.8491 4.33512C14.3145 1.61978 11.5689 0 8.49969 0C5.43573 0 2.68488 1.61975 1.15029 4.33512C-0.3843 7.0505 -0.384267 10.29 1.15542 13L5.34334 20.4173ZM8.49969 3.5069C11.2814 3.5069 13.5551 5.82382 13.5551 8.67033C13.5551 11.5168 11.2866 13.8338 8.49969 13.8338C5.71273 13.8338 3.44429 11.5221 3.44429 8.67033C3.44429 5.82395 5.71789 3.5069 8.49969 3.5069Z" fill="#D43031"/>
                                             </svg>
                                             <?php
-                                            echo esc_html( $loc['location_name'] );
+                                            echo $loc['location_name'];
                                             ?>
                                         </h5>
                                         <div>

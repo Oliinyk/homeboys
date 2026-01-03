@@ -86,7 +86,8 @@ a {
 .text-center {
 	text-align: center;
 }
-.primary {
+.primary,
+a.primary {
 	color: var(--primary);
 }
 /* container */
@@ -699,12 +700,12 @@ section {
 .hero-section .title-section {
 	margin: 0 0 10px;
 }
-.home-page .hero-section,
+.home .hero-section,
 .hero-section .hero-slider {
 	max-height: 700px;
 	padding: 0;
 }
-.home-page .hero-section .title-section {
+.home .hero-section .title-section {
 	font-size: 20px;
 	color: var(--white);
 }
@@ -1173,8 +1174,22 @@ footer {
 	text-align: left;
 }
 
+.footer-wrap .address-item a {
+	display: block;
+	margin: 0 0 10px;
+}
+
 .footer .contact-section form input {
 	border: 1px solid var(--dark-gray);
+}
+
+.footer .title-address .second-word {
+	display: none;
+}
+
+.footer .location-wrap {
+	border-top: 1px solid var(--gray);
+	border-bottom: 1px solid var(--gray);
 }
 
 .privacy-col,
