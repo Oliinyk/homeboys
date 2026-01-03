@@ -150,3 +150,82 @@ const sizeRange = document.getElementById('sizeRange');
 
 sizeMin.oninput = sizeMax.oninput = () => updateSlider(sizeMin, sizeMax, sizeRange, 5000);
 updateSlider(sizeMin, sizeMax, sizeRange, 5000);
+
+
+
+// Filter
+// Initializing sliders
+function initSlider(minId, maxId, rangeId, minDisplay, maxDisplay, max, formatFn) {
+    const minSlider = document.getElementById(minId);
+    const maxSlider = document.getElementById(maxId);
+    const range = document.getElementById(rangeId);
+    const minBox = document.getElementById(minDisplay);
+    const maxBox = document.getElementById(maxDisplay);
+
+    function update() {
+        let minVal = parseInt(minSlider.value);
+        let maxVal = parseInt(maxSlider.value);
+
+        // We do not allow crossing
+        if (minVal > maxVal - (max * 0.02)) {
+            minVal = maxVal - (max * 0.02);
+            minSlider.value = minVal;
+        }
+
+        // Updating the text
+        minBox.textContent = formatFn(minVal);
+        maxBox.textContent = formatFn(maxVal);
+
+        // Updating the red line
+        const left = (minVal / max) * 100;
+        const width = ((maxVal - minVal) / max) * 100;
+        range.style.left = left + '%';
+        range.style.width = width + '%';
+    }
+
+    minSlider.oninput = maxSlider.oninput = update;
+    update();
+}
+
+// Formatting values
+const formatPrice = (val) => '$ ' + val.toLocaleString('en-US');
+const formatSize = (val) => val.toLocaleString('en-US') + ' ft²';
+
+// Initialization Price
+initSlider('priceMinSlider', 'priceMaxSlider', 'priceRange', 'priceMin', 'priceMax', 500000, formatPrice);
+
+// Initialization Size
+initSlider('sizeMinSlider', 'sizeMaxSlider', 'sizeRange', 'sizeMin', 'sizeMax', 5000, formatSize);
+
+// Counters
+function initCounter(valueId, downId, upId, min = 0, max = 10) {
+    let count = parseInt(document.getElementById(valueId).textContent);
+    const valueEl = document.getElementById(valueId);
+    const downBtn = document.getElementById(downId);
+    const upBtn = document.getElementById(upId);
+
+    function update() {
+        valueEl.textContent = count;
+        downBtn.disabled = count <= min;
+        upBtn.disabled = count >= max;
+    }
+
+    downBtn.onclick = () => {
+        if (count > min) {
+            count--;
+            update();
+        }
+    };
+
+    upBtn.onclick = () => {
+        if (count < max) {
+            count++;
+            update();
+        }
+    };
+
+    update();
+}
+
+initCounter('bedsValue', 'bedsDown', 'bedsUp');
+initCounter('bathsValue', 'bathsDown', 'bathsUp');

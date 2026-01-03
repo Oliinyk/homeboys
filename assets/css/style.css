@@ -575,7 +575,7 @@ a.primary {
 	z-index: 1;
 }
 
-.submit-btn,
+/* .submit-btn,
 .contact-section .wpcf7-submit {
 	position: relative;
 	display: flex;
@@ -588,36 +588,167 @@ a.primary {
 	background-position: right 30px center, 0;
 	background-size: 17px 11px, 100% 100%;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	padding-right: 40px;
 	border: none;
 	border-radius: 0;
 	transition: all 0.3s;
 }
-.contact-section .wpcf7-submit {
-	padding-right: 40px;
+.submit-btn {
+	background-position: right 15px center, 0;
 }
+.submit-btn:hover,
 .contact-section .wpcf7-submit:hover {
 	background-image: url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E"),var(--button-gradient-end);
 	background-position: right 25px center, 100%;
 }
+.submit-btn:hover {
+	background-position: right 10px center, 100%;
+} */
 
-.primary-btn,
+
+/*  */
+
+/* =========================================================
+   COMMON BASE (button + CF7 input)
+   ========================================================= */
+
+.submit-btn,
+.contact-section .wpcf7-submit {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: var(--white);
+	border: none;
+	border-radius: 0;
+	padding-right: 40px;
+
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	overflow: hidden;
+
+	/* ❗ БАЗОВИЙ градієнт — ТІЛЬКИ через background-image */
+	background-image: var(--button-gradient-start);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-position: 0 0;
+
+	cursor: pointer;
+	z-index: 0;
+}
+
+
+/* =========================================================
+   BUTTON — HOVER GRADIENT (SMOOTH)
+   ========================================================= */
+
+.submit-btn::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+
+	background-image: var(--button-gradient-end);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-position: 0 0;
+
+	opacity: 0;
+	transition: opacity 0.3s ease;
+
+	/* ⬅️ КЛЮЧОВЕ: текст і стрілка ЗАВЖДИ зверху */
+	z-index: -1;
+}
+
+.submit-btn:hover::before {
+	opacity: 1;
+}
+
+
+/* =========================================================
+   BUTTON — ARROW (::after)
+   ========================================================= */
+
+.submit-btn::after {
+	content: "";
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	transform: translateY(-50%);
+
+	width: 17px;
+	height: 11px;
+
+	background: url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E")
+		no-repeat center;
+
+	transition: right 0.3s ease;
+	z-index: 1;
+}
+
+.submit-btn:hover::after {
+	right: 25px;
+}
+
+
+/* =========================================================
+   INPUT (CF7) — ARROW + GRADIENT
+   ========================================================= */
+
+.contact-section .wpcf7-submit {
+	/* SVG + базовий градієнт */
+	background-image:
+		url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E"),
+		var(--button-gradient-start);
+
+	background-repeat: no-repeat, no-repeat;
+	background-size: 17px 11px, 100% 100%;
+	background-position: right 30px center, 0 0;
+
+	transition: background-position 0.3s ease;
+}
+
+
+/* =========================================================
+   INPUT (CF7) — HOVER (NO SMOOTH, LIMITATION)
+   ========================================================= */
+
+.contact-section .wpcf7-submit:hover {
+	background-image:
+		url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E"),
+		var(--button-gradient-end);
+
+	background-position: right 25px center, 0 0;
+}
+
+
+/* =========================================================
+   CF7 OVERRIDE (IMPORTANT)
+   ========================================================= */
+
+.contact-section input.wpcf7-form-control.wpcf7-submit {
+	background-color: transparent !important;
+}
+
+/*  */
+
+/* .primary-btn,
 a.primary-btn {
 	color: var(--primary);
 	border: 1px solid var(--primary)
-}
-.primary-btn svg {
+} */
+/* .primary-btn svg {
 	transition: all 0.3s;
 	fill: var(--primary);
-}
-.primary-btn:hover {
+} */
+/* .primary-btn:hover {
 	background-color: var(--primary);
 	color: var(--white);
-}
-.primary-btn:hover svg {
+} */
+/* .primary-btn:hover svg {
 	fill: var(--white);
-}
+} */
 
-.submit-btn::before,
+/* .submit-btn::before,
 .contact-section .wpcf7-submit::before {
 	content: "";
 	position: absolute;
@@ -626,22 +757,19 @@ a.primary-btn {
 	width: 100%;
 	height: 100%;
 	background: var(--button-gradient-start);
-	/* opacity: 1; */
-	/* transition: opacity 0.5s ease; */
 	z-index: -1;
 	transition: all 0.2s linear;
-}
+} */
 
-.submit-btn:hover svg,
+/* .submit-btn:hover svg,
 .contact-section .wpcf7-submit:hover svg {
 	transform: translateX(5px);
-}
+} */
 
-.submit-btn:hover::before,
+/* .submit-btn:hover::before,
 .contact-section .wpcf7-submit:hover::before {
 	background: var(--button-gradient-end);
-	/* opacity: 1; */
-}
+} */
 
 /* validation */
 .contact-section form input.wpcf7-not-valid {
@@ -1115,7 +1243,11 @@ footer {
 	font-family: "Anton", sans-serif;
 	font-size: 24px;
 	text-transform: uppercase;
-	margin-bottom: 15px;
+}
+
+.footer-row .footer-col {
+	gap: 15px;
+	margin: 0 0 15px;
 }
 
 .footer-wrap .footer-nav {
@@ -1158,7 +1290,6 @@ footer {
 }
 
 .footer-main {
-	gap: 20px;
 	text-align: center;
 }
 
@@ -1179,6 +1310,10 @@ footer {
 	margin: 0 0 10px;
 }
 
+.footer .contact-section form {
+	margin: 0 auto;
+}
+
 .footer .contact-section form input {
 	border: 1px solid var(--dark-gray);
 }
@@ -1190,6 +1325,8 @@ footer {
 .footer .location-wrap {
 	border-top: 1px solid var(--gray);
 	border-bottom: 1px solid var(--gray);
+	padding: 30px 0;
+	margin: 30px 0;
 }
 
 .privacy-col,
@@ -1479,6 +1616,9 @@ footer {
 	}
 	.footer-wrap .info-address {
 		max-width: max-content;
+	}
+	.footer-row .footer-col {
+		margin: 0;
 	}
 
 	.sm-text-left {
