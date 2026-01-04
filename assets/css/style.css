@@ -97,7 +97,6 @@ a.primary {
     margin-right: auto;
     padding-left: 16px;
     padding-right: 16px;
-    box-sizing: border-box;
 }
 @media (min-width: 576px) {
     .container {
@@ -121,7 +120,7 @@ a.primary {
 }
 @media (min-width: 1400px) {
     .container {
-        max-width: 1248px;
+        max-width: 1280px;
     }
 }
 
@@ -522,7 +521,7 @@ a.primary {
 }
 
 .filter-container .counter-btn.arrow-left {
-	border-right: 6px solid var(--light-gray);
+	border-right: 6px solid var(--primary);
 }
 
 .filter-container .counter-btn.arrow-right {
@@ -534,25 +533,33 @@ a.primary {
 }
 
 .filter-container .counter-btn:hover.arrow-right {
-	border-left-color: var(--dark-gray);
+	border-left-color: var(--primary);
 }
 
-.filter-container .counter-btn:disabled {
-	opacity: 0.3;
-	cursor: not-allowed;
-}
-
+.filter-container .counter-btn:disabled.arrow-left,
 .filter-container .counter-btn:disabled:hover.arrow-left {
 	border-right-color: var(--light-gray);
 }
 
+.filter-container .counter-btn:disabled.arrow-right,
 .filter-container .counter-btn:disabled:hover.arrow-right {
-	border-left-color: var(--primary);
+	border-left-color:  var(--light-gray);
 }
+
+/* .filter-container .counter-btn:disabled {
+	opacity: 0.3;
+	cursor: not-allowed;
+} */
 
 .filter-container .counter-value {
 	min-width: 40px;
 	text-align: center;
+}
+
+.counter-value::-webkit-outer-spin-button,
+.counter-value::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 .filter-container .btn-wrap {
@@ -606,112 +613,65 @@ a.primary {
 } */
 
 
-/*  */
-
-/* =========================================================
-   COMMON BASE (button + CF7 input)
-   ========================================================= */
-
 .submit-btn,
 .contact-section .wpcf7-submit {
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
 	color: var(--white);
 	border: none;
 	border-radius: 0;
 	padding-right: 40px;
-
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 	overflow: hidden;
-
-	/* ❗ БАЗОВИЙ градієнт — ТІЛЬКИ через background-image */
 	background-image: var(--button-gradient-start);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	background-position: 0 0;
-
 	cursor: pointer;
 	z-index: 0;
 }
-
-
-/* =========================================================
-   BUTTON — HOVER GRADIENT (SMOOTH)
-   ========================================================= */
-
 .submit-btn::before {
 	content: "";
 	position: absolute;
 	inset: 0;
-
 	background-image: var(--button-gradient-end);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	background-position: 0 0;
-
 	opacity: 0;
 	transition: opacity 0.3s ease;
-
-	/* ⬅️ КЛЮЧОВЕ: текст і стрілка ЗАВЖДИ зверху */
 	z-index: -1;
 }
-
 .submit-btn:hover::before {
 	opacity: 1;
 }
-
-
-/* =========================================================
-   BUTTON — ARROW (::after)
-   ========================================================= */
-
 .submit-btn::after {
 	content: "";
 	position: absolute;
-	right: 30px;
+	right: 15px;
 	top: 50%;
 	transform: translateY(-50%);
-
 	width: 17px;
 	height: 11px;
-
 	background: url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E")
 		no-repeat center;
-
 	transition: right 0.3s ease;
 	z-index: 1;
 }
-
 .submit-btn:hover::after {
-	right: 25px;
+	right: 10px;
 }
-
-
-/* =========================================================
-   INPUT (CF7) — ARROW + GRADIENT
-   ========================================================= */
-
 .contact-section .wpcf7-submit {
-	/* SVG + базовий градієнт */
 	background-image:
 		url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E"),
 		var(--button-gradient-start);
-
 	background-repeat: no-repeat, no-repeat;
 	background-size: 17px 11px, 100% 100%;
 	background-position: right 30px center, 0 0;
-
 	transition: background-position 0.3s ease;
 }
-
-
-/* =========================================================
-   INPUT (CF7) — HOVER (NO SMOOTH, LIMITATION)
-   ========================================================= */
-
 .contact-section .wpcf7-submit:hover {
 	background-image:
 		url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E"),
@@ -719,34 +679,28 @@ a.primary {
 
 	background-position: right 25px center, 0 0;
 }
-
-
-/* =========================================================
-   CF7 OVERRIDE (IMPORTANT)
-   ========================================================= */
-
 .contact-section input.wpcf7-form-control.wpcf7-submit {
 	background-color: transparent !important;
 }
 
 /*  */
 
-/* .primary-btn,
+.primary-btn,
 a.primary-btn {
 	color: var(--primary);
 	border: 1px solid var(--primary)
-} */
-/* .primary-btn svg {
-	transition: all 0.3s;
+}
+.primary-btn svg {
+	transition: all 0.2s;
 	fill: var(--primary);
-} */
-/* .primary-btn:hover {
+}
+.primary-btn:hover {
 	background-color: var(--primary);
 	color: var(--white);
-} */
-/* .primary-btn:hover svg {
+}
+.primary-btn:hover svg {
 	fill: var(--white);
-} */
+}
 
 /* .submit-btn::before,
 .contact-section .wpcf7-submit::before {
@@ -1068,9 +1022,11 @@ section {
 
 /* find-home-section */
 .card-list {
-    margin-top: 40px;
     display: grid;
     gap: 10px;
+}
+.filter-container + .card-list {
+	margin-top: 40px;
 }
 
 .card-list + .btn {
@@ -1185,7 +1141,53 @@ section {
     margin-top: 4px;
     color: var(--yellow);
     font-size: 10px;
-} 
+}
+
+.controls-sort {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 15px;
+	color: var(--gray);
+	font-size: 16px;
+	margin: 0 0 15px;
+}
+.sort-switcher {
+	border: 1px solid var(--gray);
+	cursor: pointer;
+    max-width: 32px;
+    max-height: 32px;
+    padding: 3.5px 5.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+.sort-switcher.active {
+	color: var(--white);
+	background-color: var(--gray);
+}
+.sort-switcher .sort-ico {
+	fill: var(--gray);
+}
+.sort-switcher.active .sort-ico {
+	fill: var(--white);
+}
+
+.col-2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.col-3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.col-span-2 {
+	grid-column: span 2 / span 2;
+}
+.col-span-3 {
+	grid-column: span 3 / span 3;
+}
 
 /* footer */
 footer {
@@ -1214,22 +1216,6 @@ footer {
 .footer-wrap .footer-col {
 	display: grid;
 }
-
-.col-2 {
-	grid-template-columns: repeat(2, 1fr);
-}
-
-.col-3 {
-	grid-template-columns: repeat(3, 1fr);
-}
-
-.col-span-2 {
-	grid-column: span 2 / span 2;
-}
-.col-span-3 {
-	grid-column: span 3 / span 3;
-}
-
 
 .footer-col .title-list {
 	display: block;
@@ -1561,7 +1547,7 @@ footer {
 	}
 
 	.card-list {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 20px;
 	}
 
 	.location-list {
@@ -1573,9 +1559,6 @@ footer {
 	.location-list-item.active {
 		border: none;
 	}
-	/* .location-list-item:first-child {
-		border: none;
-	} */
 	.hero-section .location-list-item.active,
 	.gallery-section .location-list-item:not(.active) {
 		display: flex;
@@ -1585,7 +1568,6 @@ footer {
 	}
 
 	/* galleries-page */
-
 	.gallery-section .galleries-grid {
 		grid-template-columns: repeat(2, 1fr);
 	}
@@ -1739,7 +1721,7 @@ footer {
 
 	/* find-home-section */
 	.card-list {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 30px;
 	}
 
 	/* location-list */
@@ -1784,6 +1766,9 @@ footer {
 	}
 	.md-col-3 {
 		grid-template-columns: repeat(3, 1fr);
+	}
+	.md-col-4 {
+		grid-template-columns: repeat(4, 1fr);
 	}
 	.md-col-span-2 {
 		grid-column: span 2 / span 2;

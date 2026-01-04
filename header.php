@@ -9,6 +9,35 @@
  * @package Home_Boys_2
  */
 
+$nav_menu_items = wp_get_nav_menu_items( 'menu-1' );
+$menu_content = [];
+
+if ( ! empty( $nav_menu_items ) ) {
+    foreach ( $nav_menu_items as $item ) {
+        $item_id = $item->ID;
+        $parent_id = $item->menu_item_parent;
+
+        if ( $parent_id == 0 ) {
+            // This is a top-level item
+            $menu_content[ $item_id ] = [
+                'classes' => 'dropdown has-dropdown',
+                'title' => $item->title,
+                'url'   => $item->url,
+                'children' => [],
+            ];
+        } else {
+            // This is a child item
+            if ( isset( $menu_content[ $parent_id ] ) ) {
+                $menu_content[ $parent_id ]['children'][] = [
+                    'title' => $item->title,
+                    'url'   => $item->url,
+                ];
+            }
+        }
+        
+    }
+};
+
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -29,6 +58,9 @@
                 <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/hb-logo.svg'?>" alt="Home Boys logo">
             </a>
 
+            <?php
+            if ( ! empty( $nav_menu_items ) ) :
+            ?>
             <nav class="navbar-header main-nav" id="mainNav">
                 <button class="nav-close" id="closeNav">
                     CLOSE
@@ -38,48 +70,40 @@
                 </button>
 
                 <ul class="nav-list">
-                    <li class="dropdown has-dropdown">
-                        <button class="nav-link">
-                            Display Homes
-                            <span class="arrow"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Spokane Valley</a></li>
-                            <li><a href="#">Tri-Cities</a></li>
-                            <li><a href="#">Montana</a></li>
-                            <li><a href="#">Sold Homes Galleries</a></li>
-                        </ul>
-                    </li>
+                    <?php
+                    foreach ( $menu_content as $item ):
+                        $has_children  = ! empty( $item['children'] );
 
-                    <li><a href="#" class="nav-link">Find Your Home</a></li>
-                    <li><a href="#" class="nav-link">ADU's</a></li>
-
-                    <li class="dropdown has-dropdown">
-                        <button class="nav-link">
-                            Process
-                            <span class="arrow"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Customer Guidelines</a></li>
-                            <li><a href="#">Financing</a></li>
-                            <li><a href="#">Understanding Manufactured Home Loans</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="dropdown has-dropdown">
-                        <button class="nav-link">
-                            About us
-                            <span class="arrow"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Our Team</a></li>
-                            <li><a href="#">Blog</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="#" class="nav-link">Contacts</a></li>
+                        if ( $has_children ) :
+                        ?>
+                        <li class="<?php echo esc_attr( $item['classes'] ); ?>">
+                            <button class="nav-link">
+                                <?php echo esc_html( $item['title'] ); ?>
+                                <span class="arrow"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <?php
+                                foreach ( $item['children'] as $sub_item ):
+                                ?>
+                                <li><a href="<?php echo esc_url( $sub_item['url'] ); ?>"><?php echo esc_html( $sub_item['title'] ); ?></a></li>
+                                <?php
+                                endforeach;
+                                ?>
+                            </ul>
+                        </li>
+                        <?php
+                        else :
+                        ?>
+                        <li><a href="<?php echo esc_url( $item['url'] ); ?>" class="nav-link"><?php echo esc_html( $item['title'] ); ?></a></li>
+                        <?php
+                        endif;
+                    endforeach;    
+                        ?>
                 </ul>
             </nav>
+            <?php
+            endif;
+            ?>
 
             <button class="burger" id="burgerBtn">
                 <span></span>

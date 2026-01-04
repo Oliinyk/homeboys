@@ -23,7 +23,7 @@ $on_display = [
     3 => "Montana",
 ];
 ?>
-<div class="card-list">
+<div class="card-list md-col-4">
     <?php
     while( $plans_posts->have_posts() ) :
         $plans_posts->the_post();
@@ -46,7 +46,7 @@ $on_display = [
         $manufacturer   = carbon_get_post_meta( $plan_id, 'plan_manufacturer' );
 
         ?>
-        <div class="card-item">
+        <a href="#" class="card-item">
             <img src="<?php echo esc_url( $thumbnail ) ?>" alt="#">
 
             <ul class="card-top-info">
@@ -106,7 +106,7 @@ $on_display = [
                     ?>
                 </p>
             </div>
-        </div>
+        </a>
         <?php
     endwhile;
     ?>

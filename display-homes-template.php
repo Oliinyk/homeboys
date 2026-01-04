@@ -97,7 +97,7 @@ get_header();
             }
 
             ?>
-            <div class="card-item">
+            <a href="#" class="card-item">
                 <img src="<?php echo esc_url( $plan_thumbnail ); ?>" alt="#" class="slide-image">
 
                 <ul class="card-top-info">
@@ -147,7 +147,7 @@ get_header();
                         ?>
                     </p>
                 </div>
-            </div>
+            </a>
             <?php
         endwhile;
         wp_reset_postdata();
