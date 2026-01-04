@@ -128,89 +128,92 @@ const gallerySlider = new Swiper('.gallerySlider', {
 
 // Filter
 document.addEventListener('DOMContentLoaded', function() {
+    // Форматування значень
+    const formatters = {
+        price: (val) => '$ ' + parseInt(val).toLocaleString('en-US'),
+        size: (val) => parseInt(val).toLocaleString('en-US') + ' ft²'
+    };
+
     // Ініціалізація всіх слайдерів
-    const sliderGroups = document.querySelectorAll('.filter-group');
-    
-    sliderGroups.forEach(group => {
-        const minSlider = group.querySelector('.js-slider-min');
-        const maxSlider = group.querySelector('.js-slider-max');
+    document.querySelectorAll('.filter-group').forEach(group => {
+        const inputs = group.querySelectorAll('.js-range-input');
+        if (inputs.length !== 2) return;
+
+        const [minInput, maxInput] = inputs;
+        const range = group.querySelector('.js-slider-range');
+        const displays = group.querySelectorAll('.js-value-display');
         
-        if (!minSlider || !maxSlider) return;
-        
-        const range = group.querySelector('.slider-range');
-        const minBox = group.querySelector('.value-box:first-of-type');
-        const maxBox = group.querySelector('.value-box:last-of-type');
-        const max = parseInt(maxSlider.max);
-        
-        // Визначаємо тип слайдера по name
-        const isPrice = minSlider.name.includes('price');
-        const formatFn = isPrice 
-            ? (val) => '$ ' + val.toLocaleString('en-US')
-            : (val) => val.toLocaleString('en-US') + ' ft²';
-        
-        function updateSlider() {
-            let minVal = parseInt(minSlider.value);
-            let maxVal = parseInt(maxSlider.value);
+        if (!range || displays.length !== 2) return;
+
+        const [minDisplay, maxDisplay] = displays;
+        const min = parseInt(minInput.min);
+        const max = parseInt(minInput.max);
+        const type = minInput.dataset.type;
+        const format = formatters[type];
+
+        function update() {
+            let minVal = parseInt(minInput.value);
+            let maxVal = parseInt(maxInput.value);
             
-            // Не дозволяємо перетинатися
-            if (minVal > maxVal - (max * 0.02)) {
-                minVal = maxVal - (max * 0.02);
-                minSlider.value = minVal;
+            // Мінімальна різниця 2% від діапазону
+            const minGap = (max - min) * 0.02;
+            if (minVal > maxVal - minGap) {
+                minVal = maxVal - minGap;
+                minInput.value = Math.max(min, minVal);
             }
             
-            // Оновлюємо текст
-            if (minBox) minBox.textContent = formatFn(minVal);
-            if (maxBox) maxBox.textContent = formatFn(maxVal);
+            minVal = parseInt(minInput.value);
+            maxVal = parseInt(maxInput.value);
+            
+            // Оновлюємо відображення
+            minDisplay.textContent = format(minVal);
+            maxDisplay.textContent = format(maxVal);
             
             // Оновлюємо червону лінію
-            if (range) {
-                const left = (minVal / max) * 100;
-                const width = ((maxVal - minVal) / max) * 100;
-                range.style.left = left + '%';
-                range.style.width = width + '%';
-            }
+            const leftPercent = ((minVal - min) / (max - min)) * 100;
+            const widthPercent = ((maxVal - minVal) / (max - min)) * 100;
+            range.style.left = leftPercent + '%';
+            range.style.width = widthPercent + '%';
         }
-        
-        minSlider.addEventListener('input', updateSlider);
-        maxSlider.addEventListener('input', updateSlider);
-        updateSlider();
+
+        minInput.addEventListener('input', update);
+        maxInput.addEventListener('input', update);
+        update();
     });
-    
-    // Ініціалізація всіх лічильників
-    const counterGroups = document.querySelectorAll('.counter-group');
-    
-    counterGroups.forEach(group => {
-        const input = group.querySelector('.js-counter-value');
+
+    // Ініціалізація всіх лічильників (тільки стрілочки, ввід заборонений)
+    document.querySelectorAll('.counter-group').forEach(group => {
+        const input = group.querySelector('.js-counter-input');
         const downBtn = group.querySelector('.js-counter-down');
         const upBtn = group.querySelector('.js-counter-up');
         
         if (!input || !downBtn || !upBtn) return;
         
-        const min = parseInt(input.min) || 0;
-        const max = parseInt(input.max) || 10;
+        const min = parseInt(input.min);
+        const max = parseInt(input.max);
         
-        function updateButtons() {
-            const count = parseInt(input.value);
-            downBtn.disabled = count <= min;
-            upBtn.disabled = count >= max;
+        function update() {
+            const val = parseInt(input.value);
+            downBtn.disabled = val <= min;
+            upBtn.disabled = val >= max;
         }
         
-        downBtn.addEventListener('click', function() {
-            const current = parseInt(input.value);
-            if (current > min) {
-                input.value = current - 1;
-                updateButtons();
+        downBtn.addEventListener('click', () => {
+            const val = parseInt(input.value);
+            if (val > min) {
+                input.value = val - 1;
+                update();
             }
         });
         
-        upBtn.addEventListener('click', function() {
-            const current = parseInt(input.value);
-            if (current < max) {
-                input.value = current + 1;
-                updateButtons();
+        upBtn.addEventListener('click', () => {
+            const val = parseInt(input.value);
+            if (val < max) {
+                input.value = val + 1;
+                update();
             }
         });
         
-        updateButtons();
+        update();
     });
 });

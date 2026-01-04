@@ -1429,6 +1429,10 @@ footer {
 }
 
 /* gallery-section */
+.home-gallery-section {
+	padding-top: 0;
+}
+
 .gallery-section {
 	padding: 0;
 }
