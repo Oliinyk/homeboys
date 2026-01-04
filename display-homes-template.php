@@ -97,7 +97,7 @@ get_header();
             }
 
             ?>
-            <a href="#" class="card-item">
+            <a href="<?php echo esc_url( $plan_permalink )?>" class="card-item">
                 <img src="<?php echo esc_url( $plan_thumbnail ); ?>" alt="#" class="slide-image">
 
                 <ul class="card-top-info">
@@ -172,6 +172,6 @@ get_header();
 </section>
 
 <?php
-    get_template_part( 'template-parts/modules/section', 'contact', ['id' => $post_id] );
+    get_template_part( 'template-parts/modules/section', 'contact' );
     get_template_part( 'template-parts/modules/section', 'find_home' );
 get_footer();
