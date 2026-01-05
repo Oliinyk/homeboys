@@ -22,7 +22,7 @@ $min_baths   = $baths_range['min'];
 $max_baths   = $baths_range['max'];
 ?>
 <!-- filter -->
-<form class="filter-container" method="GET" action="">
+<form class="filter-container" method="GET" action="/find-your-home">
     <div class="filter-grid">
         <div class="filter-row">
             <?php
