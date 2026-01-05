@@ -20,6 +20,16 @@ $max_beds    = $beds_range['max'];
 
 $min_baths   = $baths_range['min'];
 $max_baths   = $baths_range['max'];
+
+$price_min_value = isset( $_GET['price_min'] ) ? $_GET['price_min'] : $min_price;
+$max_price_value = isset( $_GET['price_max'] ) ? $_GET['price_max'] : $max_price;
+$min_size_value  = isset( $_GET['size_min'] ) ? $_GET['size_min'] : $min_size;
+$max_size_value  = isset( $_GET['size_max'] ) ? $_GET['size_max'] : $max_size;
+$beds_value      = isset( $_GET['beds'] ) ? $_GET['beds'] : $max_beds;
+$baths_value     = isset( $_GET['baths'] ) ? $_GET['baths'] : $max_baths;
+$width_value     = isset( $_GET['width'] ) ? $_GET['width'] : -1;
+$manuf_value     = isset( $_GET['manufacturer'] ) ? $_GET['manufacturer'] : -1;
+$series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
 ?>
 <!-- filter -->
 <form class="filter-container" method="GET" action="/find-your-home">
@@ -31,16 +41,31 @@ $max_baths   = $baths_range['max'];
                 <div class="filter-group">
                     <div class="filter-label">Price</div>
                     <div class="value-display">
-                        <div class="value-box js-value-display">$ <?php echo number_format($min_price, 0, '.', ','); ?></div>
-                        <div class="value-box js-value-display">$ <?php echo number_format($max_price, 0, '.', ','); ?></div>
+                        <div class="value-box js-value-display">$ <?php echo number_format($price_min_value, 0, '.', ','); ?></div>
+                        <div class="value-box js-value-display">$ <?php echo number_format($max_price_value, 0, '.', ','); ?></div>
                     </div>
 
                     <div class="slider-container">
                         <div class="slider-track"></div>
                         <div class="slider-range js-slider-range"></div>
                         <div class="filter-slider">
-                            <input type="range" name="price_min" class="js-range-input" data-type="price" min="<?php echo $min_price; ?>" max="<?php echo $max_price; ?>" value="<?php echo $min_price; ?>" step="1000">
-                            <input type="range" name="price_max" class="js-range-input" data-type="price" min="<?php echo $min_price; ?>" max="<?php echo $max_price; ?>" value="<?php echo $max_price; ?>" step="1000">
+                            <input type="range" 
+                                name="price_min"
+                                class="js-range-input"
+                                data-type="price" 
+                                min="<?php echo $min_price; ?>" 
+                                max="<?php echo $max_price; ?>" 
+                                value="<?php echo $price_min_value ?>" 
+                                step="1000">
+                            
+                            <input type="range" 
+                                name="price_max" 
+                                class="js-range-input"
+                                data-type="price" 
+                                min="<?php echo $min_price; ?>" 
+                                max="<?php echo $max_price; ?>" 
+                                value="<?php echo $max_price_value; ?>" 
+                                step="1000">
                         </div>
                     </div>
                 </div>
@@ -51,16 +76,36 @@ $max_baths   = $baths_range['max'];
                 ?>
                 <div class="filter-group">
                     <div class="filter-label">Size</div>
+
                     <div class="value-display">
-                        <div class="value-box js-value-display"><?php echo $min_size; ?> ft²</div>
+                        <div class="value-box js-value-display"><?php echo $min_size_value; ?> ft²</div>
+
                         <div class="value-box js-value-display"><?php echo $max_size; ?> ft²</div>
                     </div>
+
                     <div class="slider-container">
                         <div class="slider-track"></div>
-                        <div class="slider-range js-slider-range"></div>
+
+                        <div class="slider-range js-size-range"></div>
+
                         <div class="filter-slider">
-                            <input type="range" name="size_min" class="js-range-input" data-type="size" min="<?php echo $min_size; ?>" max="<?php echo $max_size; ?>" value="<?php echo $min_size; ?>" step="50">
-                            <input type="range" name="size_max" class="js-range-input" data-type="size" min="<?php echo $min_size; ?>" max="<?php echo $max_size; ?>" value="<?php echo $max_size; ?>" step="50">
+                            <input type="range" 
+                                name="size_min" 
+                                class="js-range-input"
+                                data-type="size" 
+                                min="<?php echo $min_size; ?>" 
+                                max="<?php echo $max_size; ?>" 
+                                value="<?php echo $min_size_value; ?>" 
+                                step="50">
+                            
+                            <input type="range" 
+                                name="size_max" 
+                                class="js-range-input"
+                                data-type="size" 
+                                min="<?php echo $min_size; ?>" 
+                                max="<?php echo $max_size; ?>" 
+                                value="<?php echo $max_size_value; ?>" 
+                                step="50">
                         </div>
                     </div>
                 </div>
@@ -71,9 +116,19 @@ $max_baths   = $baths_range['max'];
                 ?>
                 <div class="counter-group">
                     <div class="filter-label">Beds</div>
+
                     <div class="counter-container">
-                         <button type="button" class="counter-btn arrow-left js-counter-down"></button>
-                        <input type="number" name="beds" class="counter-value js-counter-input" max="<?php echo $max_beds; ?>" min="<?php echo $min_beds; ?>" value="<?php echo $min_beds; ?>" readonly>
+                        <button type="button" class="counter-btn arrow-left js-counter-down"></button>
+                        
+                        <input type="number" 
+                            name="beds" 
+                            class="counter-value js-counter-input" 
+                            max="<?php echo $max_beds; ?>" 
+                            min="<?php echo $min_beds; ?>" 
+                            value="<?php echo $beds_value; ?>"
+                            readonly
+                            >
+                        
                         <button type="button" class="counter-btn arrow-right js-counter-up"></button>
                     </div>
                 </div>
@@ -84,9 +139,19 @@ $max_baths   = $baths_range['max'];
                 ?>
                 <div class="counter-group">
                     <div class="filter-label">Baths</div>
+
                     <div class="counter-container">
                         <button type="button" class="counter-btn arrow-left js-counter-down"></button>
-                        <input type="number" name="baths" class="counter-value js-counter-input" max="<?php echo $max_baths; ?>" min="<?php echo $min_baths; ?>" value="<?php echo $min_baths; ?>" readonly>
+
+                        <input type="number" 
+                            name="baths" 
+                            class="counter-value js-counter-input" 
+                            max="<?php echo $max_baths; ?>" 
+                            min="<?php echo $min_baths; ?>" 
+                            value="<?php echo $baths_value; ?>"
+                            readonly
+                            >
+                        
                         <button type="button" class="counter-btn arrow-right js-counter-up"></button>
                     </div>
                 </div>
@@ -101,14 +166,13 @@ $max_baths   = $baths_range['max'];
                 ?>
                 <div class="filter-group">
                     <div class="filter-label">Wide</div>
+
                     <select name="width">
                         <?php
                         foreach ( $width_options as $key => $width ) :
-                            if ( 0 > $key ) {
-                                continue;
-                            };
+                            $selected = intval( $width_value ) == $key ? ' selected' : '';
                             ?>
-                            <option value="<?php echo esc_attr( $key ); ?>">
+                            <option value="<?php echo esc_attr( $key ); ?>"<?php echo esc_attr( $selected )?>>
                                 <?php echo $width; ?>
                             </option>
                             <?php
@@ -127,11 +191,9 @@ $max_baths   = $baths_range['max'];
                     <select name="manufacturer">
                         <?php
                         foreach ( $manufacturers_options as $key => $manufacturer ) :
-                            if ( 0 > $key ) {
-                                continue;
-                            };
+                            $selected = intval( $manuf_value ) == $key ? ' selected' : '';
                             ?>
-                            <option value="<?php echo esc_attr( $key ); ?>">
+                            <option value="<?php echo esc_attr( $key ); ?>"<?php echo esc_attr( $selected )?>>
                                 <?php echo $manufacturer; ?>
                             </option>
                             <?php
@@ -149,11 +211,9 @@ $max_baths   = $baths_range['max'];
                     <select name="series">
                         <?php
                         foreach ( $series_options as $key => $series ) :
-                            if ( 0 > $key ) {
-                                continue;
-                            };
+                            $selected = intval( $series_value ) == $key ? ' selected' : '';
                             ?>
-                            <option value="<?php echo esc_attr( $key ); ?>">
+                            <option value="<?php echo esc_attr( $key ); ?>"<?php echo esc_attr( $selected )?>>
                                 <?php echo $series; ?>
                             </option>
                             <?php

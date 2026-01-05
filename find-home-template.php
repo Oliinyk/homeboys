@@ -20,14 +20,95 @@ $query_params = [
     'meta_query'        => [
         'relation' => 'AND',
         'price_column' => [
-            'key'     => '_plan_price',
-            'compare' => 'EXISTS',
-            'type'    => 'DECIMAL',
+            'key'      => '_plan_price',
+            'compare'  => 'EXISTS',
+            'type'     => 'DECIMAL',
         ],
     ],
-    'order' => $order,
+    'order'   => $order,
     'orderby' => 'price_column',
 ];
+
+// Filter by prices
+if ( isset( $_GET['price_min'] ) && isset( $_GET['price_max'] ) ) {
+    $price_q = [
+        'key'     => '_plan_price',
+        'compare' => 'BETWEEN',
+        'value'   => [ intval( $_GET['price_min'] ), intval( $_GET['price_max'] ) ],
+        'type'    => 'SIGNED',
+    ];
+
+    array_push( $query_params['meta_query'], $price_q );
+}
+
+// Filter by size
+if ( isset( $_GET['size_min'] ) && isset( $_GET['size_max'] ) ) {
+    $size_q = [
+        'key'     => '_plan_size',
+        'compare' => 'BETWEEN',
+        'value'   => [ intval( $_GET['size_min'] ), intval( $_GET['size_max'] ) ],
+        'type'    => 'SIGNED',
+    ];
+
+    array_push( $query_params['meta_query'], $size_q );
+}
+
+// Filter by beds
+if ( isset( $_GET['beds'] ) ) {
+    $beds_q = [
+        'key'     => '_plan_beds',
+        'compare' => '<=',
+        'value'   => intval( $_GET['beds'] ),
+        'type'    => 'SIGNED',
+    ];
+
+    array_push( $query_params['meta_query'], $beds_q );
+}
+
+// Filter by baths
+if ( isset( $_GET['baths'] ) ) {
+    $baths_q = [
+        'key'     => '_plan_baths',
+        'compare' => '<=',
+        'value'   => intval( $_GET['baths'] ),
+        'type'    => 'SIGNED',
+    ];
+
+    array_push( $query_params['meta_query'], $baths_q );
+}
+
+// Filter by width
+if ( isset( $_GET['width'] ) ) {
+    $width_q = [
+        'key'     => '_plan_width',
+        'compare' => '=',
+        'value'   => $_GET['width'],
+    ];
+
+    array_push( $query_params['meta_query'], $width_q );
+}
+
+// Filter by manufacturer
+if ( isset( $_GET['manufacturer'] ) ) {
+    $manufacturer_q = [
+        'key'     => '_plan_manufacturer',
+        'compare' => '=',
+        'value'   => $_GET['manufacturer'],
+    ];
+
+    array_push( $query_params['meta_query'], $manufacturer_q );
+}
+
+// Filter by series
+if ( isset( $_GET['series'] ) ) {
+    $series_q = [
+        'key'     => '_plan_series',
+        'compare' => '=',
+        'value'   => $_GET['series'],
+    ];
+
+    array_push( $query_params['meta_query'], $series_q );
+}
 
 $locations_list   = apply_filters( 'hb2_locations_list', true );
 $manufacturer_arr = apply_filters( 'hb2_get_manufacturers_list', true );
@@ -67,25 +148,6 @@ $homes = new WP_Query( $query_params );
             </div>
 
             <div class="card-list sm-col-2">
-                <a href="#" class="card-item">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Giant-Sequoia-ING762G.png" alt="#">
-                    <ul class="card-top-info">
-                        <li>2,280 ft2</li>
-                        <li>4 Beds</li>
-                        <li>2 Baths</li>
-                    </ul>
-                    <div class="card-labels">
-                        <div class="label">$186,284</div>
-                        <div class="label danger">
-                            <span class="label-top">On Display</span>
-                            <span>Tri-Cities</span>
-                        </div>
-                    </div>
-                    <div class="item-info">
-                        <h4 class="item-title">Giant Sequoia ING762G</h4>
-                        <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
-                    </div>
-                </a>
                 <?php
                 if ( $homes->have_posts() ) :
                     while( $homes->have_posts() ) :
