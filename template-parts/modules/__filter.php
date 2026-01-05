@@ -80,7 +80,7 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                     <div class="value-display">
                         <div class="value-box js-value-display"><?php echo $min_size_value; ?> ft²</div>
 
-                        <div class="value-box js-value-display"><?php echo $max_size; ?> ft²</div>
+                        <div class="value-box js-value-display"><?php echo $max_size_value; ?> ft²</div>
                     </div>
 
                     <div class="slider-container">
