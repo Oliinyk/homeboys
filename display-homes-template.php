@@ -38,9 +38,7 @@ get_header();
             if ( 0 <= $selected_location ) :
                 ?>
                 <li class="crumb-item">
-                    <a href="#">
-                        <?php echo esc_html( $locations[ $selected_location ]['location_name'] ); ?>
-                    </a>
+                    <?php echo esc_html( $locations[ $selected_location ]['location_name'] ); ?>
                 </li>
                 <?php
             endif;

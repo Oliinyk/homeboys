@@ -1025,21 +1025,23 @@ section {
     display: grid;
     gap: 10px;
 }
+.card-list img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
 .filter-container + .card-list {
 	margin-top: 40px;
 }
-
 .card-list + .btn {
 	margin: 25px auto 0;
 }
-
 .card-item {
 	position: relative;
     display: flex;
     flex-direction: column;
 	font-family: "Anton", sans-serif;
 }
-
 .card-top-info {
     position: absolute;
     top: 20px;
@@ -1052,14 +1054,12 @@ section {
     text-transform: uppercase;
     font-size: 10px;
 }
-
 .card-top-info li {
 	position: relative;
 	display: flex;
 	align-items: center;
 	gap: 10px;
 }
-
 .card-top-info li:not(:last-child)::after {
     position: absolute;
     content: '';
@@ -1069,7 +1069,6 @@ section {
     top: 0;
     right: -10px;
 }
-
 .card-labels {
     position: absolute;
     top: 10px;
@@ -1078,8 +1077,9 @@ section {
 	flex-direction: column;
 	gap: 3px;
 }
-
 .label {
+	font-family: "Anton", sans-serif;
+	font-weight: 400;
     background: var(--yellow);
 	font-size: 10px;
 	text-align: center;
@@ -1087,29 +1087,24 @@ section {
     padding: 6px 10px;
     font-weight: 700;
 }
-
 .label.danger {
     background: var(--primary);
     color: var(--white);
 }
-
 .label.sold {
 	background-color: var(--gray);
 	color: var(--white);
 }
-
 .label-top {
 	font-family: "Georgia";
 	font-weight: bold;
 	font-style: italic;
 	font-size: 6px;
 }
-
 .label span {
     display: block;
     line-height: 1.2;
 }
-
 .card-item .item-info {
 	position: absolute;
 	top: auto;
@@ -1118,7 +1113,6 @@ section {
 	bottom: 10px;
 	text-align: center;
 }
-
 .find-home-section .card-item .item-info {
     margin: 0 10px;
 }
@@ -1128,7 +1122,6 @@ section {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-
 .card-item .item-title {
     font-size: 20px;
 	background-color: var(--yellow);
@@ -1136,13 +1129,11 @@ section {
 	display: inline-block;
 	padding: 3px 6px;
 }
-
 .card-item .item-subtitle {
     margin-top: 4px;
     color: var(--yellow);
     font-size: 10px;
 }
-
 .controls-sort {
 	display: flex;
 	align-items: center;
@@ -1173,15 +1164,12 @@ section {
 .sort-switcher.active .sort-ico {
 	fill: var(--white);
 }
-
 .col-2 {
 	grid-template-columns: repeat(2, 1fr);
 }
-
 .col-3 {
 	grid-template-columns: repeat(3, 1fr);
 }
-
 .col-span-2 {
 	grid-column: span 2 / span 2;
 }
@@ -1536,6 +1524,7 @@ footer {
     overflow-x: hidden;
     height: 500px;
     padding-right: 5px;
+	display: none;
 }
 
 .gallery-thumbs .swiper-wrapper {
@@ -1787,6 +1776,9 @@ footer {
 	/* gallery-thumbs-slider */
 	.gallery-thumbs-slider {
 		grid-template-columns: 2fr 1fr;
+	}
+	.gallery-thumbs {
+		display: block;
 	}
 	.title-txt {
 		font-size: 24px;

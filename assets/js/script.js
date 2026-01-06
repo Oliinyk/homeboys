@@ -245,4 +245,37 @@ document.addEventListener('DOMContentLoaded', function() {
         
         update();
     });
+
+    // Form submission processing - exclude unselected selects
+    const form = document.querySelector('.filter-container');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // We collect only the necessary data
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+            
+            for (let [key, value] of formData.entries()) {
+                // Skip selects with "-1" or the first index
+                const field = form.querySelector(`[name="${key}"]`);
+                
+                if (field.tagName === 'SELECT') {
+                    if (value === '-1' || value === '' || field.selectedIndex === 0) {
+                        continue;
+                    }
+                }
+                
+                // Skipping an empty model input
+                if (key === 'model' && value.trim() === '') {
+                    continue;
+                }
+                
+                params.append(key, value);
+            }
+            
+            // Redirect to filter results
+            window.location.href = form.action + '?' + params.toString();
+        });
+    }
 });
