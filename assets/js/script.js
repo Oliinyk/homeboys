@@ -125,16 +125,45 @@ const gallerySlider = new Swiper('.gallerySlider', {
     }
 });
 
+// gallery-thumbs-slider
+// thumbnail slider
+const galleryThumbs = new Swiper('.gallery-thumbs', {
+    spaceBetween: 0,
+    slidesPerView: 'auto',
+    watchSlidesProgress: true,
+    allowTouchMove: false,
+    simulateTouch: false,
+});
+
+// main slider
+const galleryMain = new Swiper('.gallery-main', {
+    spaceBetween: 10,
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    thumbs: {
+        swiper: galleryThumbs
+    }
+});
+
+// click on thumbnails
+const thumbSlides = document.querySelectorAll('.gallery-thumbs .swiper-slide');
+thumbSlides.forEach((thumb, index) => {
+    thumb.addEventListener('click', () => {
+        galleryMain.slideTo(index);
+    });
+});
+
 
 // Filter
 document.addEventListener('DOMContentLoaded', function() {
-    // Форматування значень
     const formatters = {
         price: (val) => '$ ' + parseInt(val).toLocaleString('en-US'),
         size: (val) => parseInt(val).toLocaleString('en-US') + ' ft²'
     };
 
-    // Ініціалізація всіх слайдерів
+    // Initializing all sliders
     document.querySelectorAll('.filter-group').forEach(group => {
         const inputs = group.querySelectorAll('.js-range-input');
         if (inputs.length !== 2) return;
@@ -155,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let minVal = parseInt(minInput.value);
             let maxVal = parseInt(maxInput.value);
             
-            // Мінімальна різниця 2% від діапазону
+            // Minimum difference 2% of range
             const minGap = (max - min) * 0.02;
             if (minVal > maxVal - minGap) {
                 minVal = maxVal - minGap;
@@ -165,11 +194,11 @@ document.addEventListener('DOMContentLoaded', function() {
             minVal = parseInt(minInput.value);
             maxVal = parseInt(maxInput.value);
             
-            // Оновлюємо відображення
+            // Updating the display
             minDisplay.textContent = format(minVal);
             maxDisplay.textContent = format(maxVal);
             
-            // Оновлюємо червону лінію
+            // Updating the red line
             const leftPercent = ((minVal - min) / (max - min)) * 100;
             const widthPercent = ((maxVal - minVal) / (max - min)) * 100;
             range.style.left = leftPercent + '%';
@@ -181,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         update();
     });
 
-    // Ініціалізація всіх лічильників (тільки стрілочки, ввід заборонений)
+    // Initialize all counters (arrows only, input prohibited)
     document.querySelectorAll('.counter-group').forEach(group => {
         const input = group.querySelector('.js-counter-input');
         const downBtn = group.querySelector('.js-counter-down');

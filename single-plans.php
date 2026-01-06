@@ -131,7 +131,7 @@ endif;
                     </li>
 
                     <li class="crumb-item">
-                        <a href="#"><?php echo $title?></a>
+                        <?php echo $title?>
                     </li>
                 </ul>
 
@@ -181,7 +181,7 @@ endif;
 
                     <div class="price-row">
                         <h4 class="price-title">
-                            $<?php echo number_format( $base_price, 0, '.', ',' )?>
+                            $<?php echo number_format( floatval($base_price), 0, '.', ',' )?>
                         </h4>
 
                         <?php
