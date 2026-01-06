@@ -44,7 +44,7 @@ $include_filter = $hero[0]["include_filter"];
                 <?php echo __( $hero[0]["hero_filter_title"], 'home-boys-2' )?>
             </h1>
             <?php
-            get_template_part( 'template-parts/modules/__filter', null, [ 'exclude_fields' => $filter_exclude_fields ] );
+            get_template_part( 'template-parts/modules/_filter', null, [ 'exclude_fields' => $filter_exclude_fields ] );
             ?>
         </div>
         <?php

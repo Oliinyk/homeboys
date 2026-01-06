@@ -50,7 +50,7 @@ get_header();
         <h1 class="title-section">Display Homes</h1>
         
         <?php
-        get_template_part( 'template-parts/modules/__location_list', null, [
+        get_template_part( 'template-parts/modules/_location_list', null, [
             'locations'        => $locations,
             'settings' => [
                 'additional_class' => 'location-top',
@@ -93,7 +93,7 @@ get_header();
             $plan_thumbnail = wp_get_attachment_image_url( $thumbmail_id, 'large' );
 
             if ( empty( $plan_thumbnail ) ) {
-                $plan_thumbnail = get_stylesheet_directory_uri() . '/assets/img/Giant-Sequoia-ING762G.png';
+                $plan_thumbnail = apply_filters( 'hb2_get_random_image', true );
             }
 
             ?>
@@ -160,7 +160,7 @@ get_header();
         </a>
 
         <?php
-            get_template_part( 'template-parts/modules/__location_list', null, [
+            get_template_part( 'template-parts/modules/_location_list', null, [
                 'locations' => $locations,
                 'settings' => [
                     'additional_class' => 'location-bottom',

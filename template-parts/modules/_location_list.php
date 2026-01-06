@@ -61,7 +61,7 @@ if ( empty( $locations ) ) {
                 <?php
                 if ( ! empty( $location['location_address'] ) ) :
                     ?>
-                    <p class="address-link"><?php echo esc_html( $location['location_address'] ); ?></p>
+                    <p class="address-link"><?php echo $location['location_address']; ?></p>
                     <?php
                 endif;
                 ?>

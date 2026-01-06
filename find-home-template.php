@@ -124,7 +124,7 @@ $homes = new WP_Query( $query_params );
             <h2 class="title-section">Your Home</h2>
 
             <!-- filter -->
-            <?php get_template_part( 'template-parts/modules/__filter', null ); ?>
+            <?php get_template_part( 'template-parts/modules/_filter', null ); ?>
 
         </div>
     </section>
@@ -179,72 +179,24 @@ $homes = new WP_Query( $query_params );
                         $plan_thumbnail = wp_get_attachment_image_url( $thumbmail_id, 'large' );
 
                         if ( empty( $plan_thumbnail ) ) {
-                            $plan_thumbnail = get_stylesheet_directory_uri() . '/assets/img/Giant-Sequoia-ING762G.png';
+                            $plan_thumbnail = apply_filters( 'hb2_get_random_image', true );
                         }
-                    ?>
-                    <a href="<?php echo esc_url( $plan_permalink )?>" class="card-item">
-                        <img src="<?php echo esc_url( $plan_thumbnail ); ?>" alt="#">
-                        <ul class="card-top-info">
-                            <?php
-                            if ( ! empty( $plan_sqft ) ) :
-                                ?>
-                                <li><?php echo esc_html( $plan_sqft ); ?> ft²</li>
-                            <?php
-                            endif;
 
-                            if ( ! empty( $plan_beds ) ) :
-                                ?>
-                            <li><?php echo esc_html( $plan_beds ); ?> BEDS</li>
-                            <?php
-                            endif;
-                            if ( ! empty( $plan_baths ) ) :
-                                ?>
-                            <li><?php echo esc_html( $plan_baths ); ?> BATHS</li>
-                            <?php
-                            endif;
-                            ?>
-                        </ul>
-
-                        <div class="card-labels">
-                            <?php
-                            if ( ! empty( $plan_price ) ) :
-                                ?>
-                                    <div class="label">$<?php echo esc_html( $plan_price ); ?></div>
-                                <?php
-                            endif;
-
-                            if ( array_key_exists( $plan_locations, $locations_list ) ) :
-                            ?>
-                            <div class="label danger">
-                                <span class="label-top">On Display</span>
-
-                                <span><?php echo $locations_list[$plan_locations]['location_name']?></span>
-                            </div>
-                            <?php
-                            endif;
-                            ?>
-                        </div>
-
-                        <div class="item-info">
-                            <?php
-                            if ( ! empty( $plan_title ) ) :
-                                ?>
-                                <h4 class="item-title">
-                                    <?php echo esc_html( $plan_title ); ?>
-                                </h4>
-                                <?php
-                            endif;
-                            ?>
-                            
-                            <p class="item-subtitle">
-                                <?php
-                                    echo isset( $manufacturer_arr[$plan_manuf] ) ? $manufacturer_arr[$plan_manuf] : '';
-                                    echo isset( $series_arr[$plan_series] ) ? ' | ' . $series_arr[$plan_series] : '';
-                                ?>
-                            </p>
-                        </div>
-                    </a>
-                    <?php
+                        $floor_data = [
+                            'title'         => $plan_title,
+                            'img_src'       => esc_url( $plan_thumbnail ),
+                            'permalink'     => esc_url( $plan_permalink ),
+                            'price'         => number_format( $plan_price, 0, ',', ',' ),
+                            'size'          => $plan_sqft,
+                            'beds'          => $plan_beds,
+                            'baths'         => $plan_baths,
+                            'location'      => $locations_list[$plan_locations]['location_name'],
+                            'manufacturer'  => $manufacturer_arr[$plan_manuf],
+                            'series'        => $series_arr[$plan_series],
+                        ];
+                        
+                        get_template_part( 'template-parts/modules/__floor_home_card', null, [ 'data-floor' => $floor_data ] );
+     
                     endwhile;
                 endif;
 

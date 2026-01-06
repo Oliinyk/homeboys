@@ -159,6 +159,7 @@ function hb2_meta_fields() {
                 ->help_text( 'ft<sup>2</sup>' )
                 ->set_attribute( 'type', 'number' ),
             Field::make( 'text', 'plan_price', __( 'Price Range', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
                 ->set_width(33),
             Field::make( 'select', 'plan_series', __( 'Series', 'home-boys-2' ) )
                 ->add_options( $plan_series_opt )

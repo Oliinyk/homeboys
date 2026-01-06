@@ -10,11 +10,12 @@
 <section class="find-home-section <?php echo esc_attr( $classes ); ?>">
     <div class="container">
         <h4 class="subtitle-section"><?php echo esc_html( $subtitle ); ?></h4>
+        
         <h2 class="title-section"><?php echo esc_html( $title ); ?></h2>
 
         <?php
         if ( $need_filter ) {
-            get_template_part( 'template-parts/modules/__filter', null, [ 'exclude_fields' => $filter_exclude_fields ] );
+            get_template_part( 'template-parts/modules/_filter', null, [ 'exclude_fields' => $filter_exclude_fields ] );
         };
 
         get_template_part( 'template-parts/modules/__mini_homes_loop', null );

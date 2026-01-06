@@ -86,7 +86,7 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                     <div class="slider-container">
                         <div class="slider-track"></div>
 
-                        <div class="slider-range js-size-range"></div>
+                        <div class="slider-range js-slider-range"></div>
 
                         <div class="filter-slider">
                             <input type="range" 

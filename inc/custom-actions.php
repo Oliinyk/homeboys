@@ -1,7 +1,9 @@
 <?php
 add_action( 'init'                      , 'hb2_register_post_types', 10 );
+add_filter( 'hb2_get_random_image'      , 'get_random_image' );
 // add_action( 'after_setup_theme'         , 'hb2_register_custom_menus' );
 add_filter( 'hb2_locations_list'        , 'hb2_get_locations_list' );
+add_filter( 'hb2_on_display_arr'        , 'hb2_on_display_arr' );
 add_filter( 'hb2_get_manufacturers_list', 'hb2_get_manufacturers_list' );
 add_filter( 'hb2_get_series_list'       , 'hb2_get_series_list' );
 add_filter( 'hb2_get_width_list'        , 'hb2_get_width_list' );
@@ -34,7 +36,7 @@ function hb2_register_post_types() {
         ],
         'description'         => '',
         'public'              => true,
-        'publicly_queryable'  => false,
+        'publicly_queryable'  => true,
         'show_in_menu'        => true,
         'show_in_rest'        => true,
         'rest_base'           => null,
@@ -42,7 +44,7 @@ function hb2_register_post_types() {
         'menu_icon'           => 'dashicons-admin-home',
         'menu_position'       => 100,
         'hierarchical'        => false,
-        'supports'            => ['title', 'shedule-settings', 'thumbnail', 'page-attributes'],
+        'supports'            => ['title', 'shedule-settings', 'thumbnail', 'page-attributes', 'editor'],
         'taxonomies'          => [],
         'has_archive'         => false,
         'rewrite'             => true,
@@ -83,10 +85,37 @@ function hb2_register_post_types() {
     ] );
 }
 
+function get_random_image() {
+    $imgs = [
+        'Clover-30603F.png',
+        'cottonwood-by-golden-west.png',
+        'Giant-Sequoia-ING762G.png',
+        'golden-west-dream.png',
+        'ING762G.png',
+        'ING764G.png',
+        'Sweet-Dream.png',
+        'The-Brook-Haven.png',
+    ];
+
+    $key = rand( 0, ( count( $imgs ) - 1 ) );
+
+    return get_stylesheet_directory_uri() . "/assets/img/" . $imgs[$key];
+}
+
 // Get locations list
 function hb2_get_locations_list() {
     $locations = carbon_get_theme_option( 'locations_list' );
     return is_array( $locations ) ? $locations : [];
+}
+
+function hb2_on_display_arr() {
+    return [
+        0 => "Spokane",
+        1 => "Tri-Cities",
+        2 => "Spokane <br/>
+            Tri-Cities",
+        3 => "Montana",
+    ];
 }
 
 // Get manufacturers list
