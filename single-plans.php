@@ -275,7 +275,7 @@ endif;
                         $list_options_doc_src = wp_get_attachment_url( $list_options_doc );
 
                         ?>
-                        <a href="<?php echo esc_url( list_options_doc_src )?>" download>
+                        <a href="<?php echo esc_url( $list_options_doc_src )?>" download>
                             <?php
                                 include( get_template_directory() . '/assets/img/icons/pdf-svg.html' );
                             ?>
