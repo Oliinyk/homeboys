@@ -210,3 +210,25 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 require get_template_directory() . '/inc/custom-fields/index.php';
 
 // require_once get_template_directory() . '/custom-importer.php';
+
+// Fancybox
+function theme_enqueue_fancybox() {
+
+    // Fancybox CSS
+    wp_enqueue_style(
+        'fancybox',
+        'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css',
+        [],
+        null
+    );
+
+    // Fancybox JS
+    wp_enqueue_script(
+        'fancybox',
+        'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js',
+        [],
+        null,
+        true
+    );
+}
+add_action('wp_enqueue_scripts', 'theme_enqueue_fancybox');

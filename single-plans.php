@@ -69,7 +69,9 @@ if ( ! empty( $gallery ) ) :
                         foreach( $gallery as $key => $item ) :
                             ?>
                             <div class="swiper-slide">
-                                <img src="<?php echo esc_url( $item )?>" alt="Photo <?php echo $key?>">
+                                <a href="<?php echo esc_url( $item ); ?>" class="js-fancybox-item" data-index="<?php echo $key; ?>">
+                                    <img src="<?php echo esc_url( $item )?>" alt="Photo <?php echo $key?>">
+                                </a>
                             </div>
                             <?php
                         endforeach;

@@ -144,7 +144,9 @@ const galleryMain = new Swiper('.gallery-main', {
     },
     thumbs: {
         swiper: galleryThumbs
-    }
+    },
+    preventClicks: false,
+    preventClicksPropagation: false,
 });
 
 // click on thumbnails
@@ -155,7 +157,29 @@ thumbSlides.forEach((thumb, index) => {
     });
 });
 
+// Fancybox
+const fancyItems = Array.from(
+    document.querySelectorAll('.js-fancybox-item')
+).map(el => ({
+    src: el.getAttribute('href'),
+    type: 'image',
+}));
 
+galleryMain.el.addEventListener('click', function (e) {
+    const link = e.target.closest('.js-fancybox-item');
+    if (!link) return;
+    e.preventDefault();
+    if (e.target.closest('.swiper-button-prev, .swiper-button-next')) {
+        return;
+    }
+    Fancybox.show(fancyItems, {
+        startIndex: galleryMain.realIndex,
+        Thumbs: false,
+        Toolbar: {
+            display: ["close"]
+        }
+    });
+});
 
 // Filter
 document.addEventListener('DOMContentLoaded', function () {
@@ -313,9 +337,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             for (let [key, value] of formData.entries()) {
 
-                // skip empty, -1, null
-                if (value === '' || value === '-1' || value === null) {
-                    continue;
+                const field = form.querySelector(`[name="${key}"]`);
+
+                // skip empty, -1, first option
+                if (field && field.tagName === 'SELECT') {
+                    if (value === '' || value === '-1' || field.selectedIndex === 0) {
+                        continue;
+                    }
                 }
 
                 // skip empty model
