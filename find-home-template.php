@@ -198,6 +198,9 @@ $homes = new WP_Query( $query_params );
                         get_template_part( 'template-parts/modules/__floor_home_card', null, [ 'data-floor' => $floor_data ] );
      
                     endwhile;
+
+                else :
+                    echo $not_found_message;
                 endif;
 
                 wp_reset_postdata();

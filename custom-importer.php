@@ -12,8 +12,8 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
     $processed_in_xml = 0; 
     $imported_count = 0;
 
-    echo "<div style='font-family:monospace; background:#f4f4f4; padding:20px; border:1px solid #ccc;'>";
-    echo "<h3>🚀 Запуск импорта: Тип [$post_type] | Offset: $offset | Limit: $limit</h3>";
+    echo "<div style='font-family:monospace; background:#f4f4f4; padding:20px; border:1px solid #ccc; line-height:1.5;'>";
+    echo "<h3>🚀 СТАРТ: Импорт [$post_type] (Offset: $offset, Limit: $limit)</h3>";
 
     foreach ($xml->channel->item as $item) {
         $wp_ns = $item->children('wp', true);
@@ -27,57 +27,51 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
         $old_id = (int)$wp_ns->post_id;
         $title = (string)$item->title;
         $post_name = (string)$wp_ns->post_name;
-        $post_date = (string)$wp_ns->post_date;
         $content = (string)$item->children('content', true)->encoded;
+        $post_date = (string)$wp_ns->post_date;
 
-        echo "<div style='background:#fff; border-left:4px solid #333; margin-bottom:15px; padding:10px;'>";
-        echo "<b>#$processed_in_xml (XML ID: $old_id)</b>: $title <br>";
+        echo "<div style='background:#fff; border-left:4px solid #333; margin-bottom:20px; padding:15px; box-shadow:0 2px 5px rgba(0,0,0,0.1);'>";
+        echo "<b>Запись #$processed_in_xml</b> (XML ID: $old_id) — <b>$title</b><br>";
 
+        // Проверка существования поста
         $db_post = $wpdb->get_row($wpdb->prepare("SELECT ID, post_type FROM $wpdb->posts WHERE ID = %d", $old_id));
         $target_id = $old_id;
 
+        // Базовый массив данных поста (комментарии всегда закрыты)
+        $post_data = [
+            'ID'             => $old_id,
+            'post_title'     => $title,
+            'post_content'   => $content,
+            'post_status'    => 'publish',
+            'comment_status' => 'closed',
+            'ping_status'    => 'closed',
+            'post_type'      => $post_type,
+            'post_name'      => $post_name,
+            'post_date'      => $post_date,
+            'post_author'    => 1,
+        ];
+
         if (!$db_post) {
-            // INSERT: Закрываем комментарии и пингбэки сразу
-            $wpdb->insert($wpdb->posts, [
-                'ID'             => $old_id,
-                'post_title'     => $title,
-                'post_content'   => $content,
-                'post_status'    => 'publish',
-                'comment_status' => 'closed', // КОММЕНТЫ ЗАКРЫТЫ
-                'ping_status'    => 'closed',
-                'post_type'      => $post_type,
-                'post_name'      => $post_name,
-                'post_date'      => $post_date,
-                'post_author'    => 1,
-            ]);
-            echo "<span style='color:green;'>[NEW]</span> Создан с ID $old_id. Комментарии закрыты.<br>";
-        } 
-        elseif ($db_post->post_type === $post_type) {
-            // UPDATE: Обновляем контент и закрываем комментарии
+            // Создаем новый с сохранением ID
+            $wpdb->insert($wpdb->posts, $post_data);
+            echo "<span style='color:green;'>[NEW]</span> Создан пост с ID $old_id. <br>";
+        } elseif ($db_post->post_type === $post_type) {
+            // Обновляем существующий
             $wpdb->update($wpdb->posts, [
                 'post_title'     => $title,
                 'post_content'   => $content,
-                'comment_status' => 'closed', // КОММЕНТЫ ЗАКРЫТЫ
+                'comment_status' => 'closed',
                 'ping_status'    => 'closed',
             ], ['ID' => $old_id]);
-            echo "<span style='color:blue;'>[UPDATE]</span> Обновлен ID $old_id. Комментарии закрыты.<br>";
-        } 
-        else {
-            // SHIFT: Создаем новый пост через wp_insert_post
-            $target_id = wp_insert_post([
-                'post_title'     => $title,
-                'post_content'   => $content,
-                'post_status'    => 'publish',
-                'comment_status' => 'closed', // КОММЕНТЫ ЗАКРЫТЫ
-                'ping_status'    => 'closed',
-                'post_type'      => $post_type,
-                'post_name'      => $post_name,
-                'post_date'      => $post_date,
-            ]);
-            echo "<span style='color:orange;'>[SHIFT]</span> ID $old_id занят. Новый ID: $target_id.<br>";
+            echo "<span style='color:blue;'>[UPDATE]</span> Обновлен существующий пост ID $old_id. <br>";
+        } else {
+            // ID занят другим типом — делаем SHIFT
+            unset($post_data['ID']);
+            $target_id = wp_insert_post($post_data);
+            echo "<span style='color:orange;'>[SHIFT]</span> ID $old_id занят ({$db_post->post_type}). Новый ID: <b>$target_id</b>.<br>";
         }
 
-        // МЕТА-ДАННЫЕ
+        // --- ОБРАБОТКА МЕТА-ДАННЫХ ($keys_map) ---
         $xml_metas = [];
         foreach ($wp_ns->postmeta as $meta) {
             $xml_metas[(string)$meta->meta_key] = (string)$meta->meta_value;
@@ -88,16 +82,52 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
             $type = (is_array($config) && isset($config['type'])) ? $config['type'] : 'text';
             $val = isset($xml_metas[$xml_key]) ? $xml_metas[$xml_key] : '';
 
+            if (empty($val)) {
+                echo " <small style='color:#999;'>— Поле $xml_key пусто, пропуск.</small><br>";
+                continue;
+            }
+
             if ($type === 'gallery') {
+                echo " — <b>Галерея [$carbon_key]</b>: поиск аттачментов...<br>";
                 _gallery_import($target_id, $carbon_key, $val, $xml);
-            } else {
+            } 
+            elseif ($type === 'file') {
+                echo " — <b>Файл [$carbon_key]</b> (Old ID: $val): ";
+                // Ищем файл в XML по его ID
+                $attach_node = $xml->xpath("//item[wp:post_id=$val]");
+                if ($attach_node) {
+                    $at_wp = $attach_node[0]->children('wp', true);
+                    $f_url   = (string)$at_wp->attachment_url;
+                    $f_title = (string)$attach_node[0]->title;
+                    $f_date  = (string)$at_wp->post_date;
+
+                    $file_id = download_external_file_with_original_name($f_url, $target_id, $f_title, $f_date);
+                    
+                    if ($file_id && !is_wp_error($file_id)) {
+                        update_post_meta($target_id, '_' . $carbon_key, $file_id);
+                        echo "<span style='color:green;'>Успешно (ID: $file_id)</span><br>";
+                    } else {
+                        echo "<span style='color:red;'>Ошибка загрузки</span><br>";
+                    }
+                } else {
+                    echo "<span style='color:red;'>не найден в XML</span><br>";
+                }
+            } 
+            else {
+                // Обычное текстовое поле
                 update_post_meta($target_id, '_' . $carbon_key, $val);
+                echo " — Поле [$carbon_key]: обновлено значение.<br>";
             }
         }
+        
         clean_post_cache($target_id);
         echo "</div>";
     }
-    echo "<h3>✅ Готово. Обработано: $imported_count</h3></div>";
+
+    echo "<h3>✅ СЕАНС ЗАВЕРШЕН</h3>";
+    echo "Импортировано в этот раз: <b>$imported_count</b>. Всего таких записей в XML: <b>$processed_in_xml</b>.";
+    echo "</div>";
+
     return "";
 }
 

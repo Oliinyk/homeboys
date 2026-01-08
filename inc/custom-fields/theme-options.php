@@ -175,9 +175,15 @@ function hb2_options_fields() {
             Field::make( 'text', 'find_home_title', __( 'Find Home Title', 'home-boys-2' ) )
                 ->set_default_value( 'Your Home' )
                 ->set_width( 50 ),
+            Field::make( 'textarea', 'not_found_posts_message', __( 'Posts not fount message', 'home-boys-2' ) )
+                ->set_rows( 2 )
+                ->set_default_value( "Sorry, we didn't find anything for you this time." ),    
+            Field::make( 'textarea', 'sold_marker_placeholder', __( 'Sold marker placeholder', 'home-boys-2' ) )
+                ->set_rows( 2 )
+                ->set_default_value( '<span class="label-top">Home Was</span><span>Sold</span>' ),    
             Field::make( 'text', 'footer_networks_title', __( 'Footer Networks Title', 'home-boys-2' ) )
                 ->set_default_value( 'Follow us' )
                 ->set_width( 50 ),
-            Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ) ,
+            Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ),
         ) );    
 };

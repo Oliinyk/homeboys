@@ -26,6 +26,11 @@ function hb2_meta_fields() {
         'singular_name' => __( 'Partner', 'home-boys-2' ),
     ];
 
+    $embeds_labels = [
+        'plural_name'   => __( 'Embeds', 'home-boys-2' ),
+        'singular_name' => __( 'Embed', 'home-boys-2' ),
+    ];
+
     // Options
     $plan_series_opt = hb2_get_series_options();
 
@@ -42,6 +47,12 @@ function hb2_meta_fields() {
         3 => 'Montana',
     ];
 
+    $galleries_types_opt = [
+        0 => __( 'All', 'home-boys-2' ),
+        1 => __( 'Not SOLD mark', 'home-boys-2' ),
+        2 => __( 'SOLD mark', 'home-boys-2' ),
+    ]; 
+
     $locations_opt = hb2_get_locations_options();   
 
     // Hero variable section
@@ -51,6 +62,10 @@ function hb2_meta_fields() {
             Field::make( 'complex', 'hero_section', __( 'Change variable', 'home-boys-2' )  )
                 ->set_max( 1 )
                 ->setup_labels( $hero_labels )
+                ->add_fields( 'simple', __( 'Simple', 'home-boys-2' ), array(
+                    Field::make( 'text', 'simple_hero_small_title', __( 'Small title', 'home-boys-2' ) ),
+                    Field::make( 'text', 'simple_hero_title', __( 'Title', 'home-boys-2' ) ),
+                ) )
                 ->add_fields( 'home', __( 'Home style', 'home-boys-2' ), array(
                     Field::make( 'complex', 'home_hero_slider', __( 'Slider', 'home-boys-2' ) )
                         ->setup_labels( $slider_labels )
@@ -247,13 +262,55 @@ function hb2_meta_fields() {
                 ->add_options( $locations_opt )
         ) );
 
-    Container::make( 'post_meta', __( 'Gallery data' ) )
+    // Galeries posts type    
+    Container::make( 'post_meta', __( 'Gallery data', 'home-boys-2' ) )
         ->where( 'post_type', '=', 'galleries' )
         ->add_fields( array(
             Field::make( 'text', 'gallery_name', __( 'Gallery Name', 'home-boys-2' ) )
                 ->set_required( true ),
+            Field::make( 'select', 'gallery_series', __( 'Series', 'home-boys-2' ) )
+                ->add_options( $plan_series_opt )
+                ->set_width(50),
+            Field::make( 'select', 'gallery_manufacturer', __( 'Manufacturer', 'home-boys-2' ) )
+                ->add_options( $plan_manufacturer_opt )
+                ->set_width(50),
+            Field::make( 'complex', 'gallery_video_embeds', __( 'Video embeds', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $embeds_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'gve_title', __( 'Title', 'home-boys-2' ) ),
+                    Field::make( 'textarea', 'gve_code', __( 'Embed code', 'home-boys-2' ) )
+                        ->set_required( true ),
+                ) )
+                ->set_header_template( '
+                    <% if (gve_title) { %>
+                        <%- gve_title %>
+                    <% } %>
+                ' ),
+            Field::make( 'complex', 'gallery_tours', __( 'Tour embeds', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $embeds_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'gvt_title', __( 'Title', 'home-boys-2' ) ),
+                    Field::make( 'text', 'gvt_url', __( 'Tour URL', 'home-boys-2' ) )
+                        ->set_required( true ),
+                ) )
+                ->set_header_template( '
+                    <% if (gvt_title) { %>
+                        <%- gvt_title %>
+                    <% } %>
+                ' ),
             Field::make( 'textarea', 'gallery_description', __( 'Gallery Description', 'home-boys-2' ) ),
             Field::make( 'media_gallery', 'gallery_photos', __( 'Gallery Photos', 'home-boys-2' ) )
                 ->help_text( __( 'First photo will be featured', 'home-boys-2' ) ),    
         ) );
+
+    // Gallery page
+    Container::make( 'post_meta', __( 'Display Galleries', 'home-boys-2' ) )
+        ->where( 'post_template', '=', 'galleries-template.php' )
+        ->set_context( 'side')
+        ->add_fields( array(
+            Field::make( 'select', 'display_gelleries_type', __( 'Select type', 'home-boys-2' ) )
+                ->add_options( $galleries_types_opt ),
+        ) );    
 };
