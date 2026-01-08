@@ -40,9 +40,17 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                 ?>
                 <div class="filter-group">
                     <div class="filter-label">Price</div>
+
                     <div class="value-display">
-                        <div class="value-box js-value-display">$ <?php echo number_format($price_min_value, 0, '.', ','); ?></div>
-                        <div class="value-box js-value-display">$ <?php echo number_format($max_price_value, 0, '.', ','); ?></div>
+                        <input type="text"
+                            class="value-box js-value-input js-min-input"
+                            data-type="price"
+                            value="<?php echo number_format($price_min_value, 0, '.', ','); ?>">
+
+                        <input type="text"
+                            class="value-box js-value-input js-max-input"
+                            data-type="price"
+                            value="<?php echo number_format($max_price_value, 0, '.', ','); ?>">
                     </div>
 
                     <div class="slider-container">
@@ -78,9 +86,15 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                     <div class="filter-label">Size</div>
 
                     <div class="value-display">
-                        <div class="value-box js-value-display"><?php echo $min_size_value; ?> ft²</div>
+                        <input type="text"
+                            class="value-box js-value-input js-min-input"
+                            data-type="size"
+                            value="<?php echo $min_size_value; ?>">
 
-                        <div class="value-box js-value-display"><?php echo $max_size_value; ?> ft²</div>
+                        <input type="text"
+                            class="value-box js-value-input js-max-input"
+                            data-type="size"
+                            value="<?php echo $max_size_value; ?>">
                     </div>
 
                     <div class="slider-container">

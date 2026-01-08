@@ -156,126 +156,180 @@ thumbSlides.forEach((thumb, index) => {
 });
 
 
+
 // Filter
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+
+    // RANGE + INPUT SYNC
     const formatters = {
-        price: (val) => '$ ' + parseInt(val).toLocaleString('en-US'),
-        size: (val) => parseInt(val).toLocaleString('en-US') + ' ft²'
+        price: {
+            format: v => '$ ' + Number(v).toLocaleString('en-US'),
+            parse: v => parseInt(v.replace(/[^\d]/g, ''), 10)
+        },
+        size: {
+            format: v => Number(v).toLocaleString('en-US') + ' ft²',
+            parse: v => parseInt(v.replace(/[^\d]/g, ''), 10)
+        }
     };
 
-    // Initializing all sliders
     document.querySelectorAll('.filter-group').forEach(group => {
-        const inputs = group.querySelectorAll('.js-range-input');
-        if (inputs.length !== 2) return;
+        const ranges = group.querySelectorAll('.js-range-input');
+        const inputs = group.querySelectorAll('.js-value-input');
+        const rangeLine = group.querySelector('.js-slider-range');
 
+        if (ranges.length !== 2 || inputs.length !== 2 || !rangeLine) return;
+
+        const [minRange, maxRange] = ranges;
         const [minInput, maxInput] = inputs;
-        const range = group.querySelector('.js-slider-range');
-        const displays = group.querySelectorAll('.js-value-display');
-        
-        if (!range || displays.length !== 2) return;
 
-        const [minDisplay, maxDisplay] = displays;
-        const min = parseInt(minInput.min);
-        const max = parseInt(minInput.max);
-        const type = minInput.dataset.type;
-        const format = formatters[type];
+        const min = +minRange.min;
+        const max = +minRange.max;
+        const type = minRange.dataset.type;
+        const { format, parse } = formatters[type];
 
-        function update() {
-            let minVal = parseInt(minInput.value);
-            let maxVal = parseInt(maxInput.value);
-            
-            // Minimum difference 2% of range
-            const minGap = (max - min) * 0.02;
+        const minGap = (max - min) * 0.02;
+
+        function clampValues() {
+            let minVal = +minRange.value;
+            let maxVal = +maxRange.value;
+
             if (minVal > maxVal - minGap) {
                 minVal = maxVal - minGap;
-                minInput.value = Math.max(min, minVal);
+                minRange.value = minVal;
             }
-            
-            minVal = parseInt(minInput.value);
-            maxVal = parseInt(maxInput.value);
-            
-            // Updating the display
-            minDisplay.textContent = format(minVal);
-            maxDisplay.textContent = format(maxVal);
-            
-            // Updating the red line
-            const leftPercent = ((minVal - min) / (max - min)) * 100;
-            const widthPercent = ((maxVal - minVal) / (max - min)) * 100;
-            range.style.left = leftPercent + '%';
-            range.style.width = widthPercent + '%';
+
+            if (maxVal < minVal + minGap) {
+                maxVal = minVal + minGap;
+                maxRange.value = maxVal;
+            }
         }
 
-        minInput.addEventListener('input', update);
-        maxInput.addEventListener('input', update);
-        update();
+        function updateUI() {
+            const minVal = +minRange.value;
+            const maxVal = +maxRange.value;
+
+            minInput.value = format(minVal);
+            maxInput.value = format(maxVal);
+
+            const left = ((minVal - min) / (max - min)) * 100;
+            const width = ((maxVal - minVal) / (max - min)) * 100;
+
+            rangeLine.style.left = left + '%';
+            rangeLine.style.width = width + '%';
+        }
+
+        // RANGE → INPUT
+        minRange.addEventListener('input', () => {
+            clampValues();
+            updateUI();
+        });
+
+        maxRange.addEventListener('input', () => {
+            clampValues();
+            updateUI();
+        });
+
+        // INPUT → RANGE
+        function handleTextInput(e, isMin) {
+            let val = parse(e.target.value);
+
+            if (isNaN(val)) {
+                updateUI();
+                return;
+            }
+
+            val = Math.max(min, Math.min(max, val));
+
+            if (isMin) {
+                minRange.value = val;
+            } else {
+                maxRange.value = val;
+            }
+
+            clampValues();
+            updateUI();
+        }
+
+        minInput.addEventListener('blur', e => handleTextInput(e, true));
+        maxInput.addEventListener('blur', e => handleTextInput(e, false));
+
+        minInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') e.target.blur();
+        });
+
+        maxInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') e.target.blur();
+        });
+
+        updateUI();
     });
 
-    // Initialize all counters (arrows only, input prohibited)
+
+    // COUNTERS (BEDS / BATHS)
     document.querySelectorAll('.counter-group').forEach(group => {
         const input = group.querySelector('.js-counter-input');
         const downBtn = group.querySelector('.js-counter-down');
         const upBtn = group.querySelector('.js-counter-up');
-        
+
         if (!input || !downBtn || !upBtn) return;
-        
-        const min = parseInt(input.min);
-        const max = parseInt(input.max);
-        
+
+        const min = +input.min;
+        const max = +input.max;
+
         function update() {
-            const val = parseInt(input.value);
+            const val = +input.value;
             downBtn.disabled = val <= min;
             upBtn.disabled = val >= max;
         }
-        
+
         downBtn.addEventListener('click', () => {
-            const val = parseInt(input.value);
+            let val = +input.value;
             if (val > min) {
                 input.value = val - 1;
                 update();
             }
         });
-        
+
         upBtn.addEventListener('click', () => {
-            const val = parseInt(input.value);
+            let val = +input.value;
             if (val < max) {
                 input.value = val + 1;
                 update();
             }
         });
-        
+
         update();
     });
 
-    // Form submission processing - exclude unselected selects
+    // FORM SUBMIT
     const form = document.querySelector('.filter-container');
+
     if (form) {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             e.preventDefault();
-            
-            // We collect only the necessary data
+
             const formData = new FormData(form);
             const params = new URLSearchParams();
-            
+
             for (let [key, value] of formData.entries()) {
-                // Skip selects with "-1" or the first index
-                const field = form.querySelector(`[name="${key}"]`);
-                
-                if (field.tagName === 'SELECT') {
-                    if (value === '-1' || value === '' || field.selectedIndex === 0) {
-                        continue;
-                    }
+
+                // skip empty, -1, null
+                if (value === '' || value === '-1' || value === null) {
+                    continue;
                 }
-                
-                // Skipping an empty model input
+
+                // skip empty model
                 if (key === 'model' && value.trim() === '') {
                     continue;
                 }
-                
+
                 params.append(key, value);
             }
-            
-            // Redirect to filter results
-            window.location.href = form.action + '?' + params.toString();
+
+            const query = params.toString();
+            window.location.href = query
+                ? `${form.action}?${query}`
+                : form.action;
         });
     }
 });
