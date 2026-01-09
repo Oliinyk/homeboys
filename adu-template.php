@@ -35,10 +35,14 @@ $locations_list     = apply_filters( 'hb2_locations_list', true );
 $manufacturer_arr   = apply_filters( 'hb2_get_manufacturers_list', true );
 $series_arr         = apply_filters( 'hb2_get_series_list', true );
 
-get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] );
+get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] ); // Баннер или в этом файле или просто ниже, перед контентом
+
+
 
 echo $content;
 ?>
+
+
 <section class="home-gallery-section">
         <div class="container">
             <div class="controls-sort">
