@@ -21,7 +21,7 @@ if ( isset( $args['id'] ) ) {
     $price_param = [
         'key'     => '_plan_price',
         'compare' => 'BETWEEN',
-        'value'   => [ $orient_price-1000, $orient_price+1000 ],
+        'value'   => [ $orient_price-5000, $orient_price+5000 ],
         'type'    => 'SIGNED',
     ];
 
@@ -41,7 +41,7 @@ $on_display       = apply_filters( 'hb2_on_display_arr', [] );
 <section class="find-home-section">
     <div class="container">
         <h4 class="subtitle-section">View</h4>
-        
+
         <h2 class="title-section">Similar Homes</h2>
 
         <div class="card-list sm-col-2">

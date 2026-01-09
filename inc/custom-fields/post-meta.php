@@ -66,6 +66,13 @@ function hb2_meta_fields() {
                     Field::make( 'text', 'simple_hero_small_title', __( 'Small title', 'home-boys-2' ) ),
                     Field::make( 'text', 'simple_hero_title', __( 'Title', 'home-boys-2' ) ),
                 ) )
+                ->add_fields( 'single_banner', __( 'Single banner', 'home-boys-2' ), array(
+                    Field::make( 'text', 'sb_hero_title', __( 'Title', 'home-boys-2' ) )
+                        ->set_width(75),
+                    Field::make( 'image', 'sb_hero_image', __( 'Banner image', 'home-boys-2' ) )
+                        ->set_width(25)
+                        ->set_value_type('url'),
+                ) )
                 ->add_fields( 'home', __( 'Home style', 'home-boys-2' ), array(
                     Field::make( 'complex', 'home_hero_slider', __( 'Slider', 'home-boys-2' ) )
                         ->setup_labels( $slider_labels )
@@ -214,36 +221,19 @@ function hb2_meta_fields() {
             Field::make( 'media_gallery', 'plan_photos', __( 'Photos', 'home-boys-2' ) )     
         ) );
 
+    Container::make( 'post_meta', __( 'Is ADU' ) )
+        ->where( 'post_type', '=', 'plans' )
+        ->set_context( 'side' )
+        ->add_fields( array(
+            Field::make( 'checkbox', 'is_adu', __( 'Mark as ADU', 'home-boys-2' ) ),
+        ) );
+
     Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
         ->where( 'post_type', 'IN', ['plans', 'galleries'] )
         ->set_context( 'side' )
         ->add_fields( array(
-            Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) )
-                ->set_width( 20 )
-                ->set_default_value( false ),
+            Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) ),
         ) );
-
-    // Contact form
-    // Container::make( 'post_meta', __( 'Contact Form' ) )
-    //     ->add_fields( array(
-    //         Field::make( 'checkbox', 'form_enabled', __( 'Enable Contact Form', 'home-boys-2' ) )
-    //             ->set_width( 20 )
-    //             ->set_default_value( true ),
-    //         Field::make( 'text', 'form_title', __( 'Form title', 'home-boys-2' ) )
-    //             ->set_width( 80 )
-    //             ->set_default_value( 'Contact <span class="primary">Us</span> For A Personalized Consultation' ),
-    //         Field::make( 'textarea', 'form_code', __( 'Form shortcode', 'home-boys-2' ) )
-    //             ->set_default_value( '[contact-form-7 id="19e4962" title="Call form"]' ),
-    //         Field::make( 'image', 'form_r_img', __( 'Right side image', 'home-boys-2' ) )
-    //             ->set_value_type( 'url' )
-    //             ->set_width( 30 ),
-    //         Field::make( 'text', 'form_r_title', __( 'Right side title', 'home-boys-2' ) )
-    //             ->set_default_value( 'Steve Randock Jr' )
-    //             ->set_width( 35 ),
-    //         Field::make( 'text', 'form_r_subtitle', __( 'Right side subtitle', 'home-boys-2' ) )
-    //             ->set_default_value( 'General Manager' )
-    //             ->set_width( 35 ),
-    //     ) );
 
     // Stories post type meta
     Container::make( 'post_meta', __( 'Story content', 'home-boys-2' ) )

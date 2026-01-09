@@ -17,6 +17,7 @@ $baths              = carbon_get_post_meta( $p_ID, 'plan_baths' );
 $view_plan_doc      = carbon_get_post_meta( $p_ID, 'plan_brochure' );
 $standart_features  = carbon_get_post_meta( $p_ID, 'plan_brochure2' );
 $list_options_doc   = carbon_get_post_meta( $p_ID, 'plan_brochure3' );
+$description        = carbon_get_post_meta( $p_ID, 'plan_description' );
 $content            = get_the_content();
 
 $uns_photos    = [];
@@ -25,6 +26,10 @@ $on_display    = apply_filters( 'hb2_on_display_arr', [] );
 
 $manuf_list  = apply_filters( 'hb2_get_manufacturers_list', [] );
 $series_list = apply_filters( 'hb2_get_series_list', [] );
+
+echo ('<pre>');
+    var_dump( maybe_unserialize( $photos[0] ) );
+echo ('</pre>');
 
 if ( ! $thumbnail ) {
     $thumbnail = apply_filters( 'hb2_get_random_image', false );
@@ -175,7 +180,9 @@ endif;
                 </div>
                 <?php
                 endif;
-            
+                if ( ! empty( $description ) ) :
+                    echo $description;
+                endif;
 
                 if ( ! empty( $content ) ) :
                     echo $content;

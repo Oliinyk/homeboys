@@ -1,8 +1,7 @@
 <?php
-$id = $args['id'];
+$partners       = carbon_get_theme_option( 'partners' );
+$section_title  = carbon_get_theme_option( 'partners_section_title' );
 
-$partners       = carbon_get_post_meta( $id, 'partners' );
-$section_title  = carbon_get_post_meta( $id, 'partners_section_title' );
 if ( empty( $partners ) ) {
     return;
 }
@@ -10,7 +9,7 @@ if ( empty( $partners ) ) {
 <section class="partner-section">
     <div class="container">
         <?php
-        if ( ! empty( $section_title ) ) :
+        if ( isset( $args['title'] ) && ! empty( $section_title ) ) :
             ?>
             <h3 class="subtitle-section">
                 <?php echo __( $section_title, 'home-boys-2' ) ?>
