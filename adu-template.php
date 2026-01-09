@@ -31,6 +31,9 @@ $query_params = [
 $query              = new WP_Query( $query_params );
 $content            = get_the_content();
 $not_found_message  = carbon_get_theme_option( 'not_found_posts_message' );
+$locations_list     = apply_filters( 'hb2_locations_list', true );
+$manufacturer_arr   = apply_filters( 'hb2_get_manufacturers_list', true );
+$series_arr         = apply_filters( 'hb2_get_series_list', true );
 
 get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] );
 
@@ -73,8 +76,10 @@ echo $content;
                         $plan_series    = carbon_get_post_meta( $plan_id, 'plan_series' );
                         $plan_locations = carbon_get_post_meta( $plan_id, 'plan_location' );
 
+                        // var_dump( maybe_unserialize($plan_photos) );
+
                         if ( empty( $thumbmail_id ) &&  ! empty( $plan_photos ) ) {
-                            $gallery = unserialize( $plan_photos[0] );
+                            $gallery = maybe_unserialize( $plan_photos );
 
                             if ( is_string( $gallery ) ) {
                                 $gallery = unserialize( $gallery );
