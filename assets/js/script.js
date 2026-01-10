@@ -5,10 +5,43 @@ const closeNav = document.getElementById('closeNav');
 const overlay = document.getElementById('navOverlay');
 const dropdowns = document.querySelectorAll('.has-dropdown > button');
 
+// Header hide / show on scroll
+const siteHeader = document.querySelector('.site-header');
+let lastScrollY = window.scrollY;
+const headerOffset = 120; // px before hide
+
+window.addEventListener('scroll', () => {
+    if (!siteHeader) return;
+
+    // do not hide header when mobile menu is open
+    if (nav.classList.contains('open')) return;
+
+    const currentScroll = window.scrollY;
+
+    // always show header near top
+    if (currentScroll <= headerOffset) {
+        siteHeader.classList.remove('is-hidden');
+        lastScrollY = currentScroll;
+        return;
+    }
+
+    if (currentScroll > lastScrollY) {
+        // scroll down
+        siteHeader.classList.add('is-hidden');
+    } else {
+        // scroll up
+        siteHeader.classList.remove('is-hidden');
+    }
+
+    lastScrollY = currentScroll;
+});
+
+
 // Open mobile menu
 burger.addEventListener('click', () => {
     nav.classList.add('open');
     overlay.classList.add('active');
+    burger.classList.add('active');
     document.body.style.overflow = 'hidden';
 });
 
@@ -16,6 +49,7 @@ burger.addEventListener('click', () => {
 function closeMobileMenu() {
     nav.classList.remove('open');
     overlay.classList.remove('active');
+    burger.classList.remove('active');
     document.body.style.overflow = '';
 }
 
@@ -165,21 +199,21 @@ const fancyItems = Array.from(
     type: 'image',
 }));
 
-galleryMain.el.addEventListener('click', function (e) {
+document.addEventListener('click', function (e) {
     const link = e.target.closest('.js-fancybox-item');
     if (!link) return;
     e.preventDefault();
-    if (e.target.closest('.swiper-button-prev, .swiper-button-next')) {
-        return;
-    }
+    e.stopPropagation();
+    const activeIndex = galleryMain.realIndex ?? galleryMain.activeIndex;
+
     Fancybox.show(fancyItems, {
-        startIndex: galleryMain.realIndex,
+        startIndex: activeIndex,
         Thumbs: false,
         Toolbar: {
             display: ["close"]
         }
     });
-});
+}, true);
 
 // Filter
 document.addEventListener('DOMContentLoaded', function () {
