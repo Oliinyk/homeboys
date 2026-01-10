@@ -37,13 +37,23 @@ $series_arr         = apply_filters( 'hb2_get_series_list', true );
 
 get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] ); // Баннер или в этом файле или просто ниже, перед контентом
 
-
-
-echo $content;
 ?>
 
+    <section class="hero-section hero-img">
+        <div class="container">
+            <h1 class="title-section">ADU Homes</h1>
+        </div>
+    </section>
 
-<section class="home-gallery-section">
+    <section class="info-section">
+        <div class="container">
+            <?php
+            echo $content;
+            ?>
+        </div>
+    </section>
+
+    <section class="home-gallery-section">
         <div class="container">
             <div class="controls-sort">
                 <span>Sort by:</span>

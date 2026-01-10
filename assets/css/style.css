@@ -64,6 +64,9 @@ Version: 1.0
 	--button-gradient-start: linear-gradient(90deg, #9D1818 0%, #D43031 100%);
 	--button-gradient-end: linear-gradient(270deg, #9D1818 0%, #D43031 100%);
 }
+html {
+    margin-top: 0 !important;
+}
 body {
 	font-family: "Montserrat", sans-serif;
 	font-optical-sizing: auto;
@@ -72,6 +75,7 @@ body {
 	font-style: normal;
 	line-height: 1.5;
 	color: var(--dark-gray);
+	padding-top: 64px;
 }
 .btn,
 a {
@@ -147,6 +151,7 @@ a.primary {
 	align-items: center;
 	justify-content: space-between;
 	padding: 10px 16px;
+	max-height: 64px;
 }
 
 .logo img {
@@ -828,6 +833,36 @@ section {
 }
 .swiper-pagination-bullet-active {
 	background-color: var(--white);
+}
+
+/* hero with image */
+.hero-section.hero-img {
+	background-image: url("../img/adu-hero.png");
+	background-size: cover;
+	height: 236px;
+    max-height: 236px;
+	color: var(--white);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+}
+.hero-img .title-section {
+	margin: 0;
+}
+
+/* info-section */
+.info-section {
+	text-align: center;
+	padding: 50px 0 35px;
+}
+.info-section .subtitle-section {
+	max-width: 650px;
+	margin: 0 auto 25px;
+}
+.info-section .section-description {
+	max-width: 850px;
+	margin: 0 auto;
 }
 
 /* welcome-section */
@@ -1678,10 +1713,12 @@ footer {
 @media (min-width: 768px) {
 	body {
 		font-size: 16px;
+		padding-top: 90px;
 	}
 
 	.header-inner {
-		padding: 20px 16px;
+		padding: 22px 16px;
+		max-height: 90px;
 	}
 
 	.swiper-pagination {

@@ -225,4 +225,4 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 
 require get_template_directory() . '/inc/custom-fields/index.php';
 
-// require_once get_template_directory() . '/custom-importer.php';
+require_once get_template_directory() . '/custom-importer.php';
