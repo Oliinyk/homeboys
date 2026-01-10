@@ -20,41 +20,14 @@ $list_options_doc   = carbon_get_post_meta( $p_ID, 'plan_brochure3' );
 $description        = carbon_get_post_meta( $p_ID, 'plan_description' );
 $content            = get_the_content();
 
-$uns_photos    = [];
-$gallery       = [];
+$gallery       = array_unique( maybe_unserialize( $photos ) );
 $on_display    = apply_filters( 'hb2_on_display_arr', [] );
 
 $manuf_list  = apply_filters( 'hb2_get_manufacturers_list', [] );
 $series_list = apply_filters( 'hb2_get_series_list', [] );
 
-echo ('<pre>');
-    var_dump( maybe_unserialize( $photos[0] ) );
-echo ('</pre>');
-
 if ( ! $thumbnail ) {
     $thumbnail = apply_filters( 'hb2_get_random_image', false );
-}
-
-array_push( $gallery, $thumbnail );
-
-if ( ! empty( $photos ) ) {
-    if ( is_array( $photos ) ) {
-        foreach ( $photos as $item_f ) {
-            if ( ! is_array( $item_f ) ) {
-                $anf = unserialize( $item_f );
-                if ( ! is_array( $anf ) ) {
-                    $ans = unserialize( $anf );
-                    $url = wp_get_attachment_image_url( $ans );
-
-                    if ( $url ) {
-                        array_push( $gallery, $url );
-                    } else {
-                        array_push( $gallery, apply_filters( 'hb2_get_random_image', true ) );
-                    }
-                }
-            }
-        }
-    }
 }
 
 ?>
@@ -73,10 +46,14 @@ if ( ! empty( $gallery ) ) :
                     <div class="swiper-wrapper">
                         <?php
                         foreach( $gallery as $key => $item ) :
+                            $img_url = wp_get_attachment_image_url( intval($item), 'full' );
+                            if ( empty( $img_url ) ) {
+                                    continue;
+                                }
                             ?>
                             <div class="swiper-slide">
-                                <a href="<?php echo esc_url( $item ); ?>" class="js-fancybox-item" data-index="<?php echo $key; ?>">
-                                    <img src="<?php echo esc_url( $item )?>" alt="Photo <?php echo $key?>">
+                                <a href="<?php echo esc_url( $img_url ); ?>" class="js-fancybox-item" data-index="<?php echo $key; ?>">
+                                    <img src="<?php echo esc_url( $img_url )?>" alt="Photo <?php echo $key?>">
                                 </a>
                             </div>
                             <?php
@@ -111,9 +88,13 @@ if ( ! empty( $gallery ) ) :
                         <div class="swiper-wrapper">
                             <?php
                             foreach ( $gallery as $key => $item ) :
+                                $img_url = wp_get_attachment_image_url( intval($item) );
+                                if ( empty( $img_url ) ) {
+                                    continue;
+                                }
                                 ?>
                                 <div class="swiper-slide">
-                                    <img src="<?php echo esc_url( $item )?>" alt="Thumb <?php echo $key?>">
+                                    <img src="<?php echo esc_url( $img_url )?>" alt="Thumb <?php echo $key?>">
                                 </div>
                                 <?php
                             endforeach;

@@ -167,11 +167,7 @@ $homes = new WP_Query( $query_params );
                         $plan_locations = carbon_get_post_meta( $plan_id, 'plan_location' );
 
                         if ( empty( $thumbmail_id ) &&  ! empty( $plan_photos ) ) {
-                            $gallery = unserialize( $plan_photos[0] );
-
-                            if ( is_string( $gallery ) ) {
-                                $gallery = unserialize( $gallery );
-                            }
+                            $gallery = maybe_unserialize( $plan_photos );
 
                             $thumbmail_id = $gallery[0];
                         }

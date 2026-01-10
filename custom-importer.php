@@ -5,15 +5,15 @@
 function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offset = 0) {
     global $wpdb;
     
-    if (!file_exists($xml_path)) return "<div style='color:red;'>СТОП: Файл $xml_path не найден.</div>";
+    if (!file_exists($xml_path)) return "<div style='color:red;'>СТОП: Файл не найден.</div>";
     $xml = simplexml_load_file($xml_path);
-    if (!$xml) return "<div style='color:red;'>СТОП: Ошибка парсинга XML.</div>";
+    if (!$xml) return "<div style='color:red;'>СТОП: Ошибка XML.</div>";
 
     $processed_in_xml = 0; 
     $imported_count = 0;
 
-    echo "<div style='font-family:monospace; background:#f4f4f4; padding:20px; border:1px solid #ccc; line-height:1.5;'>";
-    echo "<h3>🚀 СТАРТ: Импорт [$post_type] (Offset: $offset, Limit: $limit)</h3>";
+    echo "<div style='font-family:monospace; background:#f4f4f4; padding:20px; border:1px solid #ccc;'>";
+    echo "<h3>🚀 СИНХРОНИЗАЦИЯ: [$post_type] | Offset: $offset | Limit: $limit</h3>";
 
     foreach ($xml->channel->item as $item) {
         $wp_ns = $item->children('wp', true);
@@ -26,108 +26,92 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
         $imported_count++;
         $old_id = (int)$wp_ns->post_id;
         $title = (string)$item->title;
-        $post_name = (string)$wp_ns->post_name;
         $content = (string)$item->children('content', true)->encoded;
-        $post_date = (string)$wp_ns->post_date;
+        $post_name = (string)$wp_ns->post_name;
 
-        echo "<div style='background:#fff; border-left:4px solid #333; margin-bottom:20px; padding:15px; box-shadow:0 2px 5px rgba(0,0,0,0.1);'>";
-        echo "<b>Запись #$processed_in_xml</b> (XML ID: $old_id) — <b>$title</b><br>";
+        echo "<div style='background:#fff; border-left:4px solid #333; margin-bottom:15px; padding:10px;'>";
+        echo "<b>Запись #$processed_in_xml</b> (XML ID: $old_id) — $title <br>";
 
-        // Проверка существования поста
-        $db_post = $wpdb->get_row($wpdb->prepare("SELECT ID, post_type FROM $wpdb->posts WHERE ID = %d", $old_id));
-        $target_id = $old_id;
-
-        // Базовый массив данных поста (комментарии всегда закрыты)
-        $post_data = [
-            'ID'             => $old_id,
-            'post_title'     => $title,
-            'post_content'   => $content,
-            'post_status'    => 'publish',
-            'comment_status' => 'closed',
-            'ping_status'    => 'closed',
-            'post_type'      => $post_type,
-            'post_name'      => $post_name,
-            'post_date'      => $post_date,
-            'post_author'    => 1,
-        ];
-
-        if (!$db_post) {
-            // Создаем новый с сохранением ID
-            $wpdb->insert($wpdb->posts, $post_data);
-            echo "<span style='color:green;'>[NEW]</span> Создан пост с ID $old_id. <br>";
-        } elseif ($db_post->post_type === $post_type) {
-            // Обновляем существующий
-            $wpdb->update($wpdb->posts, [
-                'post_title'     => $title,
-                'post_content'   => $content,
-                'comment_status' => 'closed',
-                'ping_status'    => 'closed',
-            ], ['ID' => $old_id]);
-            echo "<span style='color:blue;'>[UPDATE]</span> Обновлен существующий пост ID $old_id. <br>";
-        } else {
-            // ID занят другим типом — делаем SHIFT
-            unset($post_data['ID']);
-            $target_id = wp_insert_post($post_data);
-            echo "<span style='color:orange;'>[SHIFT]</span> ID $old_id занят ({$db_post->post_type}). Новый ID: <b>$target_id</b>.<br>";
+        // --- ЛОГИКА ПОИСКА МОСТА ---
+        $post_id_in_db = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE ID = %d AND post_type = %s", $old_id, $post_type));
+        
+        if (!$post_id_in_db) {
+            $post_id_in_db = $wpdb->get_var($wpdb->prepare(
+                "SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_type = %s LIMIT 1", 
+                $post_name, $post_type
+            ));
+            if ($post_id_in_db) echo "<span style='color:purple;'>[MATCHED BY SLUG]</span> Найден старый пост с ID $post_id_in_db <br>";
         }
 
-        // --- ОБРАБОТКА МЕТА-ДАННЫХ ($keys_map) ---
+        $target_id = $post_id_in_db;
+
+        if (!$target_id) {
+            $wpdb->insert($wpdb->posts, [
+                'ID'             => $old_id,
+                'post_title'     => $title,
+                'post_content'   => $content,
+                'post_status'    => 'publish',
+                'comment_status' => 'closed',
+                'ping_status'    => 'closed',
+                'post_type'      => $post_type,
+                'post_name'      => $post_name,
+                'post_date'      => (string)$wp_ns->post_date,
+                'post_author'    => 1,
+            ]);
+            $target_id = $old_id;
+            echo "<span style='color:green;'>[NEW]</span> Создан с сохранением ID.<br>";
+        } else {
+            $wpdb->update($wpdb->posts, [
+                'post_title'     => $title, 
+                'post_content'   => $content, 
+                'comment_status' => 'closed',
+                'ping_status'    => 'closed',
+                'post_name'      => $post_name
+            ], ['ID' => $target_id]);
+            echo "<span style='color:blue;'>[UPDATE]</span> Синхронизировано с ID $target_id.<br>";
+        }
+
         $xml_metas = [];
         foreach ($wp_ns->postmeta as $meta) {
             $xml_metas[(string)$meta->meta_key] = (string)$meta->meta_value;
         }
 
         foreach ($keys_map as $xml_key => $config) {
-            $carbon_key = is_array($config) ? (isset($config['key']) ? $config['key'] : $config[0]) : $config;
-            $type = (is_array($config) && isset($config['type'])) ? $config['type'] : 'text';
+            $carbon_key = is_array($config) ? $config['key'] : $config;
+            $type = (isset($config['type'])) ? $config['type'] : 'text';
             $val = isset($xml_metas[$xml_key]) ? $xml_metas[$xml_key] : '';
 
-            if (empty($val)) {
-                echo " <small style='color:#999;'>— Поле $xml_key пусто, пропуск.</small><br>";
-                continue;
-            }
+            if (empty($val)) continue;
 
             if ($type === 'gallery') {
-                echo " — <b>Галерея [$carbon_key]</b>: поиск аттачментов...<br>";
+                echo "Начинаю импорт галереи<br>";
                 _gallery_import($target_id, $carbon_key, $val, $xml);
-            } 
-            elseif ($type === 'file') {
-                echo " — <b>Файл [$carbon_key]</b> (Old ID: $val): ";
-                // Ищем файл в XML по его ID
+            } elseif ($type === 'file') {
                 $attach_node = $xml->xpath("//item[wp:post_id=$val]");
                 if ($attach_node) {
                     $at_wp = $attach_node[0]->children('wp', true);
-                    $f_url   = (string)$at_wp->attachment_url;
-                    $f_title = (string)$attach_node[0]->title;
-                    $f_date  = (string)$at_wp->post_date;
-
-                    $file_id = download_external_file_with_original_name($f_url, $target_id, $f_title, $f_date);
-                    
+                    $file_id = download_external_file_with_original_name(
+                        (string)$at_wp->attachment_url, 
+                        $target_id, 
+                        (string)$attach_node[0]->title, 
+                        (string)$at_wp->post_date
+                    );
                     if ($file_id && !is_wp_error($file_id)) {
                         update_post_meta($target_id, '_' . $carbon_key, $file_id);
-                        echo "<span style='color:green;'>Успешно (ID: $file_id)</span><br>";
-                    } else {
-                        echo "<span style='color:red;'>Ошибка загрузки</span><br>";
+                        echo " — Файл [$carbon_key]: OK (ID: $file_id)<br>";
                     }
-                } else {
-                    echo "<span style='color:red;'>не найден в XML</span><br>";
                 }
-            } 
-            else {
-                // Обычное текстовое поле
-                update_post_meta($target_id, '_' . $carbon_key, $val);
-                echo " — Поле [$carbon_key]: обновлено значение.<br>";
+            } elseif ($type === 'int') {
+                $numeric_val = preg_replace('/[^0-9]/', '', $val);
+                update_post_meta($target_id, '_' . $carbon_key , $numeric_val);
+            } else {
+                update_post_meta($target_id, '_' . $carbon_key , $val);
             }
         }
-        
         clean_post_cache($target_id);
         echo "</div>";
     }
-
-    echo "<h3>✅ СЕАНС ЗАВЕРШЕН</h3>";
-    echo "Импортировано в этот раз: <b>$imported_count</b>. Всего таких записей в XML: <b>$processed_in_xml</b>.";
-    echo "</div>";
-
+    echo "<h3>✅ Готово.</h3></div>";
     return "";
 }
 
@@ -135,7 +119,6 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
  * ИМПОРТ ГАЛЕРЕИ И КАРТИНОК
  */
 function _gallery_import($post_id, $carbon_key, $raw_value, $xml) {
-    // Получаем список вложений из XML для этого поста
     $attachments = $xml->xpath("//item[wp:post_parent=$post_id and wp:post_type='attachment']");
     
     if (empty($attachments)) {
@@ -150,7 +133,6 @@ function _gallery_import($post_id, $carbon_key, $raw_value, $xml) {
         $img_title = (string)$attach->title;
         $img_date = (string)$attach->children('wp', true)->post_date;
 
-        // Загружаем/ищем файл
         $current_id = download_external_file_with_original_name($img_url, $post_id, $img_title, $img_date);
 
         if ($current_id && !is_wp_error($current_id)) {
@@ -158,77 +140,293 @@ function _gallery_import($post_id, $carbon_key, $raw_value, $xml) {
         }
     }
 
-    // КЛЮЧЕВОЙ МОМЕНТ: Убираем дубликаты ID перед сохранением
     $final_ids = array_unique($final_ids);
 
-    // Чистим старые мета-поля этой галереи перед записью, чтобы не плодить мусор
+    echo "Поготовлен массив изображений<br>";
+
     global $wpdb;
     $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key LIKE %s", $post_id, '_' . $carbon_key . '%'));
 
-    // Записываем в формате Carbon Fields
     foreach ($final_ids as $index => $id) {
         update_post_meta($post_id, "_{$carbon_key}|||$index|value", $id);
-        echo "  → Добавлено фото ID $id в позицию $index<br>";
+        echo "  → Добавлено фото ID $id в _{$carbon_key}|||$index|value<br>";
     }
     
-    echo " — Итого в галерее: " . count($final_ids) . " фото.<br>";
+    echo "Галерея обновлена ({$post_id})<br>";
+    print_r( get_post_meta( $post_id, "_{$carbon_key}" ) );
+    echo "<br>";
+}
+
+function find_attachment_by_external_hash( $hash ) {
+    global $wpdb;
+
+    return (int) $wpdb->get_var( $wpdb->prepare(
+        "
+        SELECT post_id
+        FROM {$wpdb->postmeta}
+        WHERE meta_key = '_external_file_hash'
+        AND meta_value = %s
+        LIMIT 1
+        ",
+        $hash
+    ));
 }
 
 /**
  * СКАЧИВАНИЕ ФАЙЛА С ПРОВЕРКОЙ ПО ИМЕНИ
  */
-function download_external_file_with_original_name($url, $parent_id, $title, $xml_date = '') {
-    require_once(ABSPATH . 'wp-admin/includes/media.php');
-    require_once(ABSPATH . 'wp-admin/includes/file.php');
-    require_once(ABSPATH . 'wp-admin/includes/image.php');
+function download_external_file_with_original_name( $url, $parent_id = 0, $title = '', $post_date = '' ) {
 
-    global $wpdb;
-    static $md5_cache = []; 
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
 
-    if (empty($url)) return false;
-
-    // 1. Ищем, есть ли у нас уже этот URL
-    $existing = $wpdb->get_row($wpdb->prepare(
-        "SELECT p.ID, pm.meta_value as last_sync 
-         FROM {$wpdb->posts} p 
-         LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key = '_xml_last_mod'
-         WHERE p.ID = (SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_original_source_url' AND meta_value = %s LIMIT 1)",
-        $url
-    ));
-
-    // 2. Если файл есть И дата в XML совпадает с нашей — отдаем ID (пропускаем скачивание)
-    if ($existing && $existing->last_sync === $xml_date) {
-        return $existing->ID;
+    $tmp = download_url( $url );
+    if ( is_wp_error( $tmp ) ) {
+        return $tmp;
     }
 
-    // 3. Если даты нет или она новее — качаем и проверяем MD5
-    require_once(ABSPATH . 'wp-admin/includes/file.php');
-    $tmp = download_url($url);
-    if (is_wp_error($tmp)) return $tmp;
+    $hash = md5_file( $tmp );
 
-    $file_hash = md5_file($tmp);
+    if ( $existing_id = find_attachment_by_external_hash( $hash ) ) {
+        @unlink( $tmp );
 
-    // Проверяем: может файл тот же (MD5 совпал), просто дата в XML обновилась?
-    $id_by_hash = $wpdb->get_var($wpdb->prepare(
-        "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_source_md5' AND meta_value = %s LIMIT 1",
-        $file_hash
-    ));
-
-    if ($id_by_hash) {
-        @unlink($tmp);
-        update_post_meta($id_by_hash, '_xml_last_mod', $xml_date); // Обновляем дату
-        return $id_by_hash;
+        echo "File {$existing_id} already exists<br>";
+        return $existing_id;
     }
 
-    // 4. Если MD5 реально другой — это новая картинка. Загружаем!
-    $file_name = basename(parse_url($url, PHP_URL_PATH));
-    $id = media_handle_sideload(['name' => $file_name, 'tmp_name' => $tmp], $parent_id, $title);
-    
-    if (!is_wp_error($id)) {
-        update_post_meta($id, '_source_md5', $file_hash);
-        update_post_meta($id, '_original_source_url', $url);
-        update_post_meta($id, '_xml_last_mod', $xml_date);
+    $filename = basename( parse_url( $url, PHP_URL_PATH ) );
+
+    $file = [
+        'name'     => $filename,
+        'tmp_name' => $tmp
+    ];
+
+    $attachment_id = media_handle_sideload( $file, $parent_id, $title );
+
+    if ( is_wp_error( $attachment_id ) ) {
+        @unlink( $tmp );
+        return $attachment_id;
     }
 
-    return $id;
+    update_post_meta( $attachment_id, '_external_file_hash', $hash );
+
+    echo "File {$attachment_id} uploaded<br>";
+
+    if ( $post_date ) {
+        wp_update_post([
+            'ID'        => $attachment_id,
+            'post_date' => $post_date
+        ]);
+    }
+
+    return $attachment_id;
 }
+
+function mark_existing_attachments_with_hash() {
+
+    $args = [
+        'post_type'      => 'attachment',
+        'post_status'    => 'inherit',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'meta_query'     => [
+            [
+                'key'     => '_external_file_hash',
+                'compare' => 'NOT EXISTS'
+            ]
+        ]
+    ];
+
+    $attachment_ids = get_posts( $args );
+
+    $processed = 0;
+
+    foreach ( $attachment_ids as $att_id ) {
+
+        $file = get_attached_file( $att_id );
+
+        if ( ! $file || ! file_exists( $file ) ) {
+            continue;
+        }
+
+        $hash = md5_file( $file );
+
+        if ( ! $hash ) {
+            continue;
+        }
+
+        update_post_meta( $att_id, '_external_file_hash', $hash );
+        $processed++;
+
+        echo "Attachment {$att_id}: meta-hash updated<br>";
+    }
+
+    echo "Marked hash for {$processed} files";
+    return $processed;
+}
+
+function deduplicate_attachments_by_hash( $dry_run = true ) {
+    global $wpdb;
+
+    $duplicates = scan_duplicate_attachments_by_hash();
+    $log = [];
+
+    foreach ( $duplicates as $group ) {
+
+        $keep_id = $group['keep'];
+
+        foreach ( $group['dupes'] as $dupe_id ) {
+
+            // 1. Перепривязка _thumbnail_id
+            if ( ! $dry_run ) {
+                $wpdb->update(
+                    $wpdb->postmeta,
+                    [ 'meta_value' => $keep_id ],
+                    [ 'meta_key' => '_thumbnail_id', 'meta_value' => $dupe_id ]
+                );
+            }
+
+            // 2. Перепривязка всех meta (галереи, ACF, serialized)
+            $meta_rows = $wpdb->get_results( $wpdb->prepare(
+                "
+                SELECT post_id, meta_key, meta_value
+                FROM {$wpdb->postmeta}
+                WHERE meta_value = %s
+                ",
+                $dupe_id
+            ));
+
+            foreach ( $meta_rows as $row ) {
+
+                $new_value = maybe_unserialize( $row->meta_value );
+
+                if ( is_array( $new_value ) ) {
+                    array_walk_recursive( $new_value, function ( &$v ) use ( $dupe_id, $keep_id ) {
+                        if ( (int)$v === (int)$dupe_id ) {
+                            $v = $keep_id;
+                        }
+                    });
+
+                    $new_value = maybe_serialize( $new_value );
+                } elseif ( (int)$row->meta_value === (int)$dupe_id ) {
+                    $new_value = $keep_id;
+                } else {
+                    continue;
+                }
+
+                if ( ! $dry_run ) {
+                    $wpdb->update(
+                        $wpdb->postmeta,
+                        [ 'meta_value' => $new_value ],
+                        [
+                            'post_id'  => $row->post_id,
+                            'meta_key'=> $row->meta_key
+                        ]
+                    );
+                }
+            }
+
+            // 3. Удаление attachment
+            if ( ! $dry_run ) {
+                wp_delete_attachment( $dupe_id, true );
+            }
+
+            $log[] = [
+                'kept'    => $keep_id,
+                'removed' => $dupe_id
+            ];
+        }
+    }
+
+    return $log;
+}
+
+function scan_duplicate_attachments_by_hash() {
+    global $wpdb;
+
+    $rows = $wpdb->get_results(
+        "
+        SELECT meta_value AS hash, COUNT(*) AS cnt
+        FROM {$wpdb->postmeta}
+        WHERE meta_key = '_external_file_hash'
+        GROUP BY meta_value
+        HAVING cnt > 1
+        ",
+        ARRAY_A
+    );
+
+    $report = [];
+
+    foreach ( $rows as $row ) {
+
+        $hash = $row['hash'];
+
+        $ids = $wpdb->get_col( $wpdb->prepare(
+            "
+            SELECT post_id
+            FROM {$wpdb->postmeta}
+            WHERE meta_key = '_external_file_hash'
+            AND meta_value = %s
+            ORDER BY post_id ASC
+            ",
+            $hash
+        ));
+
+        $report[] = [
+            'hash'  => $hash,
+            'keep'  => (int) $ids[0],
+            'dupes' => array_map( 'intval', array_slice( $ids, 1 ) )
+        ];
+    }
+
+    return $report;
+}
+
+$plans_import_file = get_template_directory() . '/plans.WordPress.2025-12-23.xml';
+$galeries_import_file = get_template_directory() . '/plans.WordPress.2025-12-23.xml';
+
+$plans_keys = [
+    'plan_name'      => [ 'key' => 'plan_name' ],
+    'plan_order'     => [ 'key' => 'plan_order' ],
+    'plan_beds'      => [ 'key' => 'plan_beds', 'type' => 'int' ],
+    'plan_baths'     => [ 'key' => 'plan_baths', 'type' => 'int' ],
+    'plan_size'      => [ 'key' => 'plan_size', 'type' => 'int' ],
+    'plan_price'     => [ 'key' => 'plan_price', 'type' => 'int' ],
+    'plan_series'    => [ 'key' => 'plan_series' ],
+    'plan_manufacturer' => [ 'key' => 'plan_manufacturer' ],
+    'plan_number'       => [ 'key' => 'plan_number' ],
+    'plan_width'        => [ 'key' => 'plan_width' ],
+    'plan_type'        => [ 'key' => 'plan_type' ],
+    'plan_tour'        => [ 'key' => 'plan_tour' ],
+    'plan_location'        => [ 'key' => 'plan_location' ],
+    'matterport_embed'     => [ 'key' => 'matterport_embed' ],
+    'youtube_embed'     => [ 'key' => 'youtube_embed' ],
+    'plan_description'     => [ 'key' => 'plan_description' ],
+
+    'plan_brochure'  => [ 'key' => 'plan_brochure'  , 'type' => 'file' ],
+    'plan_brochure2' => [ 'key' => 'plan_brochure2' , 'type' => 'file' ],
+    'plan_brochure3' => [ 'key' => 'plan_brochure3' , 'type' => 'file' ],
+    'plan_brochure4' => [ 'key' => 'plan_brochure4' , 'type' => 'file' ],
+    'plan_photos'    => [ 'key' => 'plan_photos'    , 'type' => 'gallery' ],
+];
+
+$galeries_keys = [
+    'gallery_name' => [ 'key' => 'gallery_name' ],
+    'gallery_description' => [ 'key' => 'gallery_description' ],
+    'gallery_photos' => [ 'key' => 'gallery_photos', 'type' => 'gallery' ],
+];
+
+// echo '<pre>';
+// print_r( mark_existing_attachments_with_hash() );
+// echo '</pre>';
+
+// echo '<pre>';
+// print_r( scan_duplicate_attachments_by_hash() );
+// echo '</pre>';
+
+// echo '<pre>';
+// print_r( deduplicate_attachments_by_hash() );
+// echo '</pre>';
+
+// echo smart_post_import( $plans_import_file, 'plans', $plans_keys, 10, 10 );
