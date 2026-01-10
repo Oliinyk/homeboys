@@ -1,14 +1,12 @@
 <?php
-$id = isset( $args['id'] ) ? $args['id'] : NULL;
 
-$form_enabled   = ! is_null( $id ) ? carbon_get_post_meta( $id, 'form_enabled' ) : true;
-$form_title     = ! is_null( $id ) ? carbon_get_post_meta( $id, 'form_title' ) : 'Contact <span class="primary">Us</span> For A Personalized Consultation' ;
-$form_code      = ! is_null( $id ) ? carbon_get_post_meta( $id, 'form_code' ) : '[contact-form-7 id="19e4962" title="Call form"]';
-$right_img      = ! is_null( $id ) ? carbon_get_post_meta( $id, 'form_r_img' ) : get_stylesheet_directory_uri() . '/assets/img/steve-randock-jr.png';
-$right_title    = ! is_null( $id ) ? carbon_get_post_meta( $id, 'form_r_title' ) : 'Steve Randock Jr';
-$right_subtitle = ! is_null( $id ) ? carbon_get_post_meta( $id, 'form_r_subtitle' ) : 'General Manager';
+$form_title     = carbon_get_theme_option( 'form_title' );
+$form_code      = carbon_get_theme_option( 'form_code' );
+$right_img      = carbon_get_theme_option( 'form_r_img' );
+$right_title    = carbon_get_theme_option( 'form_r_title' );
+$right_subtitle = carbon_get_theme_option( 'form_r_subtitle' );
 
-if ( empty( $form_code ) || ! $form_enabled ) {
+if ( empty( $form_code ) ) {
     return;
 }
 ?>

@@ -154,6 +154,13 @@ function home_boys_2_styles() {
 	  null
 	);
 
+	wp_enqueue_style(
+        'fancybox',
+        'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css',
+        [],
+        null
+    );
+
 	// Swiper style
 	wp_enqueue_style( 'home-boys-2-swiper-style', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), _S_VERSION );
 
@@ -171,6 +178,15 @@ function home_boys_2_scripts() {
 	wp_enqueue_script( 'home-boys-2-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'home-boys-2-swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'home-boys-2-theme-script', get_template_directory_uri() . '/assets/js/script.js', array('jquery'), _S_VERSION, true );
+
+	// Fancybox JS
+    wp_enqueue_script(
+        'fancybox',
+        'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js',
+        [],
+        null,
+        true
+    );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -210,25 +226,3 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 require get_template_directory() . '/inc/custom-fields/index.php';
 
 // require_once get_template_directory() . '/custom-importer.php';
-
-// Fancybox
-function theme_enqueue_fancybox() {
-
-    // Fancybox CSS
-    wp_enqueue_style(
-        'fancybox',
-        'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css',
-        [],
-        null
-    );
-
-    // Fancybox JS
-    wp_enqueue_script(
-        'fancybox',
-        'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js',
-        [],
-        null,
-        true
-    );
-}
-add_action('wp_enqueue_scripts', 'theme_enqueue_fancybox');

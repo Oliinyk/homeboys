@@ -48,7 +48,7 @@ $on_display       = apply_filters( 'hb2_on_display_arr', [] );
             'baths'         => $plan_baths,
             'location'      => $on_display[$plan_location],
             'manufacturer'  => $manufacturer_arr[$manufacturer],
-            'series'        => $series[$plan_series],
+            'series'        => array_key_exists( $plan_series, $series ) ? $series[$plan_series] : '',
         ];
         
         get_template_part( 'template-parts/modules/__floor_home_card', null, [ 'data-floor' => $floor_data ] );

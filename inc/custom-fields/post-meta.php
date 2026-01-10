@@ -26,6 +26,11 @@ function hb2_meta_fields() {
         'singular_name' => __( 'Partner', 'home-boys-2' ),
     ];
 
+    $embeds_labels = [
+        'plural_name'   => __( 'Embeds', 'home-boys-2' ),
+        'singular_name' => __( 'Embed', 'home-boys-2' ),
+    ];
+
     // Options
     $plan_series_opt = hb2_get_series_options();
 
@@ -42,6 +47,12 @@ function hb2_meta_fields() {
         3 => 'Montana',
     ];
 
+    $galleries_types_opt = [
+        0 => __( 'All', 'home-boys-2' ),
+        1 => __( 'Not SOLD mark', 'home-boys-2' ),
+        2 => __( 'SOLD mark', 'home-boys-2' ),
+    ]; 
+
     $locations_opt = hb2_get_locations_options();   
 
     // Hero variable section
@@ -51,6 +62,17 @@ function hb2_meta_fields() {
             Field::make( 'complex', 'hero_section', __( 'Change variable', 'home-boys-2' )  )
                 ->set_max( 1 )
                 ->setup_labels( $hero_labels )
+                ->add_fields( 'simple', __( 'Simple', 'home-boys-2' ), array(
+                    Field::make( 'text', 'simple_hero_small_title', __( 'Small title', 'home-boys-2' ) ),
+                    Field::make( 'text', 'simple_hero_title', __( 'Title', 'home-boys-2' ) ),
+                ) )
+                ->add_fields( 'single_banner', __( 'Single banner', 'home-boys-2' ), array(
+                    Field::make( 'text', 'sb_hero_title', __( 'Title', 'home-boys-2' ) )
+                        ->set_width(75),
+                    Field::make( 'image', 'sb_hero_image', __( 'Banner image', 'home-boys-2' ) )
+                        ->set_width(25)
+                        ->set_value_type('url'),
+                ) )
                 ->add_fields( 'home', __( 'Home style', 'home-boys-2' ), array(
                     Field::make( 'complex', 'home_hero_slider', __( 'Slider', 'home-boys-2' ) )
                         ->setup_labels( $slider_labels )
@@ -199,35 +221,18 @@ function hb2_meta_fields() {
             Field::make( 'media_gallery', 'plan_photos', __( 'Photos', 'home-boys-2' ) )     
         ) );
 
-    Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
+    Container::make( 'post_meta', __( 'Is ADU' ) )
         ->where( 'post_type', '=', 'plans' )
         ->set_context( 'side' )
         ->add_fields( array(
-            Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) )
-                ->set_width( 20 )
-                ->set_default_value( false ),
+            Field::make( 'checkbox', 'is_adu', __( 'Mark as ADU', 'home-boys-2' ) ),
         ) );
 
-    // Contact form
-    Container::make( 'post_meta', __( 'Contact Form' ) )
+    Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
+        ->where( 'post_type', 'IN', ['plans', 'galleries'] )
+        ->set_context( 'side' )
         ->add_fields( array(
-            Field::make( 'checkbox', 'form_enabled', __( 'Enable Contact Form', 'home-boys-2' ) )
-                ->set_width( 20 )
-                ->set_default_value( true ),
-            Field::make( 'text', 'form_title', __( 'Form title', 'home-boys-2' ) )
-                ->set_width( 80 )
-                ->set_default_value( 'Contact <span class="primary">Us</span> For A Personalized Consultation' ),
-            Field::make( 'textarea', 'form_code', __( 'Form shortcode', 'home-boys-2' ) )
-                ->set_default_value( '[contact-form-7 id="19e4962" title="Call form"]' ),
-            Field::make( 'image', 'form_r_img', __( 'Right side image', 'home-boys-2' ) )
-                ->set_value_type( 'url' )
-                ->set_width( 30 ),
-            Field::make( 'text', 'form_r_title', __( 'Right side title', 'home-boys-2' ) )
-                ->set_default_value( 'Steve Randock Jr' )
-                ->set_width( 35 ),
-            Field::make( 'text', 'form_r_subtitle', __( 'Right side subtitle', 'home-boys-2' ) )
-                ->set_default_value( 'General Manager' )
-                ->set_width( 35 ),
+            Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) ),
         ) );
 
     // Stories post type meta
@@ -246,4 +251,56 @@ function hb2_meta_fields() {
             Field::make( 'select', 'display_homes_location', __( 'Select location', 'home-boys-2' ) )
                 ->add_options( $locations_opt )
         ) );
+
+    // Galeries posts type    
+    Container::make( 'post_meta', __( 'Gallery data', 'home-boys-2' ) )
+        ->where( 'post_type', '=', 'galleries' )
+        ->add_fields( array(
+            Field::make( 'text', 'gallery_name', __( 'Gallery Name', 'home-boys-2' ) )
+                ->set_required( true ),
+            Field::make( 'select', 'gallery_series', __( 'Series', 'home-boys-2' ) )
+                ->add_options( $plan_series_opt )
+                ->set_width(50),
+            Field::make( 'select', 'gallery_manufacturer', __( 'Manufacturer', 'home-boys-2' ) )
+                ->add_options( $plan_manufacturer_opt )
+                ->set_width(50),
+            Field::make( 'complex', 'gallery_video_embeds', __( 'Video embeds', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $embeds_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'gve_title', __( 'Title', 'home-boys-2' ) ),
+                    Field::make( 'textarea', 'gve_code', __( 'Embed code', 'home-boys-2' ) )
+                        ->set_required( true ),
+                ) )
+                ->set_header_template( '
+                    <% if (gve_title) { %>
+                        <%- gve_title %>
+                    <% } %>
+                ' ),
+            Field::make( 'complex', 'gallery_tours', __( 'Tour embeds', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $embeds_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'gvt_title', __( 'Title', 'home-boys-2' ) ),
+                    Field::make( 'text', 'gvt_url', __( 'Tour URL', 'home-boys-2' ) )
+                        ->set_required( true ),
+                ) )
+                ->set_header_template( '
+                    <% if (gvt_title) { %>
+                        <%- gvt_title %>
+                    <% } %>
+                ' ),
+            Field::make( 'textarea', 'gallery_description', __( 'Gallery Description', 'home-boys-2' ) ),
+            Field::make( 'media_gallery', 'gallery_photos', __( 'Gallery Photos', 'home-boys-2' ) )
+                ->help_text( __( 'First photo will be featured', 'home-boys-2' ) ),    
+        ) );
+
+    // Gallery page
+    Container::make( 'post_meta', __( 'Display Galleries', 'home-boys-2' ) )
+        ->where( 'post_template', '=', 'galleries-template.php' )
+        ->set_context( 'side')
+        ->add_fields( array(
+            Field::make( 'select', 'display_gelleries_type', __( 'Select type', 'home-boys-2' ) )
+                ->add_options( $galleries_types_opt ),
+        ) );    
 };

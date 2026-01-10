@@ -1,21 +1,16 @@
 <?php
 /**
- * Template Name: Find Home Template
- *
- * @package Home_Boys_2
+ * Template name: ADU
  */
-
 
 get_header();
 
-$pId = get_the_ID();
-$not_found_message = carbon_get_theme_option( 'not_found_posts_message' );
-$order = 'DESC';
+$p_ID = get_the_ID();
 
 $query_params = [
     'post_status'       => 'publish',
     'post_type'         => 'plans',
-    'posts_per_page'    => 12,
+    'posts_per_page'    => 8,
     'paged'             => get_query_var( 'paged', 1 ),
     'meta_query'        => [
         'relation' => 'AND',
@@ -24,112 +19,31 @@ $query_params = [
             'compare'  => 'EXISTS',
             'type'     => 'DECIMAL',
         ],
+        [
+            'key'     => 'is_adu',
+            'compare' => 'EXISTS',
+        ],
     ],
     'order'   => $order,
     'orderby' => 'price_column',
 ];
 
-// Filter by prices
-if ( isset( $_GET['price_min'] ) && isset( $_GET['price_max'] ) ) {
-    $price_q = [
-        'key'     => '_plan_price',
-        'compare' => 'BETWEEN',
-        'value'   => [ intval( $_GET['price_min'] ), intval( $_GET['price_max'] ) ],
-        'type'    => 'SIGNED',
-    ];
+$query              = new WP_Query( $query_params );
+$content            = get_the_content();
+$not_found_message  = carbon_get_theme_option( 'not_found_posts_message' );
+$locations_list     = apply_filters( 'hb2_locations_list', true );
+$manufacturer_arr   = apply_filters( 'hb2_get_manufacturers_list', true );
+$series_arr         = apply_filters( 'hb2_get_series_list', true );
 
-    array_push( $query_params['meta_query'], $price_q );
-}
+get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] ); // Баннер или в этом файле или просто ниже, перед контентом
 
-// Filter by size
-if ( isset( $_GET['size_min'] ) && isset( $_GET['size_max'] ) ) {
-    $size_q = [
-        'key'     => '_plan_size',
-        'compare' => 'BETWEEN',
-        'value'   => [ intval( $_GET['size_min'] ), intval( $_GET['size_max'] ) ],
-        'type'    => 'SIGNED',
-    ];
 
-    array_push( $query_params['meta_query'], $size_q );
-}
 
-// Filter by beds
-if ( isset( $_GET['beds'] ) ) {
-    $beds_q = [
-        'key'     => '_plan_beds',
-        'compare' => '<=',
-        'value'   => intval( $_GET['beds'] ),
-        'type'    => 'SIGNED',
-    ];
-
-    array_push( $query_params['meta_query'], $beds_q );
-}
-
-// Filter by baths
-if ( isset( $_GET['baths'] ) ) {
-    $baths_q = [
-        'key'     => '_plan_baths',
-        'compare' => '<=',
-        'value'   => intval( $_GET['baths'] ),
-        'type'    => 'SIGNED',
-    ];
-
-    array_push( $query_params['meta_query'], $baths_q );
-}
-
-// Filter by width
-if ( isset( $_GET['width'] ) ) {
-    $width_q = [
-        'key'     => '_plan_width',
-        'compare' => '=',
-        'value'   => $_GET['width'],
-    ];
-
-    array_push( $query_params['meta_query'], $width_q );
-}
-
-// Filter by manufacturer
-if ( isset( $_GET['manufacturer'] ) ) {
-    $manufacturer_q = [
-        'key'     => '_plan_manufacturer',
-        'compare' => '=',
-        'value'   => $_GET['manufacturer'],
-    ];
-
-    array_push( $query_params['meta_query'], $manufacturer_q );
-}
-
-// Filter by series
-if ( isset( $_GET['series'] ) ) {
-    $series_q = [
-        'key'     => '_plan_series',
-        'compare' => '=',
-        'value'   => $_GET['series'],
-    ];
-
-    array_push( $query_params['meta_query'], $series_q );
-}
-
-$locations_list   = apply_filters( 'hb2_locations_list', true );
-$manufacturer_arr = apply_filters( 'hb2_get_manufacturers_list', true );
-$series_arr       = apply_filters( 'hb2_get_series_list', true );
-
-$homes = new WP_Query( $query_params );
+echo $content;
 ?>
-    <div class="nav-overlay" id="navOverlay"></div>
 
-    <section class="find-home-section">
-        <div class="container">
-            <h4 class="subtitle-section">Find</h4>
-            <h2 class="title-section">Your Home</h2>
 
-            <!-- filter -->
-            <?php get_template_part( 'template-parts/modules/_filter', null ); ?>
-
-        </div>
-    </section>
-
-    <section class="home-gallery-section">
+<section class="home-gallery-section">
         <div class="container">
             <div class="controls-sort">
                 <span>Sort by:</span>
@@ -149,9 +63,9 @@ $homes = new WP_Query( $query_params );
 
             <div class="card-list sm-col-2">
                 <?php
-                if ( $homes->have_posts() ) :
-                    while( $homes->have_posts() ) :
-                        $homes->the_post();
+                if ( $query->have_posts() ) :
+                    while( $query->have_posts() ) :
+                        $query->the_post();
 
                         $plan_id        = get_the_ID();
                         $plan_title     = carbon_get_post_meta( $plan_id, 'plan_name' );
@@ -166,8 +80,10 @@ $homes = new WP_Query( $query_params );
                         $plan_series    = carbon_get_post_meta( $plan_id, 'plan_series' );
                         $plan_locations = carbon_get_post_meta( $plan_id, 'plan_location' );
 
+                        // var_dump( maybe_unserialize($plan_photos) );
+
                         if ( empty( $thumbmail_id ) &&  ! empty( $plan_photos ) ) {
-                            $gallery = unserialize( $plan_photos[0] );
+                            $gallery = maybe_unserialize( $plan_photos );
 
                             if ( is_string( $gallery ) ) {
                                 $gallery = unserialize( $gallery );
@@ -215,10 +131,8 @@ $homes = new WP_Query( $query_params );
             </a>
         </div>
     </section>
-
-    <?php
-    get_template_part( 'template-parts/modules/section', 'contact' );
-    get_template_part( 'template-parts/modules/section', 'find_home' );
-    ?>
 <?php
+get_template_part( 'template-parts/modules/section', 'contact' );
+get_template_part( 'template-parts/modules/section', 'find_home' );
+
 get_footer();

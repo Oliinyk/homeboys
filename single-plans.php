@@ -8,6 +8,7 @@ $photos             = carbon_get_post_meta( $p_ID, 'plan_photos' );
 $manufacturer       = carbon_get_post_meta( $p_ID, 'plan_manufacturer' );
 $series             = carbon_get_post_meta( $p_ID, 'plan_series' );
 $youtube_embed      = carbon_get_post_meta( $p_ID, 'youtube_embed' );
+$plan_tour          = carbon_get_post_meta( $p_ID, 'plan_tour' );
 $base_price         = carbon_get_post_meta( $p_ID, 'plan_price' );
 $location           = carbon_get_post_meta( $p_ID, 'plan_location' );
 $size               = carbon_get_post_meta( $p_ID, 'plan_size' );
@@ -16,6 +17,7 @@ $baths              = carbon_get_post_meta( $p_ID, 'plan_baths' );
 $view_plan_doc      = carbon_get_post_meta( $p_ID, 'plan_brochure' );
 $standart_features  = carbon_get_post_meta( $p_ID, 'plan_brochure2' );
 $list_options_doc   = carbon_get_post_meta( $p_ID, 'plan_brochure3' );
+$description        = carbon_get_post_meta( $p_ID, 'plan_description' );
 $content            = get_the_content();
 
 $uns_photos    = [];
@@ -24,6 +26,10 @@ $on_display    = apply_filters( 'hb2_on_display_arr', [] );
 
 $manuf_list  = apply_filters( 'hb2_get_manufacturers_list', [] );
 $series_list = apply_filters( 'hb2_get_series_list', [] );
+
+echo ('<pre>');
+    var_dump( maybe_unserialize( $photos[0] ) );
+echo ('</pre>');
 
 if ( ! $thumbnail ) {
     $thumbnail = apply_filters( 'hb2_get_random_image', false );
@@ -86,6 +92,7 @@ if ( ! empty( $gallery ) ) :
                                 <path d="M11.8047 23.125L7.92969 14.7656L25.2031 14.7656L25.2031 8.55469L7.83203 8.55469L11.8047 0L5.76953 0L0 11.5625L5.76953 23.125H11.8047Z" />
                             </svg>
                         </div>
+
                         <div class="swiper-button-next custom-next">
                             <svg class="arrow-ico" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13.3984 23.125L17.2734 14.7656L0 14.7656L0 8.55469L17.3711 8.55469L13.3984 0L19.4336 0L25.2031 11.5625L19.4336 23.125H13.3984Z" />
@@ -161,20 +168,26 @@ endif;
                     <?php
                 endif;
 
-                if ( ! empty( $content ) ) :
-                    echo $content;
-                endif;    
+                if ( ! empty( $plan_tour ) ) :
                 ?>
-
-                <!-- video -->
-                <!-- <div class="video-wrap">
+                <div class="video-wrap">
                     <iframe width="1034" height="582" 
-                        src="https://www.youtube.com/embed/oHlUdXaP5zY?si=HBLcycqZlHXitQlx" 
+                        src="<?php echo esc_url( $plan_tour )?>" 
                         title="YouTube video player" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                         allowfullscreen>
                     </iframe>
-                </div> -->
+                </div>
+                <?php
+                endif;
+                if ( ! empty( $description ) ) :
+                    echo $description;
+                endif;
+
+                if ( ! empty( $content ) ) :
+                    echo $content;
+                endif;    
+                ?>
             </div>
 
             <div class="sidebar-area">
@@ -296,38 +309,6 @@ endif;
 
 <?php
 get_template_part( 'template-parts/modules/section', 'contact' );
-?>
 
-<section class="find-home-section">
-    <div class="container">
-        <h4 class="subtitle-section">Sold Homes</h4>
-        <h2 class="title-section">Galleries</h2>
-
-        <div class="card-list sm-col-2">
-            <!-- 1 -->
-            <div class="card-item">
-                <img src="assets/img/Giant-Sequoia-ING762G.png" alt="#">
-                <ul class="card-top-info">
-                    <li>2,280 ft2</li>
-                    <li>4 Beds</li>
-                    <li>2 Baths</li>
-                </ul>
-                <div class="card-labels">
-                    <div class="label">$186,284</div>
-                    <div class="label danger">
-                        <span class="label-top">On Display</span>
-                        <span>Tri-Cities</span>
-                    </div>
-                </div>
-                <div class="item-info">
-                    <h4 class="item-title">Giant Sequoia ING762G</h4>
-                    <p class="item-subtitle">Golden West | Inspiration Gold Series</p>
-                </div>
-            </div>
-            <!-- 2 -->
-        </div>
-
-    </div>
-</section>
-<?php
+get_template_part( 'template-parts/modules/section', 'similars', ['id' => $p_ID ] );
 get_footer();

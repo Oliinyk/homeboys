@@ -36,6 +36,11 @@ function hb2_options_fields() {
         'singular_name' => __( 'Plan Type', 'home-boys-2' ),
     ];
 
+    $partners_labels = [
+        'plural_name'   => __( 'Partners', 'home-boys-2' ),
+        'singular_name' => __( 'Partner', 'home-boys-2' ),
+    ];
+
     Container::make( 'theme_options', __( 'General Settings', 'home-boys-2' ) )
         ->add_fields( array(
             // Social networks list
@@ -155,6 +160,43 @@ function hb2_options_fields() {
                     <% } %>
                      ' ),
 
+            // Contact form
+            Field::make( 'separator', 'contact_form_sep', __( 'Contact Form', 'home-boys-2' ) ),
+            Field::make( 'text', 'form_title', __( 'Form title', 'home-boys-2' ) )
+                ->set_default_value( 'Contact <span class="primary">Us</span> For A Personalized Consultation' ),
+            Field::make( 'textarea', 'form_code', __( 'Form shortcode', 'home-boys-2' ) )
+                ->set_default_value( '[contact-form-7 id="19e4962" title="Call form"]' ),
+            Field::make( 'image', 'form_r_img', __( 'Right side image', 'home-boys-2' ) )
+                ->set_value_type( 'url' )
+                ->set_width( 30 ),
+            Field::make( 'text', 'form_r_title', __( 'Right side title', 'home-boys-2' ) )
+                ->set_default_value( 'Steve Randock Jr' )
+                ->set_width( 35 ),
+            Field::make( 'text', 'form_r_subtitle', __( 'Right side subtitle', 'home-boys-2' ) )
+                ->set_default_value( 'General Manager' )
+                ->set_width( 35 ),
+                
+            // Partners
+            Field::make( 'separator', 'partners_sep', __( 'Partners', 'home-boys-2' ) ),
+            Field::make( 'text', 'partners_section_title', __( 'Title section', 'home-boys-2' ) ),
+            Field::make( 'complex', 'partners', __( 'Partners list', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $partners_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'patner_name', __( 'Partner name', 'home-boys-2' ) )
+                        ->set_required( true )
+                        ->set_width( 75 ),
+                    Field::make( 'image', 'partner_image', __( 'Partner image', 'home-boys-2' ) )
+                        ->set_required( true )
+                        ->set_width( 25 )
+                        ->set_value_type( 'url' )  
+                ) )
+                ->set_header_template( '
+                    <% if (patner_name) { %>
+                        <%- patner_name %>
+                    <% } %>
+                ' ),
+
             // Default labels and texts
             Field::make( 'separator', 'labels_options_sep', __( 'Default labels, titles and texts settings', 'home-boys-2' ) ),
             Field::make( 'text', 'stories_section__subtitle', __( 'Stories Section Subtitle', 'home-boys-2' ) )
@@ -175,9 +217,15 @@ function hb2_options_fields() {
             Field::make( 'text', 'find_home_title', __( 'Find Home Title', 'home-boys-2' ) )
                 ->set_default_value( 'Your Home' )
                 ->set_width( 50 ),
+            Field::make( 'textarea', 'not_found_posts_message', __( 'Posts not fount message', 'home-boys-2' ) )
+                ->set_rows( 2 )
+                ->set_default_value( "Sorry, we didn't find anything for you this time." ),    
+            Field::make( 'textarea', 'sold_marker_placeholder', __( 'Sold marker placeholder', 'home-boys-2' ) )
+                ->set_rows( 2 )
+                ->set_default_value( '<span class="label-top">Home Was</span><span>Sold</span>' ),    
             Field::make( 'text', 'footer_networks_title', __( 'Footer Networks Title', 'home-boys-2' ) )
                 ->set_default_value( 'Follow us' )
                 ->set_width( 50 ),
-            Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ) ,
+            Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ),
         ) );    
 };

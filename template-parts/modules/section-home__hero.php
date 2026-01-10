@@ -1,20 +1,7 @@
 <?php
-$id     = $args['id'];
 $filter_exclude_fields = $args['filter_exclude_fields'] ?? [];
-$hero   = carbon_get_post_meta( $id, 'hero_section' );
-
-if ( empty( $hero ) || 
-    'home' !== $hero[0]['_type'] || 
-    ! isset( $hero[0]['home_hero_slider'] ) || 
-    empty( $hero[0]['home_hero_slider'] )
-    )
-{
-    return;
-}
-
-$hero_slider    = $hero[0]['home_hero_slider'];
-$include_filter = $hero[0]["include_filter"];
-
+$hero_slider           = $args['home_hero_slider'];
+$include_filter        = $args["include_filter"];
 ?>
 <section class="hero-section">
     <!-- Swiper -->
@@ -41,7 +28,7 @@ $include_filter = $hero[0]["include_filter"];
         ?>
         <div class="filter-wrap">
             <h1 class="title-section">
-                <?php echo __( $hero[0]["hero_filter_title"], 'home-boys-2' )?>
+                <?php echo __( $args["hero_filter_title"], 'home-boys-2' )?>
             </h1>
             <?php
             get_template_part( 'template-parts/modules/_filter', null, [ 'exclude_fields' => $filter_exclude_fields ] );
