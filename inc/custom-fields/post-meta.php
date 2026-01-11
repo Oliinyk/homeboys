@@ -432,6 +432,6 @@ function hb2_meta_fields() {
                         <%- file_fu_title %>
                     <% } %>
                 ' )
-        )
+            )
     );
 };

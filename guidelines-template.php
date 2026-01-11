@@ -18,6 +18,8 @@ $dti_image       = carbon_get_post_meta( $p_ID, 'dti_image' );
 
 $content = get_the_content();
 
+$files_for_upload = carbon_get_post_meta( $p_ID, 'files_for_upload' );
+
 get_header();
 ?>
 <div class="nav-overlay" id="navOverlay"></div>
