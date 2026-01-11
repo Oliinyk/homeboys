@@ -18,14 +18,16 @@ $q_params = [
 if ( isset( $args['id'] ) ) {
     $orient_price = carbon_get_post_meta( $args['id'], 'plan_price' );
 
-    $price_param = [
-        'key'     => '_plan_price',
-        'compare' => 'BETWEEN',
-        'value'   => [ $orient_price-5000, $orient_price+5000 ],
-        'type'    => 'SIGNED',
-    ];
+    if ( ! empty( $orient_price ) ) {
+        $price_param = [
+            'key'     => '_plan_price',
+            'compare' => 'BETWEEN',
+            'value'   => [ intval($orient_price)-5000, intval($orient_price)+5000 ],
+            'type'    => 'SIGNED',
+        ];
 
-    array_push( $q_params['meta_query'], $price_param );
+        array_push( $q_params['meta_query'], $price_param );
+    }
 }
 
 $posts = new WP_Query( $q_params );

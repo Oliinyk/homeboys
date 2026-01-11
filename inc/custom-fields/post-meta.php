@@ -31,6 +31,21 @@ function hb2_meta_fields() {
         'singular_name' => __( 'Embed', 'home-boys-2' ),
     ];
 
+    $guidelines_labels = [
+        'plural_name'   => __( 'Guidelines', 'home-boys-2' ),
+        'singular_name' => __( 'Guideline', 'home-boys-2' ),
+    ];
+
+    $cards_labels = [
+        'plural_name'   => __( 'Cards', 'home-boys-2' ),
+        'singular_name' => __( 'Card', 'home-boys-2' ),
+    ];
+
+    $files_labels = [
+        'plural_name'   => __( 'Files', 'home-boys-2' ),
+        'singular_name' => __( 'File', 'home-boys-2' ),
+    ];
+
     // Options
     $plan_series_opt = hb2_get_series_options();
 
@@ -51,7 +66,7 @@ function hb2_meta_fields() {
         0 => __( 'All', 'home-boys-2' ),
         1 => __( 'Not SOLD mark', 'home-boys-2' ),
         2 => __( 'SOLD mark', 'home-boys-2' ),
-    ]; 
+    ];
 
     $locations_opt = hb2_get_locations_options();   
 
@@ -93,7 +108,8 @@ function hb2_meta_fields() {
                             )
                         ) )
                 ) )
-        ) );
+        )
+    );
 
     // Welcome Section ( front page )
     Container::make( 'post_meta', __( 'Welcome section', 'home-boys-2' ) )
@@ -132,7 +148,8 @@ function hb2_meta_fields() {
             Field::make( 'text', 'welcome_video_iframe_title', __( 'Iframe title', 'home-boys-2' ) )
                 ->set_default_value( 'YouTube video player' ),
             Field::make( 'textarea', 'welcome_description_bottom', __( 'bottom description text', 'home-boys-2' ) ),
-        ) );
+        )
+    );
 
     // Partners Section ( front page ) 
     Container::make( 'post_meta', __( 'Partners', 'home-boys-2' ) )
@@ -156,7 +173,8 @@ function hb2_meta_fields() {
                         <%- patner_name %>
                     <% } %>
                 ' )
-        ) );
+        )
+    );
 
     // Plains posts meta
     Container::make( 'post_meta', __( 'Home plain data', 'home-boys-2' ) )
@@ -219,21 +237,24 @@ function hb2_meta_fields() {
                 ->set_width(50),
             Field::make( 'textarea', 'plan_description', __( 'Description', 'home-boys-2' ) ), 
             Field::make( 'media_gallery', 'plan_photos', __( 'Photos', 'home-boys-2' ) )     
-        ) );
+        )
+    );
 
     Container::make( 'post_meta', __( 'Is ADU' ) )
         ->where( 'post_type', '=', 'plans' )
         ->set_context( 'side' )
         ->add_fields( array(
             Field::make( 'checkbox', 'is_adu', __( 'Mark as ADU', 'home-boys-2' ) ),
-        ) );
+        )
+    );
 
     Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
         ->where( 'post_type', 'IN', ['plans', 'galleries'] )
         ->set_context( 'side' )
         ->add_fields( array(
             Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) ),
-        ) );
+        )
+    );
 
     // Stories post type meta
     Container::make( 'post_meta', __( 'Story content', 'home-boys-2' ) )
@@ -241,7 +262,8 @@ function hb2_meta_fields() {
         ->add_fields( array(
             Field::make( 'text', 'story_author', __( 'Author', 'home-boys-2' ) ),
             Field::make( 'textarea', 'story_review', __( 'Video review code', 'home-boys-2' ) ),
-        ) );
+        )
+    );
 
     // Display Homes location select
     Container::make( 'post_meta', __( 'Display Homes location', 'home-boys-2' ) )
@@ -250,7 +272,8 @@ function hb2_meta_fields() {
         ->add_fields( array(
             Field::make( 'select', 'display_homes_location', __( 'Select location', 'home-boys-2' ) )
                 ->add_options( $locations_opt )
-        ) );
+        )
+    );
 
     // Galeries posts type    
     Container::make( 'post_meta', __( 'Gallery data', 'home-boys-2' ) )
@@ -293,7 +316,8 @@ function hb2_meta_fields() {
             Field::make( 'textarea', 'gallery_description', __( 'Gallery Description', 'home-boys-2' ) ),
             Field::make( 'media_gallery', 'gallery_photos', __( 'Gallery Photos', 'home-boys-2' ) )
                 ->help_text( __( 'First photo will be featured', 'home-boys-2' ) ),    
-        ) );
+        )
+    );
 
     // Gallery page
     Container::make( 'post_meta', __( 'Display Galleries', 'home-boys-2' ) )
@@ -302,5 +326,112 @@ function hb2_meta_fields() {
         ->add_fields( array(
             Field::make( 'select', 'display_gelleries_type', __( 'Select type', 'home-boys-2' ) )
                 ->add_options( $galleries_types_opt ),
-        ) );    
+        )
+    );
+    
+    // Guidelines Template
+    Container::make( 'post_meta', __( 'Page meta', 'home-boys-2' ) )
+        ->where( 'post_template', '=', 'guidelines-template.php' )
+        ->add_fields( array(
+            Field::make( 'separator', 'guidelines_block_sep', __( 'Guidelines Block', 'home-boys-2' ) ),
+            Field::make( 'text', 'guidelines_block_small_title', __( 'Small title', 'home-boys-2' ) )
+                ->set_width(50)
+                ->set_default_value('Customer'),
+            Field::make( 'text', 'guidelines_block_title', __( 'Title', 'home-boys-2' ) )
+                ->set_width(50)
+                ->set_default_value('Guidelines'),
+            Field::make( 'complex', 'guidelines_list', __( 'Guidelines list', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $guidelines_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'guide_title', __( 'Guide title', 'home-boys-2' ) )
+                        ->set_required( true )
+                        ->set_width( 75 ),
+                    Field::make( 'image', 'guide_image', __( 'Guide image', 'home-boys-2' ) )
+                        ->set_required( true )
+                        ->set_value_type( 'url' )
+                        ->set_width( 25 ),
+                    Field::make( 'textarea', 'guide_description', __( 'Guide description', 'home-boys-2' ) )
+                        ->set_required( true ),
+                ))
+                ->set_header_template( '
+                    <% if (guide_title) { %>
+                        <%- guide_title %>
+                    <% } %>
+                ' )
+        ) 
+    );
+
+    Container::make( 'post_meta', __( 'Pages link cards', 'home-boys-2' ) )
+        ->where( 'post_template', 'IN', ['guidelines-template.php'] )
+        ->add_fields( array(
+            Field::make( 'text', 'pages_link_cards_button_txt', __( 'Buttons text' ) )
+                ->set_default_value( 'View More' ),
+            Field::make( 'complex', 'pages_link_cards', __( 'Cards', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $cards_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'plc_small_title', __( 'Small title', 'home-boys-2' ) )
+                        ->set_width( 50 ),
+                    Field::make( 'text', 'plc_title', __( 'Title', 'home-boys-2' ) )
+                        ->set_width( 50 ),
+                    Field::make( 'association', 'plc_post', __( 'Page', 'home-boys-2' ) )
+                        ->set_max( 1 )
+                        ->set_width( 50 )
+                        ->set_types( [
+                            [
+                                'type'      => 'post',
+                                'post_type' => 'page',
+                            ]
+                        ] ),
+                    Field::make( 'image', 'plc_image', __( 'Image', 'home-boys-2' ) )
+                        ->set_value_type( 'url' )
+                        ->set_width( 50 )
+                ) )
+                ->set_header_template( '
+                    <% if (plc_title) { %>
+                        <%- plc_title %>
+                    <% } %>
+                ' )
+        )
+    );
+
+    Container::make( 'post_meta', __( 'Double text-image', 'home-boys-2' ) )
+        ->where( 'post_template', 'IN', ['guidelines-template.php'] )
+        ->add_fields( array(
+            Field::make( 'text', 'dti_small_title', __( 'Small title', 'home-boys-2' ) )
+                ->set_width( 50 ),
+            Field::make( 'text', 'dti_title', __( 'Title', 'home-boys-2' ) )
+                ->set_required( true )
+                ->set_width( 50 ),
+            Field::make( 'textarea', 'dti_description', __( 'Desription text', 'home-boys-2' ) )
+                ->set_required( true )
+                ->set_width( 75 ),
+            Field::make( 'image', 'dti_image', __( 'Block image', 'home-boys-2' ) )
+                ->set_required( true )
+                ->set_value_type( 'url' )
+                ->set_width( 25 ),
+        )
+    );
+
+    Container::make( 'post_meta', __( 'Files for upload', 'home-boys-2' ) )
+        ->where( 'post_template', 'IN', ['guidelines-template.php'] )
+        ->add_fields( array(
+            Field::make( 'complex', 'files_for_upload', __( 'Files', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $files_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'file_fu_title', __( 'File title', 'home-boys-2' ) )
+                        ->set_width( 75 ),
+                    Field::make( 'file', 'file_fu', __( 'File', 'home-boys-2' ) )
+                        ->set_width( 25 )
+                        ->set_value_type( 'url' ),
+                ) )
+                ->set_header_template( '
+                    <% if (file_fu_title) { %>
+                        <%- file_fu_title %>
+                    <% } %>
+                ' )
+        )
+    );
 };

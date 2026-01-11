@@ -3,7 +3,16 @@ $plans_query_args = [
     'post_type'      => 'plans',
     'posts_per_page' => 4,
     'post_status'    => 'publish',
-    'orderby'        => 'rand',
+    'meta_query'        => [
+        'relation' => 'AND',
+        'price_column' => [
+            'key'      => '_plan_price',
+            'compare'  => 'EXISTS',
+            'type'     => 'DECIMAL',
+        ],
+    ],
+    'order'   => 'DESC',
+    'orderby' => 'price_column',
 ];
 
 $plans_posts = new WP_Query( $plans_query_args );
@@ -22,7 +31,8 @@ $on_display       = apply_filters( 'hb2_on_display_arr', [] );
         $plans_posts->the_post();
 
         $plan_id        = get_the_ID();
-        $title          = carbon_get_post_meta( $plan_id, 'plan_name' );
+        $meta_title     = carbon_get_post_meta( $plan_id, 'plan_name' );
+        $title          = ! empty( $meta_title ) ? $meta_title : get_the_title();
         $permalink      = get_the_permalink($plan_id);
         $thumbnail      = get_the_post_thumbnail_url();
         $plan_size      = carbon_get_post_meta( $plan_id, 'plan_size' );
@@ -47,8 +57,8 @@ $on_display       = apply_filters( 'hb2_on_display_arr', [] );
             'beds'          => $plan_beds,
             'baths'         => $plan_baths,
             'location'      => $on_display[$plan_location],
-            'manufacturer'  => $manufacturer_arr[$manufacturer],
-            'series'        => array_key_exists( $plan_series, $series ) ? $series[$plan_series] : '',
+            'manufacturer'  => array_key_exists( $manufacturer, $manufacturer_arr ) ?  $manufacturer_arr[$manufacturer] : null,
+            'series'        => array_key_exists( $plan_series, $series ) ? $series[$plan_series] : null,
         ];
         
         get_template_part( 'template-parts/modules/__floor_home_card', null, [ 'data-floor' => $floor_data ] );
