@@ -645,6 +645,7 @@ a.primary {
 
 
 .submit-btn,
+a.submit-btn,
 .contact-section .wpcf7-submit {
 	position: relative;
 	display: flex;
@@ -809,7 +810,6 @@ section {
 	width: 100%;
 	object-fit: contain;
 }
-
 .hero-section .title-section {
 	margin: 0 0 10px;
 }
@@ -821,6 +821,10 @@ section {
 .home .hero-section .title-section {
 	font-size: 20px;
 	color: var(--white);
+}
+
+.fullscreen-video .video-wrap {
+	margin: 0;
 }
 
 .swiper-pagination {
@@ -837,8 +841,9 @@ section {
 
 /* hero with image */
 .hero-section.hero-img {
-	background-image: url("../img/adu-hero.png");
+	background-image: var(--hero-bg);
 	background-size: cover;
+	background-position: center;
 	height: 236px;
     max-height: 236px;
 	color: var(--white);
@@ -1236,6 +1241,195 @@ section {
 }
 .col-span-3 {
 	grid-column: span 3 / span 3;
+}
+
+/* Customer Guidelines section */
+.customer-guidelines-section {
+	background-color: var(--yellow);
+}
+
+.guidelines-swiper .swiper-slide {
+	padding: 0 100px;
+}
+
+.guidelines-swiper .slide-content {
+	display: flex;
+	align-items: center;
+	min-height: 400px;
+	flex-direction: column;
+	background: #F8F8F8;
+}
+
+.guidelines-swiper .slide-text {
+	flex: 1;
+	padding: 60px;
+	order: 2;
+}
+
+.guidelines-swiper .step-label {
+	font-family: "Anton", sans-serif;
+    font-weight: 400;
+	font-size: 20px;
+}
+
+.guidelines-swiper .slide-title {
+	font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+	font-size: 32px;
+	margin-bottom: 30px;
+}
+
+.guidelines-swiper .slide-description {
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+.guidelines-swiper .slide-image {
+	flex: 1;
+	height: 400px;
+	overflow: hidden;
+	order: 1;
+}
+
+.guidelines-swiper .slide-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Progress Bar Section */
+.progress-section {
+	margin-top: 40px;
+	display: none;
+}
+.steps-list {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	position: relative;
+	margin-bottom: 15px;
+}
+.step-item {
+	flex: 1;
+	text-align: left;
+	cursor: pointer;
+	transition: opacity 0.3s;
+	color: var(--gray);
+}
+.step-item.active {
+	color: var(--dark);
+}
+.step-item.active .step-name {
+	font-size: 24px;
+}
+.step-item:hover {
+	opacity: 0.7;
+}
+.step-number {
+	font-size: 14px;
+}
+.step-name {
+	font-family: "Anton", sans-serif;
+	font-size: 16px;
+	line-height: 1.2;
+	min-height: 29px;
+	display: flex;
+	align-items: center;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+	position: relative;
+	height: 24px;
+	border-radius: 4px;
+	overflow: hidden;
+}
+.progress-bar {
+	height: 100%;
+	background: var(--dark-gray);
+	width: 0%;
+	transition: width 0.3s ease;
+}
+.progress-segments {
+	display: flex;
+	height: 24px;
+	gap: 2px;
+}
+.progress-segment {
+	flex: 1;
+	background: var(--white);
+	transition: background 0.3s;
+}
+.progress-segment.active {
+	background: var(--dark-gray);
+}
+.guidelines-swiper .custom-prev {
+    left: 0;
+}
+.guidelines-swiper .custom-next {
+    right: 0;
+}
+
+/* process-section */
+.process-section .item-info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.process-section .card-item .title-section {
+	font-size: 32px;
+	color: var(--white);
+	text-wrap: balance;
+	margin: 0;
+}
+.process-section .card-item .subtitle-section {
+	font-size: 14px;
+	line-height: 1;
+	color: var(--white);
+}
+
+/* text-banner-section */
+.text-banner-section .text-banner-wrap {
+	display: flex;
+	gap: 40px;
+}
+.text-banner-section .text-wrap {
+	max-width: 500px;
+}
+.text-banner-section .subtitle-section,
+.text-banner-section .title-section {
+	text-align: left;
+}
+
+/* blog-section */
+.blog-section .container {
+	max-width: 823px;
+}
+.blog-section .title-description {
+	font-family: "Georgia";
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+.blog-section .subtitle-description {
+	font-size: 20px;
+	font-weight: 800;
+	margin-bottom: 20px;
+}
+.blog-section .section-description {
+	margin-bottom: 25px;
+}
+.blog-section .plan-download {
+	padding: 35px 0;
+}
+.blog-section .plan-download a {
+	width: 100%;
 }
 
 /* footer */
@@ -1839,6 +2033,47 @@ footer {
 	}
 	.plan-items .plan-item {
 		font-size: 24px;
+	}
+
+		.guidelines-swiper .slide-content {
+		flex-direction: row;
+	}
+	.guidelines-swiper .slide-text {
+		padding: 30px;
+		order: 1;
+	}
+	.guidelines-swiper .slide-title {
+		font-size: 40px;
+	}
+	.guidelines-swiper .slide-image {
+		order: 2;
+	}
+	.guidelines-swiper .steps-list {
+		justify-content: flex-start;
+		gap: 10px;
+	}
+	.guidelines-swiper .step-item {
+		min-width: 120px;
+	}
+	.progress-section {
+		display: block;
+	}
+
+	/* process-section */
+	.process-section .card-item .title-section {
+		font-size: 64px;
+	}
+	.process-section .card-item .subtitle-section {
+		font-size: 32px;
+	}
+
+	/* blog-section */
+	.blog-section .title-description {
+		font-size: 24px;
+	}
+	.blog-section .plan-download {
+		display: flex;
+		flex-direction: row;
 	}
 
 	/* footer */
