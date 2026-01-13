@@ -46,6 +46,21 @@ function hb2_meta_fields() {
         'singular_name' => __( 'File', 'home-boys-2' ),
     ];
 
+    $contacts_labels = [
+        'plural_name'   => __( 'Contacs', 'home-boys-2' ),
+        'singular_name' => __( 'Conract', 'home-boys-2' ),
+    ];
+
+    $phones_labels = [
+        'plural_name'   => __( 'Phone numbers', 'home-boys-2' ),
+        'singular_name' => __( 'Phone number', 'home-boys-2' ),
+    ];
+
+    $emails_labels = [
+        'plural_name'   => __( 'Emails', 'home-boys-2' ),
+        'singular_name' => __( 'Email', 'home-boys-2' ),
+    ];
+
     // Options
     $plan_series_opt = hb2_get_series_options();
 
@@ -433,5 +448,78 @@ function hb2_meta_fields() {
                     <% } %>
                 ' )
             )
+    );
+
+    // Process post type meta
+    Container::make( 'post_meta', __( 'Process data', 'home-boys-2' ) )
+        ->where( 'post_type', '=', 'process' )
+        ->add_fields( array(
+            Field::make( 'complex', 'process_contacts', __( 'Contacts', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $contacts_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'p_contact_name', __( 'Contact name', 'home-boys-2' ) ),
+                    Field::make( 'complex', 'p_contact_phones', __( 'Phone numbers', 'home-boys-2' ) )
+                        ->set_collapsed( true )
+                        ->setup_labels( $phones_labels )   
+                        ->add_fields( array(
+                            Field::make( 'text', 'pcp_number', __( 'Phone number', 'home-boys-2' ) )
+                                ->set_width( 50 )
+                                ->set_required( true ),
+                            Field::make( 'text', 'pcp_number_postfix', __( 'Postfix', 'home-boys-2' ) )
+                                ->set_width( 50 ),
+                        ) )
+                        ->set_header_template( '
+                            <% if (pcp_number) { %>
+                                <%- pcp_number %>
+                            <% } %>
+                        ' ),
+                    Field::make( 'complex', 'p_contact_emails', __( 'Emails ( or websites )', 'home-boys-2' ) )
+                        ->set_collapsed( true )
+                        ->setup_labels( $emails_labels )
+                        ->add_fields( array(
+                            Field::make( 'text', 'pcp_email', __( 'Email', 'home-boys-2' ) )
+                                ->set_width( 50 )
+                                ->set_required( true ),
+                            Field::make( 'text', 'pcp_email_postfix', __( 'Postfix', 'home-boys-2' ) )
+                                ->set_width( 50 ),
+                        ) )
+                        ->set_header_template( '
+                            <% if (pcp_email) { %>
+                                <%- pcp_email %>
+                            <% } %>
+                        ' ),
+                ) )
+                ->set_header_template( '
+                            <% if (p_contact_name) { %>
+                                <%- p_contact_name %>
+                            <% } %>
+                        ' ),
+            Field::make( 'textarea', 'process_description', __( 'Description' ) ),         
+        )
+    );
+
+    // Process Template 
+    Container::make( 'post_meta', __( 'Process items block', 'home-boys-2' ) )
+        ->where( 'post_template', '=', 'process-template.php' )
+        ->add_fields( array(
+            Field::make( 'checkbox', 'include_process_posts', __( 'Include Process Items', 'home-boys-2' ) )
+                ->set_width( 25 ),
+            Field::make( 'text', 'process_block_title', __( 'Process Items Block title', 'home-boys-2' ) )
+                ->set_width( 75 )
+                ->set_conditional_logic( array(
+                    array(
+                        'field' => 'include_process_posts',
+                        'value' => true,
+                    )
+                ) ),
+            Field::make( 'textarea', 'process_block_desc', __( 'Process Items Block description', 'home-boys-2' ) )
+                ->set_conditional_logic( array(
+                    array(
+                        'field' => 'include_process_posts',
+                        'value' => true,
+                    )
+                ) ),
+        )
     );
 };

@@ -372,7 +372,7 @@ get_header();
             </div>
         </section>
         <?php
-    endif; 
+    endif;
 
     get_template_part( 'template-parts/modules/section', 'contact' );
     get_template_part( 'template-parts/modules/section', 'find_home' );
