@@ -96,6 +96,9 @@ function hb2_meta_fields() {
                     Field::make( 'text', 'simple_hero_small_title', __( 'Small title', 'home-boys-2' ) ),
                     Field::make( 'text', 'simple_hero_title', __( 'Title', 'home-boys-2' ) ),
                 ) )
+                ->add_fields( 'video', __( 'Video', 'home-boys-2' ), array(
+                    Field::make( 'textarea', 'video_code', __( 'Video embed code', 'home-boys-2' ) ),
+                ) )
                 ->add_fields( 'single_banner', __( 'Single banner', 'home-boys-2' ), array(
                     Field::make( 'text', 'sb_hero_title', __( 'Title', 'home-boys-2' ) )
                         ->set_width(75),
@@ -437,8 +440,10 @@ function hb2_meta_fields() {
                 ->setup_labels( $files_labels )
                 ->add_fields( array(
                     Field::make( 'text', 'file_fu_title', __( 'File title', 'home-boys-2' ) )
+                        ->set_required( true )
                         ->set_width( 75 ),
                     Field::make( 'file', 'file_fu', __( 'File', 'home-boys-2' ) )
+                        ->set_required( true )
                         ->set_width( 25 )
                         ->set_value_type( 'url' ),
                 ) )
