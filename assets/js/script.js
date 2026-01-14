@@ -107,12 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // From Our People swiper
-    var swiper2 = new Swiper(".mySwiper2", {
+    var storiesSlider = new Swiper(".stories-swiper", {
         spaceBetween: 30,
         loop: true,
         navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+            nextEl: '.custom-next',
+            prevEl: '.custom-prev',
             enabled: false,
         },
         breakpoints: {
@@ -127,10 +127,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Blog swiper
-    var swiper3 = new Swiper(".mySwiper3", {
+    var blogSlider = new Swiper(".blog-slider", {
         slidesPerView: 1.2,
         spaceBetween: 20,
         centeredSlides: true,
+        loop: true,
         // initialSlide: 0,
         navigation: {
             nextEl: ".swiper-blog-button-next",

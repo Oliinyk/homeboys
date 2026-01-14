@@ -1405,11 +1405,11 @@ section {
 	text-align: left;
 }
 
-/* blog-section */
-.blog-section .container {
+/* content-section */
+.content-section .container {
 	max-width: 823px;
 }
-.blog-section .title-description {
+.content-section .title-description {
 	font-family: "Georgia";
 	font-weight: bold;
 	font-style: italic;
@@ -1417,18 +1417,18 @@ section {
 	font-size: 20px;
 	margin-bottom: 20px;
 }
-.blog-section .subtitle-description {
+.content-section .subtitle-description {
 	font-size: 20px;
 	font-weight: 800;
 	margin-bottom: 20px;
 }
-.blog-section .section-description {
+.content-section .section-description {
 	margin-bottom: 25px;
 }
-.blog-section .plan-download {
+.content-section .plan-download {
 	padding: 35px 0;
 }
-.blog-section .plan-download a {
+.content-section .plan-download a {
 	width: 100%;
 }
 
@@ -2067,11 +2067,11 @@ footer {
 		font-size: 32px;
 	}
 
-	/* blog-section */
-	.blog-section .title-description {
+	/* content-section */
+	.content-section .title-description {
 		font-size: 24px;
 	}
-	.blog-section .plan-download {
+	.content-section .plan-download {
 		display: flex;
 		flex-direction: row;
 	}

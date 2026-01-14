@@ -29,7 +29,7 @@ get_template_part( 'template-parts/modules/section', 'partner' );
 ?>
 
 <!-- START text section (Manufactured Home Loans) -->
-<section class="blog-section">
+<section class="content-section">
     <div class="container">
         <?php
         if ( ! empty( $content ) ) :

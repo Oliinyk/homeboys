@@ -27,7 +27,7 @@ if ( ! $stories->have_posts() ) {
         <div class="slider-wrap">
             <!-- Swiper -->
             <div class="swiper-outer">
-                <div class="swiper mySwiper2">
+                <div class="swiper stories-swiper">
                     <div class="swiper-wrapper">
                         <?php
                         while ( $stories->have_posts() ):
