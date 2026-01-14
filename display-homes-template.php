@@ -33,7 +33,10 @@ get_header();
 <section class="hero-section">
     <div class="container">
         <ul class="breadcrumbs">
-            <li class="crumb-item"><a href="#">Display Homes</a></li>
+            <li class="crumb-item">
+                <a href="#">Display Homes</a>
+            </li>
+            
             <?php
             if ( 0 <= $selected_location ) :
                 ?>
@@ -79,11 +82,7 @@ get_header();
             
 
             if ( empty( $thumbmail_id ) &&  ! empty( $plan_photos ) ) {
-                $gallery = unserialize( $plan_photos[0] );
-
-                if ( is_string( $gallery ) ) {
-                    $gallery = unserialize( $gallery );
-                }
+                $gallery = maybe_unserialize( $plan_photos );
 
                 $thumbmail_id = $gallery[0];
             }

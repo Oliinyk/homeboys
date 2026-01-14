@@ -79,15 +79,18 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
         foreach ($keys_map as $xml_key => $config) {
             $carbon_key = is_array($config) ? $config['key'] : $config;
             $type = (isset($config['type'])) ? $config['type'] : 'text';
-            $val = isset($xml_metas[$xml_key]) ? $xml_metas[$xml_key] : '';
+            $val  = isset($xml_metas[$xml_key]) ? $xml_metas[$xml_key] : '';
 
-            if (empty($val)) continue;
+            // if (empty($val)) continue;
+            if ( $val == '' ) {
+                continue;
+            }
 
             if ($type === 'gallery') {
                 echo "Начинаю импорт галереи<br>";
                 _gallery_import($target_id, $carbon_key, $val, $xml);
             } elseif ($type === 'file') {
-                $attach_node = $xml->xpath("//item[wp:post_id=$val]");
+                $attach_node = $xml->xpath('//item[wp:post_id="' . $val . '"]');
                 if ($attach_node) {
                     $at_wp = $attach_node[0]->children('wp', true);
                     $file_id = download_external_file_with_original_name(
@@ -118,44 +121,73 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
 /**
  * ИМПОРТ ГАЛЕРЕИ И КАРТИНОК
  */
-function _gallery_import($post_id, $carbon_key, $raw_value, $xml) {
-    $attachments = $xml->xpath("//item[wp:post_parent=$post_id and wp:post_type='attachment']");
-    
-    if (empty($attachments)) {
-        echo " — Галерея пуста (аттачменты не найдены).<br>";
+function _gallery_import( $post_id, $carbon_key, $raw_value, $xml ) {
+    $xml->registerXPathNamespace('wp', 'http://wordpress.org/export/1.2/');
+    $xml_ids = maybe_unserialize( $raw_value );
+
+    // echo "<pre>";
+    // var_dump($xml->xpath("//item[wp:post_id={$xml_ids[0]}]"));
+    // echo "</pre>";
+
+    // return;
+
+    if ( empty( $xml_ids ) || ! is_array( $xml_ids ) ) {
+        echo " — Галерея пуста (meta empty).<br>";
         return;
     }
 
     $final_ids = [];
 
-    foreach ($attachments as $attach) {
-        $img_url = (string)$attach->children('wp', true)->attachment_url;
-        $img_title = (string)$attach->title;
-        $img_date = (string)$attach->children('wp', true)->post_date;
+    foreach ( $xml_ids as $xml_attach_id ) {
+        $attach_node = $xml->xpath("//item[wp:post_id={$xml_attach_id}]");
 
-        $current_id = download_external_file_with_original_name($img_url, $post_id, $img_title, $img_date);
+        if ( ! $attach_node ) {
+            echo "attach_node $xml_attach_id NOT FOUND <br>";
+            continue;
+        }
 
-        if ($current_id && !is_wp_error($current_id)) {
-            $final_ids[] = (int)$current_id;
+        $attach = $attach_node[0];
+        $wp     = $attach->children('wp', true);
+
+        $url   = (string) $wp->attachment_url;
+        $title = (string) $attach->title;
+        $date  = (string) $wp->post_date;
+        $mime  = (string) $wp->post_mime_type;
+
+        // if ( strpos( $mime, 'image/' ) !== 0 ) {
+        //     continue;
+        // }
+
+        $id = download_external_file_with_original_name( $url, $post_id, $title, $date );
+
+        echo "Файл галереи {$id}";
+
+        if ( $id && ! is_wp_error( $id ) ) {
+            $final_ids[] = (int) $id;
         }
     }
 
-    $final_ids = array_unique($final_ids);
+    if ( empty( $final_ids ) ) {
+        echo " — Галерея не собрана.<br>";
+        return;
+    }
 
-    echo "Поготовлен массив изображений<br>";
+    $final_ids = array_values( array_unique( $final_ids ) );
 
     global $wpdb;
-    $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key LIKE %s", $post_id, '_' . $carbon_key . '%'));
+    $wpdb->delete(
+        $wpdb->postmeta,
+        [ 'post_id' => $post_id ],
+        [ '%d' ]
+    );
 
-    foreach ($final_ids as $index => $id) {
-        update_post_meta($post_id, "_{$carbon_key}|||$index|value", $id);
-        echo "  → Добавлено фото ID $id в _{$carbon_key}|||$index|value<br>";
+    foreach ( $final_ids as $i => $id ) {
+        update_post_meta( $post_id, "_{$carbon_key}|||{$i}|value", $id );
     }
-    
-    echo "Галерея обновлена ({$post_id})<br>";
-    print_r( get_post_meta( $post_id, "_{$carbon_key}" ) );
-    echo "<br>";
+
+    echo "Галерея обновлена ({$post_id}), элементов: " . count($final_ids) . "<br>";
 }
+
 
 function find_attachment_by_external_hash( $hash ) {
     global $wpdb;
@@ -191,7 +223,7 @@ function download_external_file_with_original_name( $url, $parent_id = 0, $title
     if ( $existing_id = find_attachment_by_external_hash( $hash ) ) {
         @unlink( $tmp );
 
-        echo "File {$existing_id} already exists<br>";
+        echo "( already exists )<br>";
         return $existing_id;
     }
 
@@ -211,7 +243,7 @@ function download_external_file_with_original_name( $url, $parent_id = 0, $title
 
     update_post_meta( $attachment_id, '_external_file_hash', $hash );
 
-    echo "File {$attachment_id} uploaded<br>";
+    echo "( uploaded )<br>";
 
     if ( $post_date ) {
         wp_update_post([
@@ -226,7 +258,7 @@ function download_external_file_with_original_name( $url, $parent_id = 0, $title
 function mark_existing_attachments_with_hash() {
 
     $args = [
-        'post_type'      => 'attachment',
+        'post_type' => 'attachment',
         'post_status'    => 'inherit',
         'posts_per_page' => -1,
         'fields'         => 'ids',
@@ -387,34 +419,34 @@ $plans_import_file = get_template_directory() . '/plans.WordPress.2025-12-23.xml
 $galeries_import_file = get_template_directory() . '/galleries.WordPress.2026-01-06.xml';
 
 $plans_keys = [
-    'plan_name'      => [ 'key' => 'plan_name' ],
-    'plan_order'     => [ 'key' => 'plan_order' ],
-    'plan_beds'      => [ 'key' => 'plan_beds', 'type' => 'int' ],
-    'plan_baths'     => [ 'key' => 'plan_baths', 'type' => 'int' ],
-    'plan_size'      => [ 'key' => 'plan_size', 'type' => 'int' ],
-    'plan_price'     => [ 'key' => 'plan_price', 'type' => 'int' ],
-    'plan_series'    => [ 'key' => 'plan_series' ],
-    'plan_manufacturer' => [ 'key' => 'plan_manufacturer' ],
-    'plan_number'       => [ 'key' => 'plan_number' ],
-    'plan_width'        => [ 'key' => 'plan_width' ],
-    'plan_type'        => [ 'key' => 'plan_type' ],
-    'plan_tour'        => [ 'key' => 'plan_tour' ],
-    'plan_location'        => [ 'key' => 'plan_location' ],
-    'matterport_embed'     => [ 'key' => 'matterport_embed' ],
-    'youtube_embed'     => [ 'key' => 'youtube_embed' ],
-    'plan_description'     => [ 'key' => 'plan_description' ],
+    'plan_name'             => [ 'key' => 'plan_name' ],
+    'plan_order'            => [ 'key' => 'plan_order' ],
+    'plan_beds'             => [ 'key' => 'plan_beds' ],
+    'plan_baths'            => [ 'key' => 'plan_baths' ],
+    'plan_size'             => [ 'key' => 'plan_size' ],
+    'plan_price'            => [ 'key' => 'plan_price', 'type' => 'int' ],
+    'plan_series'           => [ 'key' => 'plan_series' ],
+    'plan_manufacturer'     => [ 'key' => 'plan_manufacturer' ],
+    'plan_number'           => [ 'key' => 'plan_number' ],
+    'plan_width'            => [ 'key' => 'plan_width' ],
+    'plan_type'             => [ 'key' => 'plan_type' ],
+    'plan_tour'             => [ 'key' => 'plan_tour' ],
+    'plan_location'         => [ 'key' => 'plan_location' ],
+    'matterport_embed'      => [ 'key' => 'matterport_embed' ],
+    'youtube_embed'         => [ 'key' => 'youtube_embed' ],
+    'plan_description'      => [ 'key' => 'plan_description' ],
 
-    'plan_brochure'  => [ 'key' => 'plan_brochure'  , 'type' => 'file' ],
-    'plan_brochure2' => [ 'key' => 'plan_brochure2' , 'type' => 'file' ],
-    'plan_brochure3' => [ 'key' => 'plan_brochure3' , 'type' => 'file' ],
-    'plan_brochure4' => [ 'key' => 'plan_brochure4' , 'type' => 'file' ],
-    'plan_photos'    => [ 'key' => 'plan_photos'    , 'type' => 'gallery' ],
+    // 'plan_brochure'  => [ 'key' => 'plan_brochure'  , 'type' => 'file' ],
+    // 'plan_brochure2' => [ 'key' => 'plan_brochure2' , 'type' => 'file' ],
+    // 'plan_brochure3' => [ 'key' => 'plan_brochure3' , 'type' => 'file' ],
+    // 'plan_brochure4' => [ 'key' => 'plan_brochure4' , 'type' => 'file' ],
+    // 'plan_photos'    => [ 'key' => 'plan_photos'    , 'type' => 'gallery' ],
 ];
 
 $galeries_keys = [
-    'gallery_name' => [ 'key' => 'gallery_name' ],
+    'gallery_name'        => [ 'key' => 'gallery_name' ],
     'gallery_description' => [ 'key' => 'gallery_description' ],
-    'gallery_photos' => [ 'key' => 'gallery_photos', 'type' => 'gallery' ],
+    'gallery_photos'      => [ 'key' => 'gallery_photos', 'type' => 'gallery' ],
 ];
 
 // echo '<pre>';
@@ -426,7 +458,7 @@ $galeries_keys = [
 // echo '</pre>';
 
 // echo '<pre>';
-// print_r( deduplicate_attachments_by_hash() );
+// print_r( deduplicate_attachments_by_hash(false) );
 // echo '</pre>';
 
-// echo smart_post_import( $galeries_import_file, 'galleries', $galeries_keys, 10 );
+// echo smart_post_import( $plans_import_file, 'plans', $plans_keys, 50 );

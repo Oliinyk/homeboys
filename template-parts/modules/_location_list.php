@@ -19,6 +19,10 @@ if ( empty( $locations ) ) {
             'meta_query'     => [
                 [
                     'key'     => 'display_homes_location',
+                    'compare' => 'EXISTS',
+                ],
+                [
+                    'key'     => 'display_homes_location',
                     'value'   => $key,
                     'compare' => '=',
                 ],
