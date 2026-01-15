@@ -1,8 +1,11 @@
 <?php
+$current = get_the_ID();
+
 $q_params = [
-    'post_status'    => 'publish',
-    'post_type'      => 'plans',
-    'posts_per_page' => 2, //get_option( 'posts_per_page' )
+    'post_status'       => 'publish',
+    'post_type'         => 'plans',
+    'posts_per_page'    => 2, //get_option( 'posts_per_page' )
+    'post__not_in'      => [$current],
     'meta_query'     => [
         'relation' => 'AND',
         'price_column' => [

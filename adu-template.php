@@ -35,7 +35,7 @@ $locations_list     = apply_filters( 'hb2_locations_list', true );
 $manufacturer_arr   = apply_filters( 'hb2_get_manufacturers_list', true );
 $series_arr         = apply_filters( 'hb2_get_series_list', true );
 
-get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] ); // Баннер или в этом файле или просто ниже, перед контентом
+get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] );
 
 ?>
     <section class="info-section">
@@ -138,7 +138,10 @@ get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] );
         </div>
     </section>
 <?php
+// Contact section
 get_template_part( 'template-parts/modules/section', 'contact' );
+
+// Find Home section
 get_template_part( 'template-parts/modules/section', 'find_home' );
 
 get_footer();

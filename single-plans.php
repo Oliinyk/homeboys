@@ -30,10 +30,9 @@ if ( ! $thumbnail ) {
     $thumbnail = apply_filters( 'hb2_get_random_image', false );
 }
 
-?>
-<div class="nav-overlay" id="navOverlay"></div>
+// Overlay
+get_template_part( 'template-parts/modules/nav_overlay', null );
 
-<?php
 if ( ! empty( $gallery ) ) :
     ?>
     <section class="gallery-thumbs-section">

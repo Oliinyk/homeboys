@@ -1,7 +1,9 @@
 <?php
-// $id = $args['id'];
-$section_small_title = carbon_get_theme_option( 'blog_section__subtitle' );
-$section_title       = carbon_get_theme_option( 'blog_section_title' );
+
+$section_small_title   = carbon_get_theme_option( 'blog_section__subtitle' );
+$section_title         = carbon_get_theme_option( 'blog_section_title' );
+$classes               = isset( $args['classes'] ) ? $args['classes'] : '';
+
 $blog_posts_query_args = [
     'post_type'   => 'post',
     'post_status' => 'publish',
@@ -15,7 +17,7 @@ if ( ! $blog_posts->have_posts() ) {
     return;
 }
 ?>
-<section class="blog-section">
+<section class="blog-section<?php echo $classes?>">
     <div class="container">
         <h4 class="subtitle-section">
             <?php echo esc_html( $section_small_title ); ?>
