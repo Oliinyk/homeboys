@@ -15,6 +15,7 @@ $processes_section_args  = [
 
 $small_title = carbon_get_post_meta( $p_ID, 'page_small_title' );
 $title       = carbon_get_post_meta( $p_ID, 'page_title' );
+$p_title     = ! empty( $title ) ? $title : get_the_title();
 
 $content = get_the_content();
 
@@ -40,15 +41,11 @@ if ( ! empty( $content ) ) :
             </h4>
             <?php
             endif;
-
-            if ( ! empty( $title ) ) :
             ?>
             <h2 class="title-section">
-                <?php echo $title?>
+                <?php echo $p_title?>
             </h2>
             <?php
-            endif;
-
             if ( ! empty( $content ) ) :
             ?>
             <div class="content-wrap">
