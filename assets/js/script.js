@@ -109,8 +109,8 @@ var storiesSlider = new Swiper(".stories-swiper", {
     spaceBetween: 30,
     loop: true,
     navigation: {
-        nextEl: '.custom-next',
-        prevEl: '.custom-prev',
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
         enabled: false,
     },
     breakpoints: {
@@ -401,54 +401,56 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
-// Customer Guidelines slider with progressbar
-const CustomerGuidelinesSwiper = new Swiper('.guidelines-swiper', {
-    slidesPerView: 1,
-    spaceBetween: 60,
-    navigation: {
-        nextEl: '.custom-next',
-        prevEl: '.custom-prev',
-    },
-    on: {
-        slideChange: function () {
-            updateGuidelinesProgress(this.activeIndex);
+document.addEventListener('DOMContentLoaded', function() {
+    // Customer Guidelines slider with progressbar
+    const CustomerGuidelinesSwiper = new Swiper('.guidelines-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 60,
+        navigation: {
+            nextEl: '.custom-next',
+            prevEl: '.custom-prev',
         },
-        init: function () {
-            updateGuidelinesProgress(this.activeIndex);
+        on: {
+            slideChange: function () {
+                updateGuidelinesProgress(this.activeIndex);
+            },
+            init: function () {
+                updateGuidelinesProgress(this.activeIndex);
+            }
         }
+    });
+
+    function updateGuidelinesProgress(index) {
+        // Update the progress bar segments
+        const segments = document.querySelectorAll('.progress-segment');
+        segments.forEach((segment, i) => {
+            if (i <= index) {
+                segment.classList.add('active');
+            } else {
+                segment.classList.remove('active');
+            }
+        });
+
+        // Updating active steps
+        const stepItems = document.querySelectorAll('.step-item');
+        stepItems.forEach((stepItem, i) => {
+            if (i <= index) {
+                stepItem.classList.add('active');
+            } else {
+                stepItem.classList.remove('active');
+            }
+        });
     }
+
+    // Adding a click step by step
+    document.querySelectorAll('.step-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const step = parseInt(this.getAttribute('data-step'));
+            CustomerGuidelinesSwiper.slideTo(step);
+        });
+    });
+
+    // Initializing progress for the first slide
+    updateGuidelinesProgress(0);
+
 });
-
-function updateGuidelinesProgress(index) {
-    // Update the progress bar segments
-    const segments = document.querySelectorAll('.progress-segment');
-    segments.forEach((segment, i) => {
-        if (i <= index) {
-            segment.classList.add('active');
-        } else {
-            segment.classList.remove('active');
-        }
-    });
-
-    // Updating active steps
-    const stepItems = document.querySelectorAll('.step-item');
-    stepItems.forEach((stepItem, i) => {
-        if (i <= index) {
-            stepItem.classList.add('active');
-        } else {
-            stepItem.classList.remove('active');
-        }
-    });
-}
-
-// Adding a click step by step
-document.querySelectorAll('.step-item').forEach(item => {
-    item.addEventListener('click', function() {
-        const step = parseInt(this.getAttribute('data-step'));
-        CustomerGuidelinesSwiper.slideTo(step);
-    });
-});
-
-// Initializing progress for the first slide
-updateGuidelinesProgress(0);

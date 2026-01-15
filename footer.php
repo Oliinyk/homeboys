@@ -132,12 +132,7 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                             <div class="sm-col-span-2">
                                 <form action="#">
                                     <input type="text" placeholder="Email">
-                                    <button class="btn submit-btn">
-                                        Submit
-                                        <svg width="17" height="11" viewBox="0 0 17 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7848 5.09934L6.89478e-08 5.02649L5.60551e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 -2.71811e-07L10.4539 0.874172L14.7848 5.09934Z" fill="white"></path>
-                                        </svg>
-                                    </button>
+                                    <button class="btn submit-btn">Submit</button>
                                 </form>
                             </div>
                         </div>

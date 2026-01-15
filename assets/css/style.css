@@ -1898,6 +1898,37 @@ footer {
 	text-decoration: underline;
 }
 
+/* financing dark page */
+.dark-section .section-description {
+	color: var(--gray);
+}
+
+.financing-list .financing-item {
+	border: 1px solid var(--yellow);
+	padding: 25px;
+}
+.financing-list .item-title {
+	font-family: "Anton", sans-serif;
+	font-size: 24px;
+}
+.financing-item .contact-info {
+	display: flex;
+	flex-direction: column;
+	margin: 0 0 15px;
+	font-size: 16px;
+}
+.financing-item .contact-info > div {
+	display: flex;
+	gap: 5px
+}
+.financing-item .contact-info a {
+	color: var(--yellow);
+	text-decoration: underline;
+}
+.financing-item .contact-description {
+	font-size: 12px;
+}
+
 @media (min-width: 576px) {
 	.main-nav {
 		max-width: 375px;
