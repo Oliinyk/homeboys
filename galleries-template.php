@@ -54,11 +54,12 @@ $series_list = apply_filters( 'hb2_get_series_list', [] );
 
 $sold_marker_placeholder = carbon_get_theme_option( 'sold_marker_placeholder' );
 $not_found_message       = carbon_get_theme_option( 'not_found_posts_message' );
-?>
-<div class="nav-overlay" id="navOverlay"></div>
 
-<?php
-    get_template_part( 'template-parts/modules/section', 'hero', $hero_params );
+// Overlay
+get_template_part( 'template-parts/modules/nav_overlay', null );
+
+// Hero section
+get_template_part( 'template-parts/modules/section', 'hero', $hero_params );
 ?>
 
 <section class="gallery-section">

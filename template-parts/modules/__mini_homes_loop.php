@@ -1,8 +1,11 @@
 <?php
+$current = get_the_ID();
+
 $plans_query_args = [
     'post_type'      => 'plans',
     'posts_per_page' => 4,
     'post_status'    => 'publish',
+    'post__not_in'   => [$current],
     'meta_query'        => [
         'relation' => 'AND',
         'price_column' => [

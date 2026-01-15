@@ -13,8 +13,8 @@ $processes_section_args  = [
     'description' => $processes_section_desc,
 ];
 
-$small_title = carbon_get_post_meta( $p_ID, 'process_page_small_title' );
-$title       = carbon_get_post_meta( $p_ID, 'process_page_title' );
+$small_title = carbon_get_post_meta( $p_ID, 'page_small_title' );
+$title       = carbon_get_post_meta( $p_ID, 'page_title' );
 
 $content = get_the_content();
 
@@ -48,10 +48,15 @@ if ( ! empty( $content ) ) :
             </h2>
             <?php
             endif;
+
+            if ( ! empty( $content ) ) :
             ?>
             <div class="content-wrap">
                 <?php echo $content ?>
             </div>
+            <?php
+            endif
+            ?>
         </div>
     </section>
     <?php

@@ -11,28 +11,35 @@
  *
  * @package Home_Boys_2
  */
+$content     = get_the_content();
 
 get_header();
+
+// Overlay
+get_template_part( 'template-parts/modules/nav_overlay', null );
 ?>
+<section class="content-section">
+    <div class="container">
+        <h1 class="title-section">
+            <?php the_title()?>
+        </h1>
 
-	<main id="primary" class="site-main">
-
-		<?php
-		while ( have_posts() ) :
-			the_post();
-
-			get_template_part( 'template-parts/content', 'page' );
-
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
-			endif;
-
-		endwhile; // End of the loop.
-		?>
-
-	</main><!-- #main -->
-
+        <?php
+        if ( ! empty( $content ) ) :
+            ?>
+            <div class="content-wrap">
+                <?php echo $content ?>
+            </div>
+            <?php
+        endif
+        ?>
+    </div>
+</section>
 <?php
-get_sidebar();
+// Contact section
+get_template_part( 'template-parts/modules/section', 'contact' );
+
+// Find Home section
+get_template_part( 'template-parts/modules/section', 'find_home' );
+
 get_footer();

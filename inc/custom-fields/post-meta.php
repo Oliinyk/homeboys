@@ -71,10 +71,11 @@ function hb2_meta_fields() {
     $plan_type_opt = hb2_get_type_options();
 
     $plan_location_opt = [
-        0 => 'Spokane Only',
-        1 => 'Tri Cities Only',
-        2 => 'Spokane and Tri Cities',
-        3 => 'Montana',
+        -1 => '-Select',
+        0  => 'Spokane Only',
+        1  => 'Tri Cities Only',
+        2  => 'Spokane and Tri Cities',
+        3  => 'Montana',
     ];
 
     $galleries_types_opt = [
@@ -322,12 +323,19 @@ function hb2_meta_fields() {
         )
     );
 
-        // Process Template 
+    // Page Titles
+    Container::make( 'post_meta', __( 'Page Titles', 'home-boys-2' ) )
+        ->where( 'post_template', 'IN', ['process-template.php', 'about-template.php'] )
+        ->add_fields( array(
+            Field::make( 'text', 'page_small_title', __( 'Page small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'page_title', __( 'Page title', 'home-boys-2' ) ),
+        )
+    );
+
+    // Process Template
     Container::make( 'post_meta', __( 'Process items block', 'home-boys-2' ) )
         ->where( 'post_template', '=', 'process-template.php' )
         ->add_fields( array(
-            Field::make( 'text', 'process_page_small_title', __( 'Page small title', 'home-boys-2' ) ),
-            Field::make( 'text', 'process_page_title', __( 'Page title', 'home-boys-2' ) ),
             Field::make( 'checkbox', 'include_process_posts', __( 'Include Process Items', 'home-boys-2' ) )
                 ->set_width( 25 ),
             Field::make( 'text', 'process_block_title', __( 'Process Items Block title', 'home-boys-2' ) )

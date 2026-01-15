@@ -27,8 +27,10 @@ $plans_query_args = [
 $plans = new WP_Query( $plans_query_args );
 
 get_header();
+
+// Overlay
+get_template_part( 'template-parts/modules/nav_overlay', null );
 ?>
-<div class="nav-overlay" id="navOverlay"></div>
 
 <section class="hero-section">
     <div class="container">
@@ -169,6 +171,10 @@ get_header();
 </section>
 
 <?php
-    get_template_part( 'template-parts/modules/section', 'contact' );
-    get_template_part( 'template-parts/modules/section', 'find_home' );
+// Contact section
+get_template_part( 'template-parts/modules/section', 'contact' );
+
+// Find Home section
+get_template_part( 'template-parts/modules/section', 'find_home' );
+
 get_footer();

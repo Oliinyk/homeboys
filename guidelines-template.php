@@ -9,9 +9,10 @@ $content = get_the_content();
 $files_for_upload = carbon_get_post_meta( $p_ID, 'files_for_upload' );
 
 get_header();
-?>
-<div class="nav-overlay" id="navOverlay"></div>
-<?php
+
+// Overlay
+get_template_part( 'template-parts/modules/nav_overlay', null );
+
 // Hero
 get_template_part( 'template-parts/modules/section', 'hero', ['id' => $p_ID ] );
 
