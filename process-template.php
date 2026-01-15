@@ -13,37 +13,62 @@ $processes_section_args  = [
     'description' => $processes_section_desc,
 ];
 
+$small_title = carbon_get_post_meta( $p_ID, 'process_page_small_title' );
+$title       = carbon_get_post_meta( $p_ID, 'process_page_title' );
+
 $content = get_the_content();
 
+$parners_include = carbon_get_post_meta( $p_ID, 'include_partners' );
+
 get_header();
-?>
-    <!-- Finansing dark section -->
-    <?php
-    if ( ! empty( $inlude_processes ) ) :
-        get_template_part( 'template-parts/modules/section', 'processes_posts', $processes_section_args );
-    endif;    
-    ?>
-    <!-- Finansing dark section end -->
 
-    <!-- Content -->
-    <?php
-    if ( ! empty( $content ) ) :
-        ?>
-        <section>
-            <div class="container">
-                <div class="content-wrap">
-                    <?php echo $content ?>
-                </div>
+// Finansing dark section
+if ( ! empty( $inlude_processes ) ) :
+    get_template_part( 'template-parts/modules/section', 'processes_posts', $processes_section_args );
+endif;    
+
+// Content
+if ( ! empty( $content ) ) :
+    ?>
+    <section class="content-section">
+        <div class="container">
+            <?php
+            if ( ! empty( $small_title ) ) :
+            ?>
+            <h4 class="subtitle-section">
+                <?php echo $small_title?>
+            </h4>
+            <?php
+            endif;
+
+            if ( ! empty( $title ) ) :
+            ?>
+            <h2 class="title-section">
+                <?php echo $title?>
+            </h2>
+            <?php
+            endif;
+            ?>
+            <div class="content-wrap">
+                <?php echo $content ?>
             </div>
-        </section>
-        <?php
-    endif;
-    ?>
-    <!-- Content end -->
-
+        </div>
+    </section>
     <?php
-        get_template_part( 'template-parts/modules/section', 'contact' );
-        get_template_part( 'template-parts/modules/section', 'find_home' );
-    ?>
-<?php
+endif;
+
+// Text-banner section
+get_template_part( 'template-parts/modules/section', 'text_banner', [ 'id' => $p_ID ] );
+
+// Partners section
+if ( ! empty( $parners_include ) ) :
+    get_template_part( 'template-parts/modules/section', 'partner' );
+endif;    
+
+// Contact form
+get_template_part( 'template-parts/modules/section', 'contact' );
+
+// Find home section
+get_template_part( 'template-parts/modules/section', 'find_home' );
+
 get_footer();

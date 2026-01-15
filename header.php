@@ -54,9 +54,21 @@ if ( ! empty( $nav_menu_items ) ) {
 <div id="page" class="site">
 	<header class="site-header">
         <div class="container header-inner">
-            <a href="/" class="logo">
-                <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/hb-logo.svg'?>" alt="Home Boys logo">
-            </a>
+            <?php
+            if ( ! is_front_page() ) :
+                ?>
+                <a href="/">
+                <?php
+            endif;
+            ?>   
+                <img class="logo" src="<?php echo get_stylesheet_directory_uri() . '/assets/img/hb-logo.svg'?>" alt="Home Boys logo">
+            <?php
+            if ( ! is_front_page() ) :
+                ?>    
+                </a>
+                <?php
+            endif;
+            ?>
 
             <?php
             if ( ! empty( $nav_menu_items ) ) :

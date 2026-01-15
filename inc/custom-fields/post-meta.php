@@ -169,31 +169,6 @@ function hb2_meta_fields() {
         )
     );
 
-    // Partners Section ( front page ) 
-    Container::make( 'post_meta', __( 'Partners', 'home-boys-2' ) )
-        ->where( 'post_id', '=', get_option( 'page_on_front' ) )
-        ->add_fields( array(
-            Field::make( 'text', 'partners_section_title', __( 'Title section', 'home-boys-2' ) ),
-            Field::make( 'complex', 'partners', __( 'Partners list', 'home-boys-2' ) )
-                ->set_collapsed( true )
-                ->setup_labels( $partners_labels )
-                ->add_fields( array(
-                    Field::make( 'text', 'patner_name', __( 'Partner name', 'home-boys-2' ) )
-                        ->set_required( true )
-                        ->set_width( 75 ),
-                    Field::make( 'image', 'partner_image', __( 'Partner image', 'home-boys-2' ) )
-                        ->set_required( true )
-                        ->set_width( 25 )
-                        ->set_value_type( 'url' )  
-                ) )
-                ->set_header_template( '
-                    <% if (patner_name) { %>
-                        <%- patner_name %>
-                    <% } %>
-                ' )
-        )
-    );
-
     // Plains posts meta
     Container::make( 'post_meta', __( 'Home plain data', 'home-boys-2' ) )
         ->where( 'post_type', '=', 'plans' )
@@ -346,6 +321,32 @@ function hb2_meta_fields() {
                 ->add_options( $galleries_types_opt ),
         )
     );
+
+        // Process Template 
+    Container::make( 'post_meta', __( 'Process items block', 'home-boys-2' ) )
+        ->where( 'post_template', '=', 'process-template.php' )
+        ->add_fields( array(
+            Field::make( 'text', 'process_page_small_title', __( 'Page small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'process_page_title', __( 'Page title', 'home-boys-2' ) ),
+            Field::make( 'checkbox', 'include_process_posts', __( 'Include Process Items', 'home-boys-2' ) )
+                ->set_width( 25 ),
+            Field::make( 'text', 'process_block_title', __( 'Process Items Block title', 'home-boys-2' ) )
+                ->set_width( 75 )
+                ->set_conditional_logic( array(
+                    array(
+                        'field' => 'include_process_posts',
+                        'value' => true,
+                    )
+                ) ),
+            Field::make( 'textarea', 'process_block_desc', __( 'Process Items Block description', 'home-boys-2' ) )
+                ->set_conditional_logic( array(
+                    array(
+                        'field' => 'include_process_posts',
+                        'value' => true,
+                    )
+                ) ),
+        )
+    );
     
     // Guidelines Template
     Container::make( 'post_meta', __( 'Page meta', 'home-boys-2' ) )
@@ -415,7 +416,7 @@ function hb2_meta_fields() {
     );
 
     Container::make( 'post_meta', __( 'Double text-image', 'home-boys-2' ) )
-        ->where( 'post_template', 'IN', ['guidelines-template.php'] )
+        ->where( 'post_template', 'IN', ['guidelines-template.php', 'process-template.php'] )
         ->add_fields( array(
             Field::make( 'text', 'dti_small_title', __( 'Small title', 'home-boys-2' ) )
                 ->set_width( 50 ),
@@ -430,6 +431,22 @@ function hb2_meta_fields() {
                 ->set_value_type( 'url' )
                 ->set_width( 25 ),
         )
+    );
+
+    Container::make( 'post_meta', __( 'Partners section', 'home-boys-2' ) )
+        ->where( 'post_template', 'IN', ['process-template.php'] )
+        ->add_fields( array(
+            Field::make( 'checkbox', 'include_partners', __( 'Include Partners section?', 'home-boys-2' ) )
+                ->set_width( 25 ),
+            // Field::make( 'text', 'partners_section_title', __( 'Section title', 'home-boys-2' ) )
+            //     ->set_width( 75 )
+            //     ->set_conditional_logic( array(
+            //         array(
+            //             'field' => 'include_partners',
+            //             'value' => true,
+            //         )
+            //     ) ),
+        ) 
     );
 
     Container::make( 'post_meta', __( 'Files for upload', 'home-boys-2' ) )
@@ -501,30 +518,6 @@ function hb2_meta_fields() {
                             <% } %>
                         ' ),
             Field::make( 'textarea', 'process_description', __( 'Description' ) ),         
-        )
-    );
-
-    // Process Template 
-    Container::make( 'post_meta', __( 'Process items block', 'home-boys-2' ) )
-        ->where( 'post_template', '=', 'process-template.php' )
-        ->add_fields( array(
-            Field::make( 'checkbox', 'include_process_posts', __( 'Include Process Items', 'home-boys-2' ) )
-                ->set_width( 25 ),
-            Field::make( 'text', 'process_block_title', __( 'Process Items Block title', 'home-boys-2' ) )
-                ->set_width( 75 )
-                ->set_conditional_logic( array(
-                    array(
-                        'field' => 'include_process_posts',
-                        'value' => true,
-                    )
-                ) ),
-            Field::make( 'textarea', 'process_block_desc', __( 'Process Items Block description', 'home-boys-2' ) )
-                ->set_conditional_logic( array(
-                    array(
-                        'field' => 'include_process_posts',
-                        'value' => true,
-                    )
-                ) ),
         )
     );
 };
