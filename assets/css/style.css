@@ -1918,7 +1918,7 @@ footer {
 	font-size: 16px;
 }
 .financing-item .contact-info > div {
-	display: flex;
+	/* display: flex; */
 	gap: 5px
 }
 .financing-item .contact-info a {

@@ -17,6 +17,7 @@ $import_offset    = isset( $_GET['im_offset'] ) ? intval( $_GET['im_offset'] ) :
 $plans_import_file      = get_template_directory() . '/plans.WordPress.2025-12-23.xml';
 $galleries_import_file  = get_template_directory() . '/galleries.WordPress.2026-01-06.xml';
 $employees_import_file  = get_template_directory() . '/employees.WordPress.2026-01-15.xml';
+$processes_import_file  = get_template_directory() . '/processes.WordPress.2026-01-16.xml';
 
 $plans_keys = [
     'plan_name'             => [ 'key' => 'plan_name' ],

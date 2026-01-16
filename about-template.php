@@ -47,6 +47,10 @@ get_template_part( 'template-parts/modules/section', 'hero', ['id' => $p_id] );
             <?php
         endif
         ?>
+
+        <?php
+        get_template_part( 'template-parts/modules/_employees', null );
+        ?>
     </div>
 </section>
 
