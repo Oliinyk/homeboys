@@ -16,6 +16,7 @@ $import_offset    = isset( $_GET['im_offset'] ) ? intval( $_GET['im_offset'] ) :
 
 $plans_import_file      = get_template_directory() . '/plans.WordPress.2025-12-23.xml';
 $galleries_import_file  = get_template_directory() . '/galleries.WordPress.2026-01-06.xml';
+$employees_import_file  = get_template_directory() . '/employees.WordPress.2026-01-15.xml';
 
 $plans_keys = [
     'plan_name'             => [ 'key' => 'plan_name' ],
@@ -48,6 +49,16 @@ $galleries_keys = [
     'gallery_photos'      => [ 'key' => 'gallery_photos', 'type' => 'gallery' ],
 ];
 
+$employees_keys = [
+    'employee_photo'    => [ 'key' => 'employee_photo', 'type' => 'file' ],
+    'employee_order'    => [ 'key' => 'employee_order' ],
+    'employee_name'     => [ 'key' => 'employee_name' ],
+    'employee_title'    => [ 'key' => 'employee_title' ],
+    'employee_bio'      => [ 'key' => 'employee_bio' ],
+    'employee_email'    => [ 'key' => 'employee_email' ],
+    'employee_phone'    => [ 'key' => 'employee_phone' ],
+];
+
 $import_file = '';
 $keys        = [];
 
@@ -60,6 +71,10 @@ switch ( $import_post_type ) {
         $import_file = $galleries_import_file;
         $keys        = $galleries_keys;
         break;
+    case 'employees' :
+        $import_file = $employees_import_file;
+        $keys        = $employees_keys;
+        break;    
 }
 
 if ( 'import' == $_GET['run'] ) {

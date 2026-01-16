@@ -446,14 +446,6 @@ function hb2_meta_fields() {
         ->add_fields( array(
             Field::make( 'checkbox', 'include_partners', __( 'Include Partners section?', 'home-boys-2' ) )
                 ->set_width( 25 ),
-            // Field::make( 'text', 'partners_section_title', __( 'Section title', 'home-boys-2' ) )
-            //     ->set_width( 75 )
-            //     ->set_conditional_logic( array(
-            //         array(
-            //             'field' => 'include_partners',
-            //             'value' => true,
-            //         )
-            //     ) ),
         ) 
     );
 
@@ -526,6 +518,30 @@ function hb2_meta_fields() {
                             <% } %>
                         ' ),
             Field::make( 'textarea', 'process_description', __( 'Description' ) ),         
+        )
+    );
+
+    // Employees post type meta
+    Container::make( 'post_meta', __( 'Employee data', 'home-boys-2' ) )
+        ->where( 'post_type', '=', 'employees' )
+        ->add_fields( array(
+            Field::make( 'checkbox', 'is_group', __( 'Is group', 'home-boys-2' ) )
+                ->set_width( 20 ),
+            Field::make( 'text', 'employee_name', __( 'Employee Name', 'home-boys-2' ) )
+                ->set_required( true )
+                ->set_width( 40 ),
+            Field::make( 'text', 'employee_title', __( 'Employee Title', 'home-boys-2' ) ) 
+                ->set_required( true )
+                ->set_width( 40 ),
+            Field::make( 'textarea', 'employee_bio', __( 'Employee Bio', 'home-boys-2' ) )
+                ->set_required( true )
+                ->set_width( 75 ),
+            Field::make( 'image', 'employee_photo', __( 'Employee Photo', 'home-boys-2' ) )
+                ->set_width( 25 ),
+            Field::make( 'text', 'employee_email', __( 'Employee Email', 'home-boys-2' ) )
+                ->set_width( 50 ),
+            Field::make( 'text', 'employee_phone', __( 'Employee Phone', 'home-boys-2' ) )
+                ->set_width( 50 ),    
         )
     );
 };
