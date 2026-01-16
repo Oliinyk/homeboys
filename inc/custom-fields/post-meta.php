@@ -429,13 +429,13 @@ function hb2_meta_fields() {
             Field::make( 'text', 'dti_small_title', __( 'Small title', 'home-boys-2' ) )
                 ->set_width( 50 ),
             Field::make( 'text', 'dti_title', __( 'Title', 'home-boys-2' ) )
-                ->set_required( true )
+                // ->set_required( true )
                 ->set_width( 50 ),
             Field::make( 'textarea', 'dti_description', __( 'Desription text', 'home-boys-2' ) )
-                ->set_required( true )
+                // ->set_required( true )
                 ->set_width( 75 ),
             Field::make( 'image', 'dti_image', __( 'Block image', 'home-boys-2' ) )
-                ->set_required( true )
+                // ->set_required( true )
                 ->set_value_type( 'url' )
                 ->set_width( 25 ),
         )

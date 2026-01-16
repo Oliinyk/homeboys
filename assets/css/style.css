@@ -1901,8 +1901,12 @@ footer {
 /* financing dark page */
 .dark-section .section-description {
 	color: var(--gray);
+	font-family: "Georgia";
+	font-weight: bold;
+	font-style: italic;
+	max-width: 750px;
+	margin: 0 auto 30px;
 }
-
 .financing-list .financing-item {
 	border: 1px solid var(--yellow);
 	padding: 25px;
@@ -1910,20 +1914,19 @@ footer {
 .financing-list .item-title {
 	font-family: "Anton", sans-serif;
 	font-size: 24px;
+	margin: 0 0 15px;
 }
 .financing-item .contact-info {
 	display: flex;
 	flex-direction: column;
-	margin: 0 0 15px;
+	margin: 0 0 25px;
 	font-size: 16px;
 }
-.financing-item .contact-info > div {
-	/* display: flex; */
-	gap: 5px
-}
 .financing-item .contact-info a {
+	display: inline;
 	color: var(--yellow);
 	text-decoration: underline;
+	word-wrap: break-word;
 }
 .financing-item .contact-description {
 	font-size: 12px;
@@ -2135,10 +2138,10 @@ footer {
 	}
 
 	.sm-col-2 {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 	.sm-col-3 {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 	.sm-col-span-1 {
 		grid-column: span 1 / span 1;
@@ -2291,13 +2294,13 @@ footer {
 	}
 
 	.md-col-2 {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 	.md-col-3 {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 	.md-col-4 {
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 	.md-col-span-2 {
 		grid-column: span 2 / span 2;

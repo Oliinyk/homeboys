@@ -34,7 +34,7 @@ if ( ! $processes->have_posts() ) {
 
         if ( ! empty( $block_description ) ) :
             ?>
-            <div class="desc-wrap">
+            <div class="section-description text-center">
                 <?php echo $block_description ?>
             </div>
             <?php
@@ -70,19 +70,17 @@ if ( ! $processes->have_posts() ) {
                                 foreach( $phones as $key => $phone ) :
                                     $ph_separate = 0 < $key ? ' or ' : '';
                                     ?>
-                                    <!-- <div> -->
                                         <?php echo $ph_separate;?>
 
                                         <a href="tel:<?php echo $phone['pcp_number']?>">
                                             <?php echo $phone['pcp_number']?>
                                         </a>
-                                    <!-- </div> -->
                                     <?php
                                     if ( ! empty( $phone['pcp_number_postfix'] ) ) :
                                         ?>
-                                        <span class="postfix-text">
-                                            <?php $phone['pcp_number_postfix']?>
-                                        </span>
+                                        <p class="postfix-text">
+                                            <?php echo $phone['pcp_number_postfix']?>
+                                        </p>
                                         <?php
                                     endif;    
                                 endforeach;
@@ -90,7 +88,6 @@ if ( ! $processes->have_posts() ) {
                                 foreach( $emails as $key => $email ) :
                                     $e_separate = 0 < $key ? ' or ' : '';
                                     ?>
-                                    <!-- <div> -->
                                         <?php echo $e_separate;?>
 
                                         <a href="<?php echo $email['pcp_email']?>">
@@ -100,11 +97,10 @@ if ( ! $processes->have_posts() ) {
                                         <?php
                                         if ( ! empty( $email['pcp_email_postfix'] ) ) :
                                             ?>
-                                            <span class="postfix-text"><?php $email['pcp_email_postfix']?></span>
+                                            <p class="postfix-text"><?php echo $email['pcp_email_postfix']?></p>
                                             <?php
                                         endif;
                                         ?>
-                                    <!-- </div> -->
                                     <?php
                                 endforeach;
                                 ?>
