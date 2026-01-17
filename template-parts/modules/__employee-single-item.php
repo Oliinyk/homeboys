@@ -5,16 +5,16 @@
         </div>
 
         <div class="side">
-            <h3>
+            <h3 class="employee-title">
                 <?php echo $title?>
             </h3>
 
             <?php
             if ( ! empty( $subtitle ) ) :
             ?>
-            <span class="subtitle">
+            <p class="employee-subtitle">
                 <?php echo $subtitle?>
-            </span>
+            </p >
             <?php
             endif;
             ?>
@@ -23,27 +23,23 @@
                 <?php
                 if ( ! empty( $mail ) ) :
                     ?>
-                    <p>
-                        <a href="mailto:<?php echo $mail?>">
-                            <?php echo $mail?>
-                        </a>
-                    </p>
+                    <a href="mailto:<?php echo $mail?>">
+                        <?php echo $mail?>
+                    </a>
                     <?php
                 endif;
 
                 if ( ! empty( $phone ) ) :
                     ?>
-                    <p>
-                        <a href="tel:<?php echo $phone?>">
-                            <?php echo $phone?>
-                        </a>
-                    </p>
+                    <a href="tel:<?php echo $phone?>">
+                        <?php echo $phone?>
+                    </a>
                     <?php
                 endif;
 
                 if ( ! empty( $desc ) ) :
                     ?>
-                    <p>
+                    <p class="employee-desc">
                         <?php echo $desc?>
                     </p>
                     <?php

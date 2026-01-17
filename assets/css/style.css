@@ -1230,6 +1230,9 @@ section {
 .sort-switcher.active .sort-ico {
 	fill: var(--white);
 }
+.grid {
+	display: grid;
+}
 .col-2 {
 	grid-template-columns: repeat(2, 1fr);
 }
@@ -1930,6 +1933,69 @@ footer {
 }
 .financing-item .contact-description {
 	font-size: 12px;
+}
+
+/* About us */
+.page-template-about-template .site {
+	background-color: var(--yellow);
+}
+.employees .items {
+	align-items: center;
+	gap: 50px 40px;
+}
+.team-section .employee-item .item-wrap {
+	display: flex;
+	align-items: flex-start;
+	gap: 25px;
+	position: relative;
+}
+.team-section .employee-item img {
+	border-radius: 50%;
+	width: 100%;
+}
+.team-section .employee-item.single-item .side:first-child {
+	max-width: 110px;
+}
+.team-section .employee-item .side:first-child {
+	flex: 1 0 auto;
+	max-width: 288px;
+}
+.employee-item.group-item {
+	padding: 0 0 10px;
+}
+.employee-title {
+	font-family: "Anton", sans-serif;
+	font-size: 24px;
+}
+.employee-item .employee-subtitle {
+	line-height: 1.2;
+	margin: 0 0 10px;
+}
+.employee-item .info a {
+	color: var(--primary);
+	text-decoration: underline;
+	font-size: 14px;
+	display: block;
+}
+.employee-item .employee-desc {
+	font-size: 12px;
+	display: -webkit-box;
+	-webkit-line-clamp: 4;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	line-height: 1.25;
+	max-height: calc(1.25em * 4);
+	margin: 10px 0 0;
+}
+
+.group-item .item-wrap .side:last-child {
+	background-color: var(--yellow);
+	position: absolute;
+	max-width: 288px;
+	top: auto;
+	right: 8px;
+	bottom: -12px;
+	padding: 12px 20px;
 }
 
 @media (min-width: 576px) {

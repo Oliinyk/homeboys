@@ -27,7 +27,7 @@ if ( ! $employees->have_posts() ) {
 
     <h2 class="title-section">Team</h2>
 
-    <div class="content-wrap items">
+    <div class="content-wrap items grid sm-col-2 md-col-3">
         <?php
         while ( $employees->have_posts() ) :
             $employees->the_post();
@@ -48,7 +48,7 @@ if ( ! $employees->have_posts() ) {
 
             $photo_url = wp_get_attachment_image_url( $photo_id );
             
-            echo $title;
+            // echo $title;
 
             if ( empty( $is_group ) ) :
                 include get_template_directory() . '/template-parts/modules/__employee-single-item.php';

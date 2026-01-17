@@ -22,7 +22,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
 get_template_part( 'template-parts/modules/section', 'hero', ['id' => $p_id] );
 ?>
 
-<section class="content-section">
+<section class="team-section">
     <div class="container">
         <?php
         if ( ! empty( $small_title ) ) :
