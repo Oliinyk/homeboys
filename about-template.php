@@ -23,35 +23,39 @@ get_template_part( 'template-parts/modules/section', 'hero', ['id' => $p_id] );
 ?>
 
 <section class="team-section">
-    <div class="container">
-        <?php
-        if ( ! empty( $small_title ) ) :
-            ?>
-            <h4 class="subtitle-section">
-                <?php echo $small_title?>
-            </h4>
-            <?php
-        endif;
-        ?>
-
-        <h1 class="title-section">
-            <?php echo $p_title?>
-        </h1>
-
-        <?php
-        if ( ! empty( $content ) ) :
-            ?>
+    <div class="content-section">
+        <div class="container">
             <div class="content-wrap">
-                <?php echo $content ?>
-            </div>
-            <?php
-        endif
-        ?>
+                <?php
+                if ( ! empty( $small_title ) ) :
+                    ?>
+                    <h4 class="subtitle-section">
+                        <?php echo $small_title?>
+                    </h4>
+                    <?php
+                endif;
+                ?>
 
-        <?php
-        get_template_part( 'template-parts/modules/_employees', null );
-        ?>
+                <h1 class="title-section">
+                    <?php echo $p_title?>
+                </h1>
+
+                <?php
+                if ( ! empty( $content ) ) :
+                    ?>
+                    
+                        <?php echo $content ?>
+                    
+                    <?php
+                endif
+                ?>
+            </div>
+        </div>
     </div>
+
+    <?php
+    get_template_part( 'template-parts/modules/_employees', null );
+    ?>
 </section>
 
 <?php
