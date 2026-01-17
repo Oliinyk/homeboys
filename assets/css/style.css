@@ -1929,7 +1929,7 @@ footer {
 	display: inline;
 	color: var(--yellow);
 	text-decoration: underline;
-	word-wrap: break-word;
+	word-break: break-all;
 }
 .financing-item .contact-description {
 	font-size: 12px;
