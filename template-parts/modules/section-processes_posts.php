@@ -78,9 +78,9 @@ if ( ! $processes->have_posts() ) {
                                     <?php
                                     if ( ! empty( $phone['pcp_number_postfix'] ) ) :
                                         ?>
-                                        <p class="postfix-text">
+                                        <span class="postfix-text">
                                             <?php echo $phone['pcp_number_postfix']?>
-                                        </p>
+                                        </span>
                                         <?php
                                     endif;    
                                 endforeach;
@@ -97,7 +97,9 @@ if ( ! $processes->have_posts() ) {
                                         <?php
                                         if ( ! empty( $email['pcp_email_postfix'] ) ) :
                                             ?>
-                                            <p class="postfix-text"><?php echo $email['pcp_email_postfix']?></p>
+                                            <span class="postfix-text">
+                                                <?php echo $email['pcp_email_postfix']?>
+                                            </span>
                                             <?php
                                         endif;
                                         ?>

@@ -48,8 +48,6 @@ if ( ! $employees->have_posts() ) {
 
             $photo_url = wp_get_attachment_image_url( $photo_id, 'large' );
             
-            // echo $title;
-
             if ( empty( $is_group ) ) :
                 include get_template_directory() . '/template-parts/modules/__employee-single-item.php';
             else :
