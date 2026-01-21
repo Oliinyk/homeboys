@@ -72,6 +72,7 @@ function hb2_options_fields() {
                     Field::make( 'text', 'location_name', __( 'Location Name', 'home-boys-2' ) )
                         ->set_required( true ),
                     Field::make( 'text', 'location_address', __( 'Location Address', 'home-boys-2'  ) ),
+                    Field::make( 'text', 'location_link_href', __( 'Map link Location' ) ),
                     Field::make( 'text', 'location_phone', __( 'Location Phone', 'home-boys-2'  ) ),
                 ))
                 ->set_header_template( '

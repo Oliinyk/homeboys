@@ -34,7 +34,6 @@ if ( ! empty( $nav_menu_items ) ) {
                 ];
             }
         }
-        
     }
 };
 

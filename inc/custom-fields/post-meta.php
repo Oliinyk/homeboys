@@ -539,9 +539,11 @@ function hb2_meta_fields() {
             Field::make( 'image', 'employee_photo', __( 'Employee Photo', 'home-boys-2' ) )
                 ->set_width( 25 ),
             Field::make( 'text', 'employee_email', __( 'Employee Email', 'home-boys-2' ) )
-                ->set_width( 50 ),
+                ->set_width( 40 ),
             Field::make( 'text', 'employee_phone', __( 'Employee Phone', 'home-boys-2' ) )
-                ->set_width( 50 ),    
+                ->set_width( 40 ),
+            Field::make( 'text', 'employee_phone_after', __( 'After Phone Text', 'home-boys-2' ) )
+                ->set_width( 20 ),    
         )
     );
 };
