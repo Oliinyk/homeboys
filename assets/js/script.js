@@ -1,99 +1,142 @@
 //  HEADER
-const burger = document.getElementById('burgerBtn');
-const nav = document.getElementById('mainNav');
-const closeNav = document.getElementById('closeNav');
-const overlay = document.getElementById('navOverlay');
-const dropdowns = document.querySelectorAll('.has-dropdown > button');
+(function () {
 
-// Header hide / show on scroll
-const siteHeader = document.querySelector('.site-header');
-let lastScrollY = window.scrollY;
-const headerOffset = 120; // px before hide
+    const burger = document.querySelector('.burgerBtn');
+    const burgerLabel = burger?.querySelector('.burger-label');
+    const nav = document.getElementById('mainNav');
+    const overlay = document.getElementById('navOverlay');
+    const dropdownBg = document.getElementById('dropdownBg');
+    const dropdownButtons = document.querySelectorAll('.has-dropdown > button');
+    const siteHeader = document.querySelector('.site-header');
 
-window.addEventListener('scroll', () => {
-    if (!siteHeader) return;
+    if (!siteHeader || !burger || !nav || !burgerLabel) return;
 
-    // do not hide header when mobile menu is open
-    if (nav.classList.contains('open')) return;
+    const DESKTOP_BREAKPOINT = 992;
+    const HEADER_OFFSET = 120;
 
-    const currentScroll = window.scrollY;
+    let lastScrollY = window.scrollY;
+    let scrollTicking = false;
 
-    // always show header near top
-    if (currentScroll <= headerOffset) {
-        siteHeader.classList.remove('is-hidden');
+    // ---------------- HELPERS ----------------
+
+    const isDesktop = () => window.innerWidth >= DESKTOP_BREAKPOINT;
+
+    const setBurgerLabel = (isOpen) => {
+        burgerLabel.textContent = isOpen ? 'CLOSE' : 'MENU';
+    };
+
+    const closeAllDropdowns = () => {
+        document
+            .querySelectorAll('.has-dropdown.open')
+            .forEach(d => d.classList.remove('open'));
+
+        if (dropdownBg) {
+            dropdownBg.classList.remove('active');
+            dropdownBg.style.height = '';
+        }
+    };
+
+    const openMobileMenu = () => {
+        nav.classList.add('open');
+        overlay?.classList.add('active');
+        burger.classList.add('active');
+        setBurgerLabel(true);
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeMobileMenu = () => {
+        nav.classList.remove('open');
+        overlay?.classList.remove('active');
+        burger.classList.remove('active');
+        setBurgerLabel(false);
+        document.body.style.overflow = '';
+        closeAllDropdowns();
+    };
+
+    const toggleMobileMenu = () => {
+        nav.classList.contains('open')
+            ? closeMobileMenu()
+            : openMobileMenu();
+    };
+
+    // ---------------- HEADER SCROLL ----------------
+
+    const handleScroll = () => {
+        const currentScroll = window.scrollY;
+
+        if (nav.classList.contains('open')) return;
+
+        if (currentScroll <= HEADER_OFFSET) {
+            siteHeader.classList.remove('is-hidden');
+            lastScrollY = currentScroll;
+            return;
+        }
+
+        siteHeader.classList.toggle(
+            'is-hidden',
+            currentScroll > lastScrollY
+        );
+
         lastScrollY = currentScroll;
-        return;
-    }
+    };
 
-    if (currentScroll > lastScrollY) {
-        // scroll down
-        siteHeader.classList.add('is-hidden');
-    } else {
-        // scroll up
-        siteHeader.classList.remove('is-hidden');
-    }
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            window.requestAnimationFrame(() => {
+                handleScroll();
+                scrollTicking = false;
+            });
+            scrollTicking = true;
+        }
+    });
 
-    lastScrollY = currentScroll;
-});
+    // ---------------- EVENTS ----------------
 
+    burger.addEventListener('click', toggleMobileMenu);
+    overlay?.addEventListener('click', closeMobileMenu);
 
-// Open mobile menu
-burger.addEventListener('click', () => {
-    nav.classList.add('open');
-    overlay.classList.add('active');
-    burger.classList.add('active');
-    document.body.style.overflow = 'hidden';
-});
+    // ---------------- DROPDOWNS ----------------
 
-// Close mobile menu
-function closeMobileMenu() {
-    nav.classList.remove('open');
-    overlay.classList.remove('active');
-    burger.classList.remove('active');
-    document.body.style.overflow = '';
-}
+    dropdownButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
 
-if (closeNav) {
-    closeNav.addEventListener('click', closeMobileMenu);
-}
-if (overlay) {
-    overlay.addEventListener('click', closeMobileMenu);
-}
+            const parent = button.closest('.has-dropdown');
+            const menu = parent.querySelector('.dropdown-menu');
+            const isOpen = parent.classList.contains('open');
 
-// Dropdown toggle on click (works for both mobile and desktop)
-dropdowns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const parent = btn.parentElement;
-        const isOpen = parent.classList.contains('open');
-        
-        // Close all other dropdowns
-        document.querySelectorAll('.has-dropdown').forEach(dropdown => {
-            if (dropdown !== parent) {
-                dropdown.classList.remove('open');
+            closeAllDropdowns();
+
+            if (!isOpen) {
+                parent.classList.add('open');
+
+                if (isDesktop() && dropdownBg && menu) {
+                    dropdownBg.style.height = `${menu.offsetHeight}px`;
+                    dropdownBg.classList.add('active');
+                }
             }
         });
-        
-        // Toggle current dropdown
-        parent.classList.toggle('open');
     });
-});
 
-// Close dropdowns when clicking outside
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.has-dropdown')) {
-        document.querySelectorAll('.has-dropdown').forEach(dropdown => {
-            dropdown.classList.remove('open');
-        });
-    }
-});
+    // close dropdown on outside click
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.has-dropdown')) {
+            closeAllDropdowns();
+        }
+    });
 
-// Close mobile menu on window resize to desktop
-window.addEventListener('resize', () => {
-    if (window.innerWidth >= 992) {
-        closeMobileMenu();
-    }
-});
+    // ---------------- RESIZE ----------------
+
+    window.addEventListener('resize', () => {
+        if (isDesktop()) {
+            closeMobileMenu();
+        } else {
+            closeAllDropdowns();
+        }
+    });
+
+})();
 
 
 // --- Initialize Swiper ---

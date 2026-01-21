@@ -53,7 +53,7 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                         <div class="footer-row sm-col-2 col-span-3">
                             <div class="footer-col">
                                 <h4 class="title-col">Contact us</h4>
-                                <a href="mailto:jr@thehomeboys.com" class="primary">jr@thehomeboys.com</a>
+                                <a href="mailto:jr@thehomeboys.com?subject=From website" class="primary">jr@thehomeboys.com</a>
                             </div>
 
                             <?php
@@ -143,8 +143,8 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                 <!-- 2 -->
                 <div class="footer-col privacy-col text-center col-span-3 sm-col-span-1 sm-text-left">
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="privacy-policy.pdf" target="_blank">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.pdf" target="_blank">Terms & Conditions</a></li>
                     </ul>
                     <p class="copyright">Copyright © <?php echo date('Y'); ?> by HomeBoys</p>
                 </div>

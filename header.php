@@ -74,13 +74,6 @@ if ( ! empty( $nav_menu_items ) ) {
             if ( ! empty( $nav_menu_items ) ) :
             ?>
             <nav class="navbar-header main-nav" id="mainNav">
-                <button class="nav-close" id="closeNav">
-                    CLOSE
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                </button>
-
                 <ul class="nav-list">
                     <?php
                     foreach ( $menu_content as $item ):
@@ -117,10 +110,12 @@ if ( ! empty( $nav_menu_items ) ) {
             endif;
             ?>
 
-            <button class="burger" id="burgerBtn">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="burger burgerBtn">
+                <span class="burger-label">MENU</span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
             </button>
         </div>
+        <div class="dropdown-bg" id="dropdownBg"></div>
     </header>
