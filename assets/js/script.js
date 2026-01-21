@@ -497,3 +497,26 @@ document.addEventListener('DOMContentLoaded', function() {
     updateGuidelinesProgress(0);
 
 });
+
+// Footer Nav
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownButtons = document.querySelectorAll('.footer-nav .has-dropdown .f-nav-link');
+    
+    if (dropdownButtons.length > 0) {
+        dropdownButtons[0].classList.add('open');
+    }
+    
+    dropdownButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const isOpen = this.classList.contains('open');
+            
+            dropdownButtons.forEach(btn => {
+                btn.classList.remove('open');
+            });
+            
+            if (!isOpen) {
+                this.classList.add('open');
+            }
+        });
+    });
+});

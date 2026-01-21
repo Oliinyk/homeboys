@@ -24,30 +24,41 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                 </div>
 
                 <div class="footer-col col-2 col-span-3 md-col-3">
-                    <div class="footer-nav footer-col">
-                        <a href="#" class="title-list">Display Homes</a>
-                        <ul>
-                            <li><a href="#">Spokane Valley</a></li>
-                            <li><a href="#">Tri-Cities</a></li>
-                            <li><a href="#">Montana</a></li>
-                            <li><a href="#">Sold Homes Galleries</a></li>
-                        </ul>
-                        
-                        <a href="#" class="title-list">Find Your Home</a>
-                        <a href="#" class="title-list">ADU's</a>
-                        <a href="#" class="title-list">Process</a>
-                        <ul>
-                            <li><a href="#">Customer Guidelines</a></li>
-                            <li><a href="#">Financing</a></li>
-                            <li><a href="#">Understanding Manufactured Home Loans</a></li>
-                        </ul>
-                        <a href="#" class="title-list">About Us</a>
-                        <ul>
-                            <li><a href="#">Our Team</a></li>
-                            <li><a href="#">Blog</a></li>
-                        </ul>
-                        <a href="#" class="title-list">Contact</a>
-                    </div>
+                    <ul class="footer-nav footer-col">
+                        <li class="has-dropdown">
+                            <button class="f-nav-link">Display Homes</button>
+                            <ul class="f-dropdown">
+                                <li><a href="#">Spokane Valley</a></li>
+                                <li><a href="#">Tri-Cities</a></li>
+                                <li><a href="#">Montana</a></li>
+                                <li><a href="#">Sold Homes Galleries</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="f-nav-link">Find Your Home</a>
+                        </li>
+                        <li>
+                            <a href="#" class="f-nav-link">ADU's</a>
+                        </li>
+                        <li class="has-dropdown">
+                            <button class="f-nav-link">Process</button>
+                            <ul class="f-dropdown">
+                                <li><a href="#">Customer Guidelines</a></li>
+                                <li><a href="#">Financing</a></li>
+                                <li><a href="#">Understanding Manufactured Home Loans</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-dropdown">
+                            <button class="f-nav-link">About Us</button>
+                            <ul class="f-dropdown">
+                                <li><a href="#">Our Team</a></li>
+                                <li><a href="#">Blog</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="f-nav-link">Contact</a>
+                        </li>
+                    </ul>
 
                     <div class="footer-main footer-col col-3 col-span-3 sm-col-2 sm-col-span-2">
                         <div class="footer-row sm-col-2 col-span-3">

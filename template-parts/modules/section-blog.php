@@ -39,7 +39,7 @@ if ( ! $blog_posts->have_posts() ) {
                             $thumbnail    = get_the_post_thumbnail_url();
                             $date         = get_the_date();  
                         ?>
-                        <div class="swiper-slide">
+                        <a href="#" class="swiper-slide">
                             <img src="<?php echo esc_url( $thumbnail )?>" alt="<?php echo esc_attr( $title )?>">
 
                             <div class="item-description">
@@ -49,7 +49,7 @@ if ( ! $blog_posts->have_posts() ) {
 
                                 <p><?php echo $date?></p>
                             </div>
-                        </div>
+                        </a>
                         <?php
                         endwhile;
                         ?>
