@@ -33,13 +33,14 @@ if ( ! $employees->have_posts() ) {
             $employees->the_post();
             $eID = get_the_ID();
 
-            $is_group  = carbon_get_post_meta( $eID, 'is_group' );
-            $photo_id  = carbon_get_post_meta( $eID, 'employee_photo' );
-            $title     = carbon_get_post_meta( $eID, 'employee_name' );
-            $subtitle  = carbon_get_post_meta( $eID, 'employee_title' );
-            $mail      = carbon_get_post_meta( $eID, 'employee_email' );
-            $phone     = carbon_get_post_meta( $eID, 'employee_phone' );
-            $desc      = carbon_get_post_meta( $eID, 'employee_bio' );
+            $is_group       = carbon_get_post_meta( $eID, 'is_group' );
+            $photo_id       = carbon_get_post_meta( $eID, 'employee_photo' );
+            $title          = carbon_get_post_meta( $eID, 'employee_name' );
+            $subtitle       = carbon_get_post_meta( $eID, 'employee_title' );
+            $mail           = carbon_get_post_meta( $eID, 'employee_email' );
+            $phone          = carbon_get_post_meta( $eID, 'employee_phone' );
+            $after_phone    = carbon_get_post_meta( $eID, 'employee_phone_after' );
+            $desc           = carbon_get_post_meta( $eID, 'employee_bio' );
             $is_group_class = ! empty( $is_group ) ? ' is_group' : '';
 
             if ( empty( $photo_id ) ) {

@@ -32,7 +32,9 @@
                 if ( ! empty( $phone ) ) :
                     ?>
                     <a href="tel:<?php echo $phone?>">
-                        <?php echo $phone?>
+                        <?php
+                            echo $phone . ( isset( $after_phone ) ? " {$after_phone}" : "" );
+                        ?>
                     </a>
                     <?php
                 endif;

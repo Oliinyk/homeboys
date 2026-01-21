@@ -90,6 +90,7 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                             <div class="location-wrap footer-row col-span-3 sm-col-3">
                                 <?php
                                 foreach ( $locations as $loc ) :
+                                    $location_link_href = $loc['location_link_href'];
                                     ?>
                                     <div class="address-item">
                                         <h5 class="title-address">
@@ -111,12 +112,14 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                                             endif;
 
                                             if ( ! empty( $loc['location_address'] ) ) :
-                                                // TODO: Need create dynamic link to map
-                                                ?>
-                                                <a href="tel:<?php echo '#' ;?>" target="_blank">
-                                                    <?php echo esc_html( $loc['location_address'] ); ?>
-                                                </a>
-                                                <?php
+                                                
+                                                $before = ! empty( $location_link_href ) ? "<a href='{$location_link_href}' target='_blank'>" : "<p>";
+                                                $after  = ! empty( $location_link_href ) ? "</a>" : "</p>";
+
+                                                echo $before;
+                                                    echo esc_html( $loc['location_address'] );
+                                                echo $after;
+
                                             endif;
                                             ?>
                                         </div>

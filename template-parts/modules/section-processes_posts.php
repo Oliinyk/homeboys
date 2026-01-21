@@ -106,22 +106,22 @@ if ( ! $processes->have_posts() ) {
                                     <?php
                                 endforeach;
                                 ?>
-                            </div><!-- .single-contact-item -->
+                            </div>
                             <?php
                         endforeach;
                         ?>
-                    </div><!-- .contact-info -->
+                    </div>
 
                     <div class="contact-description">
                         <?php echo $process_desc?>
-                    </div><!-- .contact-description -->
-                </div><!-- .financing-item -->
+                    </div>
+                </div>
                 <?php
             endwhile;
             ?>
-        </div><!-- .financing-list -->
-    </div><!-- .container -->
+        </div>
+    </div>
 </section>
-<?
+<?php
 wp_reset_postdata();
 
