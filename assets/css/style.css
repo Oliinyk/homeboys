@@ -1913,19 +1913,23 @@ footer {
 }
 .team-section .employee-item img {
 	width: 100%;
+	object-fit: cover;
 }
 .team-section .employee-item.group-item img {
 	max-height: 203px;
-	object-fit: cover;
 }
 .team-section .employee-item.single-item img {
 	border-radius: 50%;
+	max-height: 110px;
 }
 .team-section .employee-item.single-item .side:first-child {
+	width: 100%;
 	max-width: 110px;
 }
 .team-section .employee-item .side:first-child {
 	flex: 1 0 auto;
+	margin-left: -16px;
+    margin-right: -16px;
 }
 .employee-item.group-item {
 	padding: 0 0 60px;
@@ -2144,10 +2148,13 @@ footer {
 	}
 	.team-section .employee-item .side:first-child {
 		max-width: 288px;
+		margin-left: 0;
+		margin-right: 0;
 	}
 	.team-section .employee-item.group-item img {
 		border-radius: 50%;
 		max-height: none;
+		height: 288px;
 	}
 	.employee-item.group-item {
 		padding: 0 0 12px;

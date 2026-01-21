@@ -46,7 +46,7 @@ if ( ! $employees->have_posts() ) {
                 continue;
             }
 
-            $photo_url = wp_get_attachment_image_url( $photo_id );
+            $photo_url = wp_get_attachment_image_url( $photo_id, 'large' );
             
             // echo $title;
 

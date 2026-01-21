@@ -111,10 +111,11 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                                             endif;
 
                                             if ( ! empty( $loc['location_address'] ) ) :
+                                                // TODO: Need create dynamic link to map
                                                 ?>
-                                                <p>
+                                                <a href="tel:<?php echo '#' ;?>" target="_blank">
                                                     <?php echo esc_html( $loc['location_address'] ); ?>
-                                                </p>
+                                                </a>
                                                 <?php
                                             endif;
                                             ?>
@@ -143,6 +144,7 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                 <!-- 2 -->
                 <div class="footer-col privacy-col text-center col-span-3 sm-col-span-1 sm-text-left">
                     <ul>
+                        <!-- // TODO: link to PDF -->
                         <li><a href="privacy-policy.pdf" target="_blank">Privacy Policy</a></li>
                         <li><a href="terms-conditions.pdf" target="_blank">Terms & Conditions</a></li>
                     </ul>
