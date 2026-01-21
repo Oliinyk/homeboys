@@ -1,14 +1,16 @@
 <?php
+$current = get_the_ID();
 
 $section_small_title   = carbon_get_theme_option( 'blog_section__subtitle' );
 $section_title         = carbon_get_theme_option( 'blog_section_title' );
 $classes               = isset( $args['classes'] ) ? $args['classes'] : '';
 
 $blog_posts_query_args = [
-    'post_type'   => 'post',
-    'post_status' => 'publish',
-    'orderby'     => 'date',
-    'order'       => 'DESC',
+    'post_type'    => 'post', // TODO: Replace in blogposts post type
+    'post_status'  => 'publish',
+    'orderby'      => 'date',
+    'order'        => 'DESC',
+    'post__not_in' => [$current],
 ];
 
 $blog_posts = new WP_Query( $blog_posts_query_args );
@@ -37,19 +39,14 @@ if ( ! $blog_posts->have_posts() ) {
                             $blog_post_id = get_the_ID();
                             $title        = get_the_title( $blog_post_id );
                             $thumbnail    = get_the_post_thumbnail_url();
-                            $date         = get_the_date();  
+                            $date         = get_the_date(); 
+                            $permalink    = get_the_permalink(); 
                         ?>
-                        <a href="#" class="swiper-slide">
-                            <img src="<?php echo esc_url( $thumbnail )?>" alt="<?php echo esc_attr( $title )?>">
-
-                            <div class="item-description">
-                                <h4 class="item-title">
-                                    <?php echo $title?>
-                                </h4>
-
-                                <p><?php echo $date?></p>
-                            </div>
-                        </a>
+                        <div class="swiper-slide">
+                            <?php
+                            include get_template_directory() . "/template-parts/modules/__blog-item-preview.php";
+                            ?>
+                        </div>
                         <?php
                         endwhile;
                         ?>

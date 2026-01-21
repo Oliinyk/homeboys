@@ -87,10 +87,12 @@ if ( ! $processes->have_posts() ) {
 
                                 foreach( $emails as $key => $email ) :
                                     $e_separate = 0 < $key ? ' or ' : '';
+                                    
+                                    $href_before = $email['pcp_is_site'] ? 'https://' : 'mailto:';
                                     ?>
                                         <?php echo $e_separate;?>
 
-                                        <a href="<?php echo $email['pcp_email']?>">
+                                        <a href="<?php echo $href_before . $email['pcp_email']?>">
                                             <?php echo $email['pcp_email']?>
                                         </a>
 

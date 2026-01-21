@@ -102,10 +102,17 @@ function hb2_meta_fields() {
                 ) )
                 ->add_fields( 'single_banner', __( 'Single banner', 'home-boys-2' ), array(
                     Field::make( 'text', 'sb_hero_title', __( 'Title', 'home-boys-2' ) )
-                        ->set_width(75),
+                        ->set_width(50),
                     Field::make( 'image', 'sb_hero_image', __( 'Banner image', 'home-boys-2' ) )
                         ->set_width(25)
                         ->set_value_type('url'),
+                    Field::make( 'text', 'sb_hero_image_height', __( 'Height banner (px)', 'home-boys-2' ) )
+                        ->set_attribute( 'type', 'number' )
+                        ->set_attribute( 'min', '236' )
+                        ->set_attribute( 'max', '540' )
+                        ->set_attribute( 'step', '50' )
+                        ->set_default_value(236)
+                        ->set_width(25)   
                 ) )
                 ->add_fields( 'home', __( 'Home style', 'home-boys-2' ), array(
                     Field::make( 'complex', 'home_hero_slider', __( 'Slider', 'home-boys-2' ) )
@@ -500,11 +507,13 @@ function hb2_meta_fields() {
                         ->set_collapsed( true )
                         ->setup_labels( $emails_labels )
                         ->add_fields( array(
+                            Field::make( 'checkbox', 'pcp_is_site', __( 'Is site', 'home-boys-2' ) )
+                                ->set_width( 20 ),
                             Field::make( 'text', 'pcp_email', __( 'Email', 'home-boys-2' ) )
-                                ->set_width( 50 )
+                                ->set_width( 40 )
                                 ->set_required( true ),
                             Field::make( 'text', 'pcp_email_postfix', __( 'Postfix', 'home-boys-2' ) )
-                                ->set_width( 50 ),
+                                ->set_width( 40 ),
                         ) )
                         ->set_header_template( '
                             <% if (pcp_email) { %>

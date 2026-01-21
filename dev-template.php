@@ -14,10 +14,7 @@ $import_post_type = isset( $_GET['im_type'] ) ? $_GET['im_type'] : 'plans';
 $import_limit     = isset( $_GET['im_limit'] ) ? intval( $_GET['im_limit'] ) : 10;
 $import_offset    = isset( $_GET['im_offset'] ) ? intval( $_GET['im_offset'] ) : 0;
 
-$plans_import_file      = get_template_directory() . '/plans.WordPress.2025-12-23.xml';
-$galleries_import_file  = get_template_directory() . '/galleries.WordPress.2026-01-06.xml';
-$employees_import_file  = get_template_directory() . '/employees.WordPress.2026-01-15.xml';
-$processes_import_file  = get_template_directory() . '/processes.WordPress.2026-01-16.xml';
+$import_file      = get_template_directory() . "/{$import_post_type}.WordPress";
 
 $plans_keys = [
     'plan_name'             => [ 'key' => 'plan_name' ],
@@ -60,20 +57,16 @@ $employees_keys = [
     'employee_phone'    => [ 'key' => 'employee_phone' ],
 ];
 
-$import_file = '';
 $keys        = [];
 
 switch ( $import_post_type ) {
     case 'plans' :
-        $import_file = $plans_import_file;
         $keys        = $plans_keys;
         break;
     case 'galleries' :
-        $import_file = $galleries_import_file;
         $keys        = $galleries_keys;
         break;
     case 'employees' :
-        $import_file = $employees_import_file;
         $keys        = $employees_keys;
         break;    
 }
