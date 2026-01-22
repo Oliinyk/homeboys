@@ -7,7 +7,7 @@ $p_id         = get_the_ID();
 $id_param     = ['id' => $p_id];
 $content      = get_the_content();
 $query_params = [
-    'post_type'      => 'post', // TODO: Replace in blogposts post type
+    'post_type'      => 'blogposts',
     'posts_per_page' => get_option( 'posts_per_page' ),
     'orderby'        => 'date',
     'order'          => 'DESC',
@@ -55,10 +55,17 @@ get_template_part( 'template-parts/modules/section', 'hero', $id_param );
                 $blog_posts->the_post();
 
                 $blog_post_id = get_the_ID();
-                $title        = get_the_title( $blog_post_id );
-                $thumbnail    = get_the_post_thumbnail_url();
+                $custom_title = carbon_get_post_meta( $blog_post_id, 'post_title' );
+                $title        = ! empty( $custom_title ) ? $custom_title : get_the_title( $blog_post_id );
+                $gallery      = carbon_get_post_meta( $blog_post_id, 'post_photo' );
                 $date         = get_the_date(); 
                 $permalink    = get_the_permalink();
+                $thumbnail = get_the_post_thumbnail_url();
+
+                if ( ! empty( $gallery ) ) {
+                    $th_id = $gallery[0];
+                    $thumbnail = wp_get_attachment_image_url( $th_id, 'large' );
+                }
 
                 include get_template_directory() . "/template-parts/modules/__blog-item-preview.php";
             endwhile;

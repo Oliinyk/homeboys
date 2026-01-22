@@ -14,7 +14,7 @@ $import_post_type = isset( $_GET['im_type'] ) ? $_GET['im_type'] : 'plans';
 $import_limit     = isset( $_GET['im_limit'] ) ? intval( $_GET['im_limit'] ) : 10;
 $import_offset    = isset( $_GET['im_offset'] ) ? intval( $_GET['im_offset'] ) : 0;
 
-$import_file      = get_template_directory() . "/{$import_post_type}.WordPress";
+$import_file      = get_template_directory() . "/imports-sources/{$import_post_type}.xml";
 
 $plans_keys = [
     'plan_name'             => [ 'key' => 'plan_name' ],
@@ -57,19 +57,13 @@ $employees_keys = [
     'employee_phone'    => [ 'key' => 'employee_phone' ],
 ];
 
-$keys        = [];
+$blogposts_keys = [
+    'post_photo'   => ['key' => 'post_photo', 'type' => 'gallery'],
+    'post_title'   => ['key' => 'post_title'],
+    'post_content' => ['key' => 'post_content', 'type' => 'content'],
+];
 
-switch ( $import_post_type ) {
-    case 'plans' :
-        $keys        = $plans_keys;
-        break;
-    case 'galleries' :
-        $keys        = $galleries_keys;
-        break;
-    case 'employees' :
-        $keys        = $employees_keys;
-        break;    
-}
+$keys = $GLOBALS[$import_post_type . '_keys'];
 
 if ( 'import' == $_GET['run'] ) {
     echo smart_post_import( $import_file, $import_post_type, $keys, $import_limit, $import_offset );

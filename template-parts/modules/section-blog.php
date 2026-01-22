@@ -6,7 +6,7 @@ $section_title         = carbon_get_theme_option( 'blog_section_title' );
 $classes               = isset( $args['classes'] ) ? $args['classes'] : '';
 
 $blog_posts_query_args = [
-    'post_type'    => 'post', // TODO: Replace in blogposts post type
+    'post_type'    => 'blogposts',
     'post_status'  => 'publish',
     'orderby'      => 'date',
     'order'        => 'DESC',
@@ -37,10 +37,17 @@ if ( ! $blog_posts->have_posts() ) {
                             $blog_posts->the_post();
 
                             $blog_post_id = get_the_ID();
-                            $title        = get_the_title( $blog_post_id );
-                            $thumbnail    = get_the_post_thumbnail_url();
+                            $custom_title = carbon_get_post_meta( $blog_post_id, 'post_title' );
+                            $title        = ! empty( $custom_title ) ? $custom_title : get_the_title( $blog_post_id );
+                            $gallery      = carbon_get_post_meta( $blog_post_id, 'post_photo' );
                             $date         = get_the_date(); 
-                            $permalink    = get_the_permalink(); 
+                            $permalink    = get_the_permalink();
+                            $thumbnail = get_the_post_thumbnail_url();
+
+                            if ( ! empty( $gallery ) ) {
+                                $th_id = $gallery[0];
+                                $thumbnail = wp_get_attachment_image_url( $th_id, 'medium' );
+                            }
                         ?>
                         <div class="swiper-slide">
                             <?php
