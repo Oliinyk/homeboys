@@ -60,16 +60,7 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
             ]);
             $target_id = $old_id;
             echo "<span style='color:green;'>[NEW]</span> Создан с сохранением ID.<br>";
-        } else {
-            $wpdb->update($wpdb->posts, [
-                'post_title'     => $title, 
-                'post_content'   => $content, 
-                'comment_status' => 'closed',
-                'ping_status'    => 'closed',
-                'post_name'      => $post_name
-            ], ['ID' => $target_id]);
-            echo "<span style='color:blue;'>[UPDATE]</span> Синхронизировано с ID $target_id.<br>";
-        }
+        };
 
         $xml_metas = [];
         foreach ($wp_ns->postmeta as $meta) {
@@ -81,12 +72,19 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
             $type = (isset($config['type'])) ? $config['type'] : 'text';
             $val  = isset($xml_metas[$xml_key]) ? $xml_metas[$xml_key] : '';
 
-            // if (empty($val)) continue;
-            if ( $val == '' ) {
-                continue;
-            }
+            // if ( $val == '' ) {
+            //     continue;
+            // }
 
-            if ($type === 'gallery') {
+            if ( $type === 'content' ) {
+                if ( isset( $xml_metas[ $xml_key ] ) ) {
+                    $content = $xml_metas[ $xml_key ];
+                    echo "<span style='color:orange;'>[CONTENT UPDATED FROM META: {$xml_key}]</span><br>";
+                }
+
+            echo "<span style='color:blue;'>[UPDATE]</span> Синхронизировано с ID $target_id.<br>";
+                continue;
+            } elseif ($type === 'gallery') {
                 echo "Начинаю импорт галереи<br>";
                 _gallery_import($target_id, $carbon_key, $val, $xml);
             } elseif ($type === 'file') {
@@ -111,6 +109,16 @@ function smart_post_import($xml_path, $post_type, $keys_map, $limit = -1, $offse
                 update_post_meta($target_id, '_' . $carbon_key , $val);
             }
         }
+
+        $wpdb->update($wpdb->posts, [
+                'post_title'     => $title,
+                'post_content'   => $content, 
+                'comment_status' => 'closed',
+                'ping_status'    => 'closed',
+                'post_name'      => $post_name
+            ], ['ID' => $target_id]);
+            echo "<span style='color:blue;'>[UPDATE]</span> Синхронизировано с ID $target_id.<br>";
+
         clean_post_cache($target_id);
         echo "</div>";
     }

@@ -182,6 +182,39 @@ function hb2_register_post_types() {
         'rewrite'             => true,
         'query_var'           => true,
     ] );
+
+    register_post_type( 'blogposts', [
+        'label' => null,
+        'labels' => [
+            'name'                  => __( 'Blogposts', 'home-boys-2' ),
+            'singular_name'         => __( 'Blogpost', 'home-boys-2' ),
+            'add_new'               => __( 'Add New Blogpost', 'home-boys-2' ),
+            'add_new_item'          => __( 'Add Blogpost', 'home-boys-2' ),
+            'edit_item'             => __( 'Edit Blogpost', 'home-boys-2' ),
+            'new_item'              => __( 'New Blogpost', 'home-boys-2' ),
+            'view_item'             => __( 'View Blogpost', 'home-boys-2' ),
+            'search_items'          => __( 'Search', 'home-boys-2' ),
+            'not_found'             => __( 'Not Found', 'home-boys-2' ),
+            'not_found_in_trash'    => __( 'Not Found in Trash', 'home-boys-2' ),
+            'parent_item_colon'     => '',
+            'menu_name'             => __( 'Blog', 'home-boys-2' ),
+        ],
+        'description'         => '',
+        'public'              => true,
+        'publicly_queryable'  => true,
+        'show_in_menu'        => true,
+        'show_in_rest'        => true,
+        'rest_base'           => null,
+        'show_in_nav_menus'   => true,
+        'menu_icon'           => 'dashicons-welcome-write-blog',
+        'menu_position'       => 5,
+        'hierarchical'        => false,
+        'supports'            => ['title', 'shedule-settings', 'page-attributes', 'editor'],
+        'taxonomies'          => [],
+        'has_archive'         => false,
+        'rewrite'             => true,
+        'query_var'           => true,
+    ] );
 };
 
 function get_random_image() {

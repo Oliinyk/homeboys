@@ -179,6 +179,7 @@ let storiesSlider;
 const swiperEl = document.querySelector('.stories-swiper');
 
 function initStoriesSwiper() {
+    if (!swiperEl) return;
     const isMobile = window.innerWidth <= 768;
 
     if (isMobile) {
@@ -208,12 +209,11 @@ function initStoriesSwiper() {
         storiesSlider = new Swiper(".stories-swiper", {
             spaceBetween: 30,
             loop: true,
+            slidesPerView: 2,
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
-            slidesPerView: 2,
-            spaceBetween: 40,
         });
     }
 }
@@ -224,39 +224,31 @@ window.addEventListener('resize', initStoriesSwiper);
 
 
 // Blog swiper
-var blogSlider = new Swiper(".blog-slider", {
-    slidesPerView: 1.2,
-    spaceBetween: 20,
-    centeredSlides: true,
-    // loop: true,
-    initialSlide: 1,
-
-    // loopAdditionalSlides: 2,
-    // centeredSlidesBounds: true,
-    // watchOverflow: true,
-
-    navigation: {
-        nextEl: ".swiper-blog-button-next",
-        prevEl: ".swiper-blog-button-prev",
-    },
-    breakpoints: {
-        768: {
-            slidesPerView: 2,
-            spaceBetween: 30,
-            // centeredSlides: true,
+if (document.querySelector('.blog-slider')) {
+    var blogSlider = new Swiper(".blog-slider", {
+        slidesPerView: 1.2,
+        spaceBetween: 20,
+        centeredSlides: true,
+        // loop: true,
+        initialSlide: 1,
+        navigation: {
+            nextEl: ".swiper-blog-button-next",
+            prevEl: ".swiper-blog-button-prev",
         },
-        992: {
-            slidesPerView: 3,
-            spaceBetween: 30,
-            centeredSlides: false,
+        breakpoints: {
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+                // centeredSlides: true,
+            },
+            992: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+                centeredSlides: false,
+            },
         },
-    },
-});
-
-// window.addEventListener('load', () => {
-//     blogSlider.update();
-// });
-
+    });
+}
 
 // Our Display Homes slider
 const gallerySlider = new Swiper('.gallerySlider', {
@@ -329,9 +321,10 @@ document.addEventListener('click', function (e) {
     });
 }, true);
 
-// Filter
+
 document.addEventListener('DOMContentLoaded', function () {
 
+    // Filter
     // RANGE + INPUT SYNC
     const formatters = {
         price: {
@@ -508,7 +501,47 @@ document.addEventListener('DOMContentLoaded', function () {
                 : form.action;
         });
     }
+
+
+    // sort-switcher add to URL
+    const sortButtons = document.querySelectorAll('.sort-switcher');
+    if (!sortButtons.length) return;
+
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+
+    // 1. Initialization from URL
+    const currentSort = params.get('sort');
+
+    if (currentSort) {
+        sortButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.sort === currentSort);
+        });
+    }
+
+    // 2. Click on the sort buttons
+    sortButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+
+            const sortValue = btn.dataset.sort;
+
+            // UI
+            sortButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // update URL
+            params.set('sort', sortValue);
+
+            // redirect with all existing parameters
+            // window.location.href = `${url.pathname}?${params.toString()}`;
+
+            window.history.pushState({}, '', `${url.pathname}?${params.toString()}`);
+        });
+    });
+
 });
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // Customer Guidelines slider with progressbar

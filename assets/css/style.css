@@ -806,8 +806,8 @@ section {
 	background-image: var(--hero-bg);
 	background-size: cover;
 	background-position: center;
-	height: 236px;
-    max-height: 236px;
+	height: var(--desctop-hero-height);
+	max-height: var(--desctop-hero-height);
 	color: var(--white);
 	display: flex;
 	align-items: center;
@@ -974,8 +974,12 @@ section {
 	font-weight: 700;
 }
 
-.blog-section {
+.our-people-section + .blog-section {
 	padding-top: 0;
+}
+.blog-post-preview {
+	display: flex;
+	flex-direction: column;
 }
 .blog-section .card-list img {
 	object-position: left 50%;
@@ -1046,6 +1050,13 @@ section {
 	color: var(--dark-gray);
 	font-weight: 700;
 	margin: 0 0 8px;
+
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	line-height: 1.4;
+	max-height: calc(1.4em * 2);
 }
 .dark-section .blog-section .item-title,
 .dark-section .swiper-wrapper .item-title {
@@ -1185,14 +1196,18 @@ section {
     align-items: center;
     justify-content: center;
     gap: 2px;
+	transition: all 0.25s;
 }
+.sort-switcher:hover,
 .sort-switcher.active {
 	color: var(--white);
 	background-color: var(--gray);
 }
 .sort-switcher .sort-ico {
 	fill: var(--gray);
+	transition: all 0.25s;
 }
+.sort-switcher:hover .sort-ico,
 .sort-switcher.active .sort-ico {
 	fill: var(--white);
 }

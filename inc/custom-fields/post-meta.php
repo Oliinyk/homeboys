@@ -555,4 +555,13 @@ function hb2_meta_fields() {
                 ->set_width( 20 ),    
         )
     );
+
+    // Blogposts
+    Container::make( 'post_meta', __( 'Post data', 'home-boys-2' ) )
+        ->where( 'post_type', '=', 'blogposts' )
+        ->add_fields( array(
+            Field::make( 'text', 'post_title', __( 'Post Title', 'home-boys-2' ) ),
+            Field::make( 'media_gallery', 'post_photo', __( 'Featured Photo(s)', 'home-boys-2' ) ),
+        ) 
+    );
 };
