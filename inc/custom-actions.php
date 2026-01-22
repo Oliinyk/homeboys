@@ -209,7 +209,7 @@ function hb2_register_post_types() {
         'menu_icon'           => 'dashicons-welcome-write-blog',
         'menu_position'       => 5,
         'hierarchical'        => false,
-        'supports'            => ['title', 'shedule-settings', 'page-attributes', 'editor'],
+        'supports'            => ['title', 'thumbnail', 'shedule-settings', 'page-attributes', 'editor'],
         'taxonomies'          => [],
         'has_archive'         => false,
         'rewrite'             => true,

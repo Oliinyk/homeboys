@@ -11,7 +11,7 @@
  *
  * @package Home_Boys_2
  */
-$content     = get_the_content();
+$content = get_the_content();
 
 get_header();
 
