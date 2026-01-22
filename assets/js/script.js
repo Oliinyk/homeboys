@@ -148,32 +148,93 @@ var swiper = new Swiper(".mySwiper", {
 });
 
 // From Our People swiper
-var storiesSlider = new Swiper(".stories-swiper", {
-    spaceBetween: 30,
-    loop: true,
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-        enabled: false,
-    },
-    breakpoints: {
-        768: {
+// var storiesSlider = new Swiper(".stories-swiper", {
+//     // slidesPerView: 1,
+//     spaceBetween: 30,
+//     loop: true,
+//     navigation: {
+//         nextEl: '.swiper-button-next',
+//         prevEl: '.swiper-button-prev',
+//         // enabled: false,
+//     },
+//     breakpoints: {
+//         768: {
+//             slidesPerView: 2,
+//             spaceBetween: 30,
+//             // navigation: {
+//             //     enabled: false,
+//             // },
+//         },
+//         992: {
+//             slidesPerView: 2,
+//             spaceBetween: 40,
+//             // navigation: {
+//             //     enabled: true,
+//             // },
+//         },
+//     },
+// });
+
+let storiesSlider;
+const swiperEl = document.querySelector('.stories-swiper');
+
+function initStoriesSwiper() {
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+        // Turn off swiper
+        if (storiesSlider) {
+            storiesSlider.destroy(true, true);
+            storiesSlider = null;
+        }
+
+        swiperEl.classList.add('is-static');
+
+        // showing only the last 2
+        const slides = swiperEl.querySelectorAll('.swiper-slide');
+        slides.forEach((slide, index) => {
+            slide.style.display =
+                index < slides.length - 2 ? 'none' : 'block';
+        });
+
+    } else {
+        // return all slides
+        const slides = swiperEl.querySelectorAll('.swiper-slide');
+        slides.forEach(slide => slide.style.display = '');
+
+        swiperEl.classList.remove('is-static');
+
+        // initialize swiper
+        storiesSlider = new Swiper(".stories-swiper", {
+            spaceBetween: 30,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
             slidesPerView: 2,
             spaceBetween: 40,
-            navigation: {
-                enabled: true,
-            },
-        },
-    },
-});
+        });
+    }
+}
+
+// init
+initStoriesSwiper();
+window.addEventListener('resize', initStoriesSwiper);
+
 
 // Blog swiper
 var blogSlider = new Swiper(".blog-slider", {
     slidesPerView: 1.2,
     spaceBetween: 20,
     centeredSlides: true,
-    loop: true,
-    // initialSlide: 0,
+    // loop: true,
+    initialSlide: 1,
+
+    // loopAdditionalSlides: 2,
+    // centeredSlidesBounds: true,
+    // watchOverflow: true,
+
     navigation: {
         nextEl: ".swiper-blog-button-next",
         prevEl: ".swiper-blog-button-prev",
@@ -182,7 +243,7 @@ var blogSlider = new Swiper(".blog-slider", {
         768: {
             slidesPerView: 2,
             spaceBetween: 30,
-            centeredSlides: false,
+            // centeredSlides: true,
         },
         992: {
             slidesPerView: 3,
@@ -191,6 +252,11 @@ var blogSlider = new Swiper(".blog-slider", {
         },
     },
 });
+
+// window.addEventListener('load', () => {
+//     blogSlider.update();
+// });
+
 
 // Our Display Homes slider
 const gallerySlider = new Swiper('.gallerySlider', {
