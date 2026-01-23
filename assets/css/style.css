@@ -472,6 +472,7 @@ a:focus {
 	background: transparent;
 	outline: none;
 	border: none;
+	pointer-events: none;
 }
 .filter-container .filter-slider input[type="range"]::-webkit-slider-runnable-track {
 	width: 100%;
@@ -491,6 +492,7 @@ a:focus {
 	cursor: pointer;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 	margin-top: -8px;
+	pointer-events: all;
 }
 .filter-container .filter-slider input[type="range"]::-moz-range-track {
 	width: 100%;
@@ -507,12 +509,13 @@ a:focus {
 	border-radius: 50%;
 	cursor: pointer;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	pointer-events: all;
 }
 .filter-container .filter-slider input[type="range"]:nth-child(1) {
 	z-index: 2;
 }
 .filter-container .filter-slider input[type="range"]:nth-child(2) {
-	z-index: 1;
+	z-index: 2;
 }
 .filter-container .filter-slider input[type="range"]:nth-child(2):hover,
 .filter-container .filter-slider input[type="range"]:nth-child(2):active {
