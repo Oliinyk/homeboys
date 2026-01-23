@@ -566,29 +566,36 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the progress bar segments
         const segments = document.querySelectorAll('.progress-segment');
         segments.forEach((segment, i) => {
-            if (i <= index) {
-                segment.classList.add('active');
-            } else {
+            if (i < index) {
+                segment.classList.add('completed');
                 segment.classList.remove('active');
+            } else if (i === index) {
+                segment.classList.add('active');
+                segment.classList.remove('completed');
+            } else {
+                segment.classList.remove('active', 'completed');
             }
         });
 
         // Updating active steps
         const stepItems = document.querySelectorAll('.step-item');
         stepItems.forEach((stepItem, i) => {
-            if (i <= index) {
-                stepItem.classList.add('active');
-            } else {
+            if (i < index) {
+                stepItem.classList.add('completed');
                 stepItem.classList.remove('active');
+            } else if (i === index) {
+                stepItem.classList.add('active');
+                stepItem.classList.remove('completed');
+            } else {
+                stepItem.classList.remove('active', 'completed');
             }
         });
     }
 
     // Adding a click step by step
-    document.querySelectorAll('.step-item').forEach(item => {
+    document.querySelectorAll('.step-item').forEach((item, index) => {
         item.addEventListener('click', function() {
-            const step = parseInt(this.getAttribute('data-step'));
-            CustomerGuidelinesSwiper.slideTo(step);
+            CustomerGuidelinesSwiper.slideTo(index);
         });
     });
 

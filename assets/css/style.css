@@ -765,8 +765,7 @@ section {
 .hero-slider img {
 	width: 100%;
 	object-fit: contain;
-	/* mask: linear-gradient(to bottom, black, transparent); */
-	mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+	/* mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); */
 }
 .hero-section .title-section {
 	margin: 0 0 10px;
@@ -977,7 +976,8 @@ section {
 	font-weight: 700;
 }
 
-.our-people-section + .blog-section {
+.our-people-section + .blog-section,
+.content-section + .blog-section {
 	padding-top: 0;
 }
 .blog-post-preview {
@@ -1084,8 +1084,8 @@ section {
 }
 .card-item {
 	position: relative;
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 	font-family: "Anton", sans-serif;
 }
 .card-top-info {
@@ -1234,9 +1234,12 @@ section {
 .customer-guidelines-section {
 	background-color: var(--yellow);
 }
+.customer-guidelines-section .title-section {
+	font-size: 32px;
+}
 
 .guidelines-swiper .swiper-slide {
-	padding: 0 100px;
+	padding: 0 25px;
 }
 
 .guidelines-swiper .slide-content {
@@ -1249,7 +1252,7 @@ section {
 
 .guidelines-swiper .slide-text {
 	flex: 1;
-	padding: 60px;
+	padding: 20px;
 	order: 2;
 }
 
@@ -1257,6 +1260,7 @@ section {
 	font-family: "Anton", sans-serif;
     font-weight: 400;
 	font-size: 20px;
+	margin-bottom: 5px;
 }
 
 .guidelines-swiper .slide-title {
@@ -1264,16 +1268,18 @@ section {
     font-weight: 400;
     font-style: normal;
 	font-size: 32px;
-	margin-bottom: 30px;
+	line-height: 1;
+	margin-bottom: 25px;
 }
 
 .guidelines-swiper .slide-description {
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 1.6;
 }
 
 .guidelines-swiper .slide-image {
 	flex: 1;
+	width: 100%;
 	height: 400px;
 	overflow: hidden;
 	order: 1;
@@ -1302,13 +1308,13 @@ section {
 	text-align: left;
 	cursor: pointer;
 	transition: opacity 0.3s;
+	color: var(--primary);
+}
+.step-item.completed {
 	color: var(--gray);
 }
 .step-item.active {
 	color: var(--dark);
-}
-.step-item.active .step-name {
-	font-size: 24px;
 }
 .step-item:hover {
 	opacity: 0.7;
@@ -1329,7 +1335,7 @@ section {
 .progress-bar-container {
 	position: relative;
 	height: 24px;
-	border-radius: 4px;
+	border-radius: 5px;
 	overflow: hidden;
 }
 .progress-bar {
@@ -1348,8 +1354,15 @@ section {
 	background: var(--white);
 	transition: background 0.3s;
 }
+.progress-segment.completed {
+	background: var(--gray);
+}
 .progress-segment.active {
 	background: var(--dark-gray);
+}
+.guidelines-swiper .custom-prev,
+.guidelines-swiper .custom-next {
+	display: flex;
 }
 .guidelines-swiper .custom-prev {
     left: 0;
@@ -1699,6 +1712,26 @@ footer {
 }
 .gallery-section .btn {
 	margin: 25px auto 0;
+}
+.home-gallery-section .card-item {
+	max-height: 386px;
+}
+.home-gallery-section .card-item > * {
+	z-index: 2;
+}
+.home-gallery-section .card-item > img {
+	z-index: 0;
+}
+.home-gallery-section .card-item::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), 
+            	linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+	z-index: 1;
 }
 
 /* -----  galleries page  ----- */
@@ -2140,6 +2173,21 @@ footer {
     	object-fit: cover;
 	}
 
+	.home-gallery-section .card-top-info,
+	.home-gallery-section .label {
+		font-size: 24px;
+	}
+	.home-gallery-section .label.danger .label-top {
+		font-size: 12px;
+	}
+	.home-gallery-section .label.danger,
+	.home-gallery-section .card-item .item-subtitle {
+		font-size: 20px;
+	}
+	.home-gallery-section .card-item .item-title {
+		font-size: 40px;
+	}
+
 	/* gallery-thumbs-slider */
 	.gallery-thumbs-slider {
 		grid-template-columns: 2fr 1fr;
@@ -2163,28 +2211,8 @@ footer {
 		font-size: 24px;
 	}
 
-	.guidelines-swiper .slide-content {
-		flex-direction: row;
-	}
-	.guidelines-swiper .slide-text {
-		padding: 30px;
-		order: 1;
-	}
-	.guidelines-swiper .slide-title {
-		font-size: 40px;
-	}
-	.guidelines-swiper .slide-image {
-		order: 2;
-	}
-	.guidelines-swiper .steps-list {
-		justify-content: flex-start;
-		gap: 10px;
-	}
-	.guidelines-swiper .step-item {
-		min-width: 120px;
-	}
-	.progress-section {
-		display: block;
+	.customer-guidelines-section .title-section {
+		font-size: 64px;
 	}
 
 	/* process-section */
@@ -2413,6 +2441,36 @@ footer {
 	.plan-items .plan-item {
 		flex-direction: column;
 		align-items: flex-start;
+	}
+
+	.guidelines-swiper .swiper-slide {
+		padding: 0 100px;
+	}
+	.guidelines-swiper .slide-content {
+		flex-direction: row;
+	}
+	.guidelines-swiper .slide-text {
+		padding: 20px 60px;
+		order: 1;
+	}
+	.guidelines-swiper .slide-title {
+		font-size: 40px;
+	}
+	.guidelines-swiper .slide-description {
+		font-size: 16px;
+	}
+	.guidelines-swiper .slide-image {
+		order: 2;
+	}
+	.guidelines-swiper .steps-list {
+		justify-content: flex-start;
+		gap: 10px;
+	}
+	.guidelines-swiper .step-item {
+		min-width: 120px;
+	}
+	.progress-section {
+		display: block;
 	}
 
 	/* footer */
