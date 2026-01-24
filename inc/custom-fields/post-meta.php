@@ -61,6 +61,11 @@ function hb2_meta_fields() {
         'singular_name' => __( 'Email', 'home-boys-2' ),
     ];
 
+    $shedule_labels = [
+        'plural_name'   => __( 'Shedule items', 'home-boys-2' ),
+        'singular_name' => __( 'Shedule', 'home-boys-2' ),
+    ];
+
     // Options
     $plan_series_opt = hb2_get_series_options();
 
@@ -330,9 +335,28 @@ function hb2_meta_fields() {
         )
     );
 
+    // Contacts page
+    Container::make( 'post_meta', __( 'Shedules', 'home-boys-2' ) )
+        ->where( 'post_template', '=', 'contacts-template.php' )
+        ->add_fields( array(
+            Field::make( 'complex', 'shedule_strings', __( 'Contancts Shedule Strings', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $shedule_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'shedule_item', __( 'Shedule', 'home-boys-2' ) )
+                        ->set_required( true )
+                ) )
+                ->set_header_template( '
+                    <% if (shedule_item) { %>
+                        <%- shedule_item %>
+                    <% } %>
+                ' )
+        )
+    );
+
     // Page Titles
     Container::make( 'post_meta', __( 'Page Titles', 'home-boys-2' ) )
-        ->where( 'post_template', 'IN', ['process-template.php', 'about-template.php'] )
+        ->where( 'post_template', 'IN', ['process-template.php', 'about-template.php', 'contacts-template.php'] )
         ->add_fields( array(
             Field::make( 'text', 'page_small_title', __( 'Page small title', 'home-boys-2' ) ),
             Field::make( 'text', 'page_title', __( 'Page title', 'home-boys-2' ) ),
