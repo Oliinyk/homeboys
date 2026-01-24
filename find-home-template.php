@@ -16,10 +16,12 @@ if ( isset( $_GET['sort'] ) ) {
     $order = $_GET['sort'];
 }
 
+$per_page = isset( $_GET['per_page'] ) ? intval( $_GET['per_page'] ) : 12;
+
 $query_params = [
     'post_status'       => 'publish',
     'post_type'         => 'plans',
-    'posts_per_page'    => 12,
+    'posts_per_page'    => $per_page,
     'paged'             => get_query_var( 'paged', 1 ),
     'meta_query'        => [
         'relation' => 'AND',
@@ -204,17 +206,14 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
             else :
                 echo $not_found_message;
             endif;
-
-            wp_reset_postdata();
             ?>
         </div>
 
-        <button type="button" class="btn primary-btn show-all-btn">
-            Show All
-            <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.90066 9.7689L5.97351 0L4.85651 0L4.83223 9.52L0.874172 5.4629L-4.94673e-09 6.35895L5.48786 11.9841H5.51214L6.36203 11.0881L11 6.33406L10.1258 5.43801L5.90066 9.7689Z"></path>
-            </svg>
-        </button>
+        <?php
+            get_template_part( 'template-parts/modules/__show-all-button', null );
+
+            wp_reset_postdata();
+        ?>
     </div>
 </section>
 
