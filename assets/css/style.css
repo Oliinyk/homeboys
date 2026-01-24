@@ -426,6 +426,7 @@ a:focus {
 	max-height: 32px;
 	padding: 7px 8px;
 	border: 1px solid var(--light-gray);
+	border-radius: 0;
 	color: var(--dark-gray);
 	outline: none;
 }
@@ -591,37 +592,8 @@ a:focus {
 	padding: 8px 20px;
 	margin: 0 auto;
 	z-index: 1;
-}
-
-/* .submit-btn,
-.contact-section .wpcf7-submit {
-	position: relative;
-	display: flex;
-	text-align: center;
-	justify-content: center;
-	color: var(--white);
-	background-color: var(--primary);
-	background-image: url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E"),var(--button-gradient-start);
-	background-repeat: no-repeat;
-	background-position: right 30px center, 0;
-	background-size: 17px 11px, 100% 100%;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-	padding-right: 40px;
-	border: none;
 	border-radius: 0;
-	transition: all 0.3s;
 }
-.submit-btn {
-	background-position: right 15px center, 0;
-}
-.submit-btn:hover,
-.contact-section .wpcf7-submit:hover {
-	background-image: url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E"),var(--button-gradient-end);
-	background-position: right 25px center, 100%;
-}
-.submit-btn:hover {
-	background-position: right 10px center, 100%;
-} */
 
 .submit-btn,
 a.submit-btn,
@@ -705,10 +677,13 @@ a.primary-btn {
 	transition: all 0.2s;
 	fill: var(--primary);
 }
+.primary-btn:focus,
 .primary-btn:hover {
 	background-color: var(--primary);
 	color: var(--white);
+	border: 1px solid var(--primary)
 }
+.primary-btn:focus svg,
 .primary-btn:hover svg {
 	fill: var(--white);
 }
@@ -1729,8 +1704,7 @@ footer {
 	left: 0;
 	height: 100%;
 	width: 100%;
-	background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), 
-            	linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+	box-shadow: inset 0px 50px 50px 5px #0000008a, inset 0px -50px 50px 5px #0000008a;
 	z-index: 1;
 }
 

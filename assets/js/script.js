@@ -495,6 +495,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 params.append(key, value);
             }
 
+            // Save per_page from the current URL if it exists
+            const currentUrl = new URL(window.location.href);
+            const perPage = currentUrl.searchParams.get('per_page');
+            if (perPage) {
+                params.set('per_page', perPage);
+            }
+
             const query = params.toString();
             window.location.href = query
                 ? `${form.action}?${query}`
@@ -533,14 +540,27 @@ document.addEventListener('DOMContentLoaded', function () {
             params.set('sort', sortValue);
 
             // redirect with all existing parameters
-            // window.location.href = `${url.pathname}?${params.toString()}`;
-
             window.history.pushState({}, '', `${url.pathname}?${params.toString()}`);
             window.location.reload();
         });
     });
 
 });
+
+    // Show All button
+    const showAllBtn = document.querySelector('.show-all-btn');
+    if (showAllBtn) {
+        showAllBtn.addEventListener('click', function() {
+            const url = new URL(window.location.href);
+            const params = url.searchParams;
+            
+            // Add or update the per_page parameter
+            params.set('per_page', '-1');
+            
+            // Redirect with all existing parameters
+            window.location.href = `${url.pathname}?${params.toString()}`;
+        });
+    }
 
 
 
