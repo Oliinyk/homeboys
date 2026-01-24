@@ -41,6 +41,11 @@ function hb2_options_fields() {
         'singular_name' => __( 'Partner', 'home-boys-2' ),
     ];
 
+    $documents_labels = [
+        'plural_name'   => __( 'Documents', 'home-boys-2' ),
+        'singular_name' => __( 'Document', 'home-boys-2' ),
+    ];
+
     Container::make( 'theme_options', __( 'General Settings', 'home-boys-2' ) )
         ->add_fields( array(
             // Social networks list
@@ -223,10 +228,36 @@ function hb2_options_fields() {
                 ->set_default_value( "Sorry, we didn't find anything for you this time." ),    
             Field::make( 'textarea', 'sold_marker_placeholder', __( 'Sold marker placeholder', 'home-boys-2' ) )
                 ->set_rows( 2 )
-                ->set_default_value( '<span class="label-top">Home Was</span><span>Sold</span>' ),    
+                ->set_default_value( '<span class="label-top">Home Was</span><span>Sold</span>' ),
+            // FOOTER 
+            Field::make( 'separator', 'footer_separator', __( 'FOOTER', 'home-boys-2' ) ),
+            Field::make( 'image', 'footer_site_logo', __( 'Footer logo', 'home-boys-2' ) )
+                ->set_value_type( 'url' ),
+            Field::make( 'text', 'footer_mail_block_title', __( 'Contact block title', 'home-boys-2' ) )
+                ->set_default_value( 'Contact us' )
+                ->set_width( 50 ),
+            Field::make( 'text', 'footer_mail_contact', __( 'Footer contact mail', 'home-boys-2' ) )
+                ->set_width( 50 ),
             Field::make( 'text', 'footer_networks_title', __( 'Footer Networks Title', 'home-boys-2' ) )
                 ->set_default_value( 'Follow us' )
                 ->set_width( 50 ),
+            Field::make( 'complex', 'footer_documents', __( 'Footer documents', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $documents_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'document_label', __( 'Title', 'home-boys-2' ) )
+                        ->set_required( true )
+                        ->set_width( 75 ),
+                    Field::make( 'file', 'document_file', __( 'File', 'home-boys-2' ) )
+                        ->set_required( true )
+                        ->set_value_type( 'url' )
+                        ->set_width( 25 ),
+                ) )
+                ->set_header_template( '
+                    <% if (document_label) { %>
+                        <%- document_label %>
+                    <% } %>
+                ' ),
             Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ),
-        ) );    
+        ) );
 };

@@ -9,65 +9,93 @@
  * @package Home_Boys_2
  */
 
-$locations      = apply_filters( 'hb2_locations_list', false );
-$newtworks      = carbon_get_theme_option( 'social_networks' );
-$networks_title = carbon_get_theme_option( 'footer_networks_title' );
-$description    = carbon_get_theme_option( 'footer_description_text' );
+$locations          = apply_filters( 'hb2_locations_list', false );
+$footer_logo        = carbon_get_theme_option( 'footer_site_logo' );
+$mail_contact       = carbon_get_theme_option( 'footer_mail_contact' );
+$mail_block_title   = carbon_get_theme_option( 'footer_mail_block_title' );
+$newtworks          = carbon_get_theme_option( 'social_networks' );
+$networks_title     = carbon_get_theme_option( 'footer_networks_title' );
+$description        = carbon_get_theme_option( 'footer_description_text' );
+$menu_items         = apply_filters( 'hb2_get_menu_items', 'menu-1' );
+$documents          = carbon_get_theme_option( 'footer_documents' );
 ?>
-
 	<footer class="footer">
         <div class="container">
 
             <div class="footer-wrap">
-                <div class="footer-col footer-logo">
-                    <img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/f-hb-logo.svg'?>" alt="Home Boys logo">
-                </div>
-
+                <?php
+                if ( ! empty( $footer_logo ) ) :
+                    ?>
+                    <div class="footer-col footer-logo">
+                        <img src="<?php echo $footer_logo?>" alt="Home Boys logo">
+                    </div>
+                    <?php
+                endif;
+                ?>
                 <div class="footer-col col-2 col-span-3 md-col-3">
-                    <ul class="footer-nav footer-col">
-                        <li class="has-dropdown">
-                            <button class="f-nav-link">Display Homes</button>
-                            <ul class="f-dropdown">
-                                <li><a href="#">Spokane Valley</a></li>
-                                <li><a href="#">Tri-Cities</a></li>
-                                <li><a href="#">Montana</a></li>
-                                <li><a href="#">Sold Homes Galleries</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" class="f-nav-link">Find Your Home</a>
-                        </li>
-                        <li>
-                            <a href="#" class="f-nav-link">ADU's</a>
-                        </li>
-                        <li class="has-dropdown">
-                            <button class="f-nav-link">Process</button>
-                            <ul class="f-dropdown">
-                                <li><a href="#">Customer Guidelines</a></li>
-                                <li><a href="#">Financing</a></li>
-                                <li><a href="#">Understanding Manufactured Home Loans</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-dropdown">
-                            <button class="f-nav-link">About Us</button>
-                            <ul class="f-dropdown">
-                                <li><a href="#">Our Team</a></li>
-                                <li><a href="#">Blog</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" class="f-nav-link">Contact</a>
-                        </li>
-                    </ul>
+                    <?php
+                    if ( ! empty( $menu_items ) ) :
+                        ?>
+                        <ul class="footer-nav footer-col">
+                            <?php
+                            foreach ( $menu_items as $item ) :
+                                if ( ! empty( $item['children'] ) ) :
+                                ?>
+                                <li class="<?php echo $item['classes']?>">
+                                    <button class="f-nav-link">
+                                        <?php echo $item['title']?>
+                                    </button>
 
+                                    <ul class="f-dropdown">
+                                        <?php
+                                        foreach ( $item['children'] as $sub ) :
+                                            ?>
+                                            <li>
+                                                <a href="<?php echo $sub['url']?>">
+                                                    <?php echo $sub['title']?>
+                                                </a>
+                                            </li>
+                                            <?php
+                                        endforeach;
+                                        ?>
+                                    </ul>
+                                </li>
+                                <?php
+                            else:
+                            ?>
+                            <li>
+                                <a href="<?php echo $item['url']?>" class="f-nav-link">
+                                    <?php echo $item['title']?>
+                                </a>
+                            </li>
+                            <?php
+                            endif;
+                            endforeach;
+                            ?>
+                        </ul>
+                        <?php
+                    endif;
+                    ?>
                     <div class="footer-main footer-col col-3 col-span-3 sm-col-2 sm-col-span-2">
                         <div class="footer-row sm-col-2 col-span-3">
-                            <div class="footer-col">
-                                <h4 class="title-col">Contact us</h4>
-                                <a href="mailto:jr@thehomeboys.com?subject=From website" class="primary">jr@thehomeboys.com</a>
-                            </div>
-
                             <?php
+                            if ( ! empty( $mail_contact ) ) :
+                                ?>
+                                <div class="footer-col">
+                                    <?php
+                                    if ( ! empty( $mail_block_title ) ) :
+                                        ?>
+                                        <h4 class="title-col"><?php echo $mail_block_title?></h4>
+                                        <?php
+                                    endif;
+                                    ?>
+                                    <a href="mailto:<?php echo $mail_contact?>?subject=From website" class="primary">
+                                        <?php echo $mail_contact?>
+                                    </a>
+                                </div>
+                                <?php
+                            endif;
+                            
                             if ( ! empty( $newtworks ) ) :
                                 ?>
                                 <div class="footer-col">
@@ -156,16 +184,28 @@ $description    = carbon_get_theme_option( 'footer_description_text' );
                 </div>
 
                 <!-- 2 -->
-                <div class="footer-col privacy-col text-center col-span-3 sm-col-span-1 sm-text-left">
-                    <ul>
-                        <!-- // TODO: link to PDF -->
-                        <li><a href="privacy-policy.pdf" target="_blank">Privacy Policy</a></li>
-                        <li><a href="terms-conditions.pdf" target="_blank">Terms & Conditions</a></li>
-                    </ul>
-                    <p class="copyright">Copyright © <?php echo date('Y'); ?> by HomeBoys</p>
-                </div>
-
                 <?php
+                if ( ! empty( $documents ) ) :
+                    ?>
+                    <div class="footer-col privacy-col text-center col-span-3 sm-col-span-1 sm-text-left">
+                        <ul>
+                            <?php
+                            foreach ( $documents as $item ) :
+                                ?>
+                                <li>
+                                    <a href="<?php echo $item['document_file']?>" target="_blank">
+                                        <?php echo $item['document_label']?>
+                                    </a>
+                                </li>
+                                <?php
+                            endforeach;
+                            ?>
+                        </ul>
+                        <p class="copyright">Copyright © <?php echo date('Y'); ?> by HomeBoys</p>
+                    </div>
+                    <?php
+                endif;
+
                 if ( ! empty( $description ) ) :
                     ?>
                     <div class="footer-col privacy-col col-span-3 sm-col-span-2 md-col-span-3">

@@ -1,5 +1,6 @@
 <?php
 add_action( 'init'                      , 'hb2_register_post_types', 10 );
+add_filter( 'hb2_get_menu_items'        , 'hb2_get_menu_items' );
 add_filter( 'hb2_get_random_image'      , 'get_random_image' );
 // add_action( 'after_setup_theme'         , 'hb2_register_custom_menus' );
 add_filter( 'hb2_locations_list'        , 'hb2_get_locations_list' );
@@ -216,6 +217,39 @@ function hb2_register_post_types() {
         'query_var'           => true,
     ] );
 };
+
+// Menu items parse
+function hb2_get_menu_items( $menu ) {
+    $nav_menu_items = wp_get_nav_menu_items( $menu );
+    $menu_arr = [];
+
+    if ( ! empty( $nav_menu_items ) ) {
+        foreach ( $nav_menu_items as $item ) {
+            $item_id = $item->ID;
+            $parent_id = $item->menu_item_parent;
+
+            if ( $parent_id == 0 ) {
+                // This is a top-level item
+                $menu_arr[ $item_id ] = [
+                    'classes' => 'dropdown has-dropdown',
+                    'title' => $item->title,
+                    'url'   => $item->url,
+                    'children' => [],
+                ];
+            } else {
+                // This is a child item
+                if ( isset( $menu_arr[ $parent_id ] ) ) {
+                    $menu_arr[ $parent_id ]['children'][] = [
+                        'title' => $item->title,
+                        'url'   => $item->url,
+                    ];
+                }
+            }
+        }
+    };
+
+    return $menu_arr;
+}
 
 function get_random_image() {
     $imgs = [

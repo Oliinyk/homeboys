@@ -9,33 +9,7 @@
  * @package Home_Boys_2
  */
 
-$nav_menu_items = wp_get_nav_menu_items( 'menu-1' );
-$menu_content = [];
-
-if ( ! empty( $nav_menu_items ) ) {
-    foreach ( $nav_menu_items as $item ) {
-        $item_id = $item->ID;
-        $parent_id = $item->menu_item_parent;
-
-        if ( $parent_id == 0 ) {
-            // This is a top-level item
-            $menu_content[ $item_id ] = [
-                'classes' => 'dropdown has-dropdown',
-                'title' => $item->title,
-                'url'   => $item->url,
-                'children' => [],
-            ];
-        } else {
-            // This is a child item
-            if ( isset( $menu_content[ $parent_id ] ) ) {
-                $menu_content[ $parent_id ]['children'][] = [
-                    'title' => $item->title,
-                    'url'   => $item->url,
-                ];
-            }
-        }
-    }
-};
+$menu_content = apply_filters( 'hb2_get_menu_items', 'menu-1' );
 
 ?>
 <!doctype html>
@@ -70,7 +44,7 @@ if ( ! empty( $nav_menu_items ) ) {
             ?>
 
             <?php
-            if ( ! empty( $nav_menu_items ) ) :
+            if ( ! empty( $menu_content ) ) :
             ?>
             <nav class="navbar-header main-nav" id="mainNav">
                 <ul class="nav-list">
