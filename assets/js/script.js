@@ -536,6 +536,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // window.location.href = `${url.pathname}?${params.toString()}`;
 
             window.history.pushState({}, '', `${url.pathname}?${params.toString()}`);
+            window.location.reload();
         });
     });
 

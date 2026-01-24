@@ -10,7 +10,11 @@ get_header();
 
 $pId = get_the_ID();
 $not_found_message = carbon_get_theme_option( 'not_found_posts_message' );
-$order = 'DESC';
+$order = 'desc';
+
+if ( isset( $_GET['sort'] ) ) {
+    $order = $_GET['sort'];
+}
 
 $query_params = [
     'post_status'       => 'publish',
@@ -25,7 +29,7 @@ $query_params = [
             'type'     => 'DECIMAL',
         ],
     ],
-    'order'   => $order,
+    'order'   => strtoupper( $order ),
     'orderby' => 'price_column',
 ];
 
@@ -134,13 +138,14 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
     <div class="container">
         <div class="controls-sort">
             <span>Sort by:</span>
-            <span class="sort-switcher sort-down" data-sort="desc">
+            <span class="sort-switcher sort-down<?php echo 'desc' == $order ? ' active' : ''?>" data-sort="desc">
                 $
                 <svg class="sort-ico" width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M4.17219 11.306L4.11258 4.27272e-07L5.02649 3.47375e-07L5.04636 11.1157L8.28477 8.01318L9 8.69839L4.50993 13L4.49007 13L3.7947 12.3148L7.65525e-07 8.67936L0.715232 7.99414L4.17219 11.306Z" />
                 </svg>
             </span>
-            <span class="sort-switcher sort-up" data-sort="asc">
+
+            <span class="sort-switcher sort-up <?php echo 'asc' == $order ? ' active' : ''?>" data-sort="asc">
                 $
                 <svg class="sort-ico" width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M4.17219 1.694L4.11258 13L5.02649 13L5.04636 1.88433L8.28477 4.98682L9 4.30161L4.50993 5.6114e-07L4.49007 5.59403e-07L3.7947 0.685213L7.65525e-07 4.32064L0.715232 5.00586L4.17219 1.694Z" />
@@ -189,7 +194,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                         'baths'         => $plan_baths,
                         'location'      => $locations_list[$plan_locations]['location_name'],
                         'manufacturer'  => $manufacturer_arr[$plan_manuf],
-                        'series'        => $series_arr[$plan_series],
+                        'series'        => array_key_exists( $plan_series, $series_arr ) ? $series_arr[$plan_series] : '',
                     ];
                     
                     get_template_part( 'template-parts/modules/__floor_home_card', null, [ 'data-floor' => $floor_data ] );
