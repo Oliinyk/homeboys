@@ -6,12 +6,18 @@
 get_header();
 
 $p_ID = get_the_ID();
+$per_page = isset( $_GET['per_page'] ) ? intval( $_GET['per_page'] ) : 8;
+
+$order = 'desc';
+
+if ( isset( $_GET['sort'] ) ) {
+    $order = $_GET['sort'];
+}
 
 $query_params = [
     'post_status'       => 'publish',
     'post_type'         => 'plans',
-    'posts_per_page'    => 8,
-    'paged'             => get_query_var( 'paged', 1 ),
+    'posts_per_page'    => $per_page,
     'meta_query'        => [
         'relation' => 'AND',
         'price_column' => [
@@ -24,7 +30,7 @@ $query_params = [
             'compare' => 'EXISTS',
         ],
     ],
-    'order'   => $order,
+    'order'   => strtoupper( $order ),
     'orderby' => 'price_column',
 ];
 
@@ -119,13 +125,13 @@ get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] );
                         get_template_part( 'template-parts/modules/__floor_home_card', null, [ 'data-floor' => $floor_data ] );
         
                     endwhile;
-
-                    wp_reset_postdata();
                     ?>
                 </div>
 
-                <button type="button" class="btn primary-btn show-all-btn">Show All</button>
                 <?php
+                get_template_part( 'template-parts/modules/__show-all-button', null );
+
+                wp_reset_postdata();
             else :
                 echo $not_found_message;
             endif;

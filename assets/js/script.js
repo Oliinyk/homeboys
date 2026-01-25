@@ -646,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
+// Show more/less button in content
 document.addEventListener('DOMContentLoaded', function() {
     processReadMoreBlocks();
     
@@ -725,3 +725,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 250);
     });
 });
+
+// Form send
+document.addEventListener( 'wpcf7submit', function( event ) {
+    console.log( event );
+    
+    if ( '92032' == event.detail.contactFormId ) {
+        if ( 'mail_sent' === event.detail.status ) {
+            
+        } else {
+            
+        }
+    }
+    
+}, false );
+

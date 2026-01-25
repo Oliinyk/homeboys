@@ -76,7 +76,8 @@ function hb2_options_fields() {
                 ->add_fields( array(
                     Field::make( 'text', 'location_name', __( 'Location Name', 'home-boys-2' ) )
                         ->set_required( true ),
-                    Field::make( 'text', 'location_address', __( 'Location Address', 'home-boys-2'  ) ),
+                    Field::make( 'text', 'location_address', __( 'Location Address', 'home-boys-2' ) ),
+                    Field::make( 'textarea', 'location_map', __( 'Locaton MAP embed', 'home-boys-2' ) ),
                     Field::make( 'text', 'location_link_href', __( 'Map link Location' ) ),
                     Field::make( 'text', 'location_phone', __( 'Location Phone', 'home-boys-2'  ) ),
                 ))
@@ -258,6 +259,9 @@ function hb2_options_fields() {
                         <%- document_label %>
                     <% } %>
                 ' ),
+            Field::make( 'text', 'footer_form_title', __( 'Footer Form title', 'home-boys-2' ) )
+                ->set_default_value('Newsletters'),
+            Field::make( 'text', 'footer_form_shortcode', __( 'Footer Form code', 'home-boys-2' ) ), 
             Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ),
         ) );
 };

@@ -15,6 +15,8 @@ $mail_contact       = carbon_get_theme_option( 'footer_mail_contact' );
 $mail_block_title   = carbon_get_theme_option( 'footer_mail_block_title' );
 $newtworks          = carbon_get_theme_option( 'social_networks' );
 $networks_title     = carbon_get_theme_option( 'footer_networks_title' );
+$form_title         = carbon_get_theme_option( 'footer_form_title' );
+$form_shortcode     = carbon_get_theme_option( 'footer_form_shortcode' );
 $description        = carbon_get_theme_option( 'footer_description_text' );
 $menu_items         = apply_filters( 'hb2_get_menu_items', 'menu-1' );
 $documents          = carbon_get_theme_option( 'footer_documents' );
@@ -169,17 +171,26 @@ $documents          = carbon_get_theme_option( 'footer_documents' );
                             </div>
                             <?php
                         endif;
-                        ?>
-                        <div class="contact-section footer-row col-span-3 sm-col-3">
-                            <h4 class="title-col">Newsletters</h4>
-                            <div class="sm-col-span-2">
-                                <form action="#">
-                                    <input type="text" placeholder="Email">
-                                    <button class="btn submit-btn">Submit</button>
-                                </form>
-                            </div>
-                        </div>
 
+                        if ( ! empty( $form_shortcode ) ) :
+                            ?>
+                            <div class="contact-section footer-row col-span-3 sm-col-3">
+                                <?php
+                                if ( ! empty( $form_title ) ) :
+                                ?>
+                                <h4 class="title-col">
+                                    <?php echo $form_title;?>
+                                </h4>
+                                <?php
+                                endif;
+                                ?>
+                                <div class="sm-col-span-2">
+                                    <?php echo do_shortcode( $form_shortcode )?>
+                                </div>
+                            </div>
+                            <?php
+                        endif;
+                        ?>
                     </div>
                 </div>
 

@@ -149,18 +149,18 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
             </a>
             <?php
         endwhile;
-        wp_reset_postdata();
-        ?>
-        <button type="button" class="btn primary-btn show-all-btn">Show All</button>
 
-        <?php
-            get_template_part( 'template-parts/modules/_location_list', null, [
-                'locations' => $locations,
-                'settings' => [
-                    'additional_class' => 'location-bottom',
-                    'active_index'     => $selected_location,
-                ],
-            ] );
+        get_template_part( 'template-parts/modules/__show-all-button', null );
+        
+        wp_reset_postdata();
+        
+        get_template_part( 'template-parts/modules/_location_list', null, [
+            'locations' => $locations,
+            'settings' => [
+                'additional_class' => 'location-bottom',
+                'active_index'     => $selected_location,
+            ],
+        ] );
         ?>
     </div>
 </section>
