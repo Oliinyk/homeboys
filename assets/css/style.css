@@ -589,7 +589,8 @@ a:focus {
 	gap: 10px;
 	font-size: 13px;
 	max-width: max-content;
-	padding: 8px 20px;
+	max-height: 32px;
+	padding: 10px 20px;
 	margin: 0 auto;
 	z-index: 1;
 	border-radius: 0;
@@ -951,7 +952,7 @@ section {
 	font-weight: 700;
 }
 
-.our-people-section + .blog-section,
+.our-people-section + .blog-section:not(.dark-section),
 .content-section + .blog-section {
 	padding-top: 0;
 }
@@ -1354,17 +1355,25 @@ section {
     justify-content: center;
     align-items: center;
     gap: 10px;
+	bottom: auto;
 }
 .process-section .card-item .title-section {
 	font-size: 32px;
 	color: var(--white);
 	text-wrap: balance;
 	margin: 0;
+	text-transform: uppercase;
+}
+.process-section .card-item .title-section::first-letter {
+	font-size: 38px;
 }
 .process-section .card-item .subtitle-section {
 	font-size: 14px;
 	line-height: 1;
 	color: var(--white);
+}
+.process-section .item-info .btn {
+	font-family: "Montserrat", sans-serif;
 }
 
 /* text-banner-section */
@@ -1531,6 +1540,9 @@ footer {
 .footer .contact-section form input {
 	border: 1px solid var(--dark-gray);
 }
+.footer .contact-section form .wpcf7-submit {
+	border: none;
+}
 .footer .title-address .second-word {
 	display: none;
 }
@@ -1587,7 +1599,7 @@ footer {
 .location-list {
 	display: grid;
 	gap: 5px;
-	padding: 25px 0;
+	padding: 25px 0 35px;
 }
 .location-list-item {
 	display: flex;
@@ -1597,9 +1609,6 @@ footer {
 	padding: 10px 20px;
 	text-align: center;
 }
-/* .location-list-item:first-child {
-	border: 1px solid var(--light-gray);
-} */
 .location-list-item.active {
 	background-color: var(--white);
 	color: var(--dark-gray);
@@ -1691,21 +1700,29 @@ footer {
 .home-gallery-section .card-item {
 	max-height: 386px;
 }
-.home-gallery-section .card-item > * {
+.home-gallery-section .card-item > *,
+.gallery-section .card-item > * {
 	z-index: 2;
 }
-.home-gallery-section .card-item > img {
+.home-gallery-section .card-item > img,
+.gallery-section .card-item > img {
 	z-index: 0;
 }
-.home-gallery-section .card-item::after {
+.card-item::after {
 	content: '';
 	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	box-shadow: inset 0px 50px 50px 5px #0000008a, inset 0px -50px 50px 5px #0000008a;
+	inset: 0;
 	z-index: 1;
+	pointer-events: none;
+	background: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 0.55) 0%,
+		rgba(0, 0, 0, 0.25) 15%,
+		rgba(0, 0, 0, 0.0) 35%,
+		rgba(0, 0, 0, 0.0) 65%,
+		rgba(0, 0, 0, 0.25) 85%,
+		rgba(0, 0, 0, 0.6) 100%
+	);
 }
 
 /* -----  galleries page  ----- */
@@ -2038,6 +2055,45 @@ footer {
 	padding: 12px 20px;
 }
 
+/* Read More functionality */
+.read-more-wrapper {
+    position: relative;
+    margin: 20px auto;
+}
+.read-more-content {
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    overflow: hidden;
+}
+.show-all-btn {
+	max-width: 142px;
+	width: 100%;
+	justify-content: center;
+}
+.show-all-btn::after,
+.show-all-btn:focus::after {
+	content: "";
+	width: 11px;
+	height: 12px;
+	background: url("data:image/svg+xml,%3Csvg width='11' height='14' viewBox='0 0 11 14' fill='%23D43031' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M5.90066 9.7689L5.97351 0L4.85651 0L4.83223 9.52L0.874172 5.4629L-4.94673e-09 6.35895L5.48786 11.9841H5.51214L6.36203 11.0881L11 6.33406L10.1258 5.43801L5.90066 9.7689Z'/%3E%3C/svg%3E") no-repeat center;
+	z-index: 1;
+	transition: all 0.2s;
+}
+.show-all-btn:focus {
+	color: var(--primary);
+	background-color: var(--white);
+}
+.show-all-btn:focus:hover {
+	background-color: var(--primary);
+	color: var(--white);
+}
+.show-all-btn:hover::after,
+.show-all-btn:focus:hover::after {
+	background: url("data:image/svg+xml,%3Csvg width='11' height='14' viewBox='0 0 11 14' fill='%23FFFFFF' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M5.90066 9.7689L5.97351 0L4.85651 0L4.83223 9.52L0.874172 5.4629L-4.94673e-09 6.35895L5.48786 11.9841H5.51214L6.36203 11.0881L11 6.33406L10.1258 5.43801L5.90066 9.7689Z'/%3E%3C/svg%3E");
+}
+.show-all-btn.read-less::after {
+	transform: rotate(180deg);
+}
+
 @media (min-width: 768px) {
 	body {
 		font-size: 16px;
@@ -2047,7 +2103,6 @@ footer {
 	.header-inner {
 		padding-top: 21px;
 		padding-bottom: 21px;
-		/* max-height: 90px; */
 	}
 
 	.swiper-pagination {
@@ -2192,6 +2247,9 @@ footer {
 	/* process-section */
 	.process-section .card-item .title-section {
 		font-size: 64px;
+	}
+	.process-section .card-item .title-section::first-letter {
+		font-size: 72px;
 	}
 	.process-section .card-item .subtitle-section {
 		font-size: 32px;

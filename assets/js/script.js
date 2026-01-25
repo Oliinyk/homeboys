@@ -547,22 +547,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-    // Show All button
-    const showAllBtn = document.querySelector('.show-all-btn');
-    if (showAllBtn) {
-        showAllBtn.addEventListener('click', function() {
-            const url = new URL(window.location.href);
-            const params = url.searchParams;
-            
-            // Add or update the per_page parameter
-            params.set('per_page', '-1');
-            
-            // Redirect with all existing parameters
-            window.location.href = `${url.pathname}?${params.toString()}`;
-        });
-    }
-
-
+// Show All button
+const showAllBtn = document.querySelector('.show-all-btn');
+if (showAllBtn) {
+    showAllBtn.addEventListener('click', function() {
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+        
+        // Add or update the per_page parameter
+        params.set('per_page', '-1');
+        
+        // Redirect with all existing parameters
+        window.location.href = `${url.pathname}?${params.toString()}`;
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     // Customer Guidelines slider with progressbar
@@ -645,5 +643,85 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.add('open');
             }
         });
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    processReadMoreBlocks();
+    
+    function processReadMoreBlocks() {
+        const content = document.querySelector('.entry-content, .wp-block-post-content, article, .content-section .content-wrap');
+        if (!content) return;
+        
+        const html = content.innerHTML;
+        
+        if (html.includes('<!-- wp:read-more')) {
+            const parts = html.split(/<!-- wp:read-more.*?-->/);
+            
+            if (parts.length > 1) {
+                const visibleContent = parts[0];
+                const hiddenContent = parts.slice(1).join('');
+                
+                content.innerHTML = `
+                    <div class="read-more-wrapper">
+                        ${visibleContent}
+                        <div class="read-more-content collapsed" style="max-height: 0; opacity: 0;">
+                            ${hiddenContent}
+                        </div>
+                        <button class="btn primary-btn show-all-btn readMoreBtn">
+                            Show All
+                        </button>
+                    </div>
+                `;
+                
+                const btn = content.querySelector('.readMoreBtn');
+                const collapsible = content.querySelector('.read-more-content');
+                
+                // give height to the content
+                collapsible.style.maxHeight = 'none';
+                collapsible.style.opacity = '1';
+                const fullHeight = collapsible.scrollHeight;
+                collapsible.style.maxHeight = '0';
+                collapsible.style.opacity = '0';
+                
+                btn.addEventListener('click', function() {
+                    if (collapsible.classList.contains('collapsed')) {
+                        // opening
+                        collapsible.classList.remove('collapsed');
+                        collapsible.style.maxHeight = fullHeight + 'px';
+                        collapsible.style.opacity = '1';
+                        this.textContent = 'Show Less';
+                        this.classList.add('read-less');
+                    } else {
+                        // closing
+                        collapsible.classList.add('collapsed');
+                        collapsible.style.maxHeight = '0';
+                        collapsible.style.opacity = '0';
+                        this.textContent = 'Show All';
+                        this.classList.remove('read-less');
+                        
+                        // scroll to the button
+                        setTimeout(() => {
+                            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 100);
+                    }
+                });
+            }
+        }
+    }
+    
+    // Update height when window is resized
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            const collapsible = document.querySelector('.read-more-content');
+            if (collapsible && !collapsible.classList.contains('collapsed')) {
+                collapsible.style.maxHeight = 'none';
+                const newHeight = collapsible.scrollHeight;
+                collapsible.style.maxHeight = newHeight + 'px';
+            }
+        }, 250);
     });
 });
