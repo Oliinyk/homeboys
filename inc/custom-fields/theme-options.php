@@ -259,6 +259,9 @@ function hb2_options_fields() {
                         <%- document_label %>
                     <% } %>
                 ' ),
+            Field::make( 'text', 'footer_form_title', __( 'Footer Form title', 'home-boys-2' ) )
+                ->set_default_value('Newsletters'),
+            Field::make( 'text', 'footer_form_shortcode', __( 'Footer Form code', 'home-boys-2' ) ), 
             Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ),
         ) );
 };
