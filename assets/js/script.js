@@ -647,3 +647,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Form send
+document.addEventListener( 'wpcf7submit', function( event ) {
+    console.log( event );
+    
+    if ( '92032' == event.detail.contactFormId ) {
+        if ( 'mail_sent' === event.detail.status ) {
+            
+        } else {
+            
+        }
+    }
+    
+}, false );
+
