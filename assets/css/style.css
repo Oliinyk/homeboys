@@ -900,6 +900,9 @@ section {
 .contact-section {
 	padding: 0;
 }
+.contact-section + .footer {
+	margin-top: 50px;
+}
 .contact-section .contact-wrap {
 	border: 6px solid var(--dark-gray);
 	display: flex;
@@ -1358,14 +1361,14 @@ section {
 	bottom: auto;
 }
 .process-section .card-item .title-section {
-	font-size: 32px;
+	font-size: 28px;
 	color: var(--white);
 	text-wrap: balance;
 	margin: 0;
 	text-transform: uppercase;
 }
 .process-section .card-item .title-section::first-letter {
-	font-size: 38px;
+	font-size: 32px;
 }
 .process-section .card-item .subtitle-section {
 	font-size: 14px;
@@ -1390,7 +1393,7 @@ section {
 }
 
 /* content-section */
-.content-section .container {
+.content-section:not(.contact-section-main) .container {
 	max-width: 823px;
 }
 .content-section .title-description {
@@ -1417,6 +1420,27 @@ section {
 }
 .content-section p {
 	margin-bottom: 1.5em;
+}
+.contact-section-main {
+	padding-top: 0;
+}
+.contact-section-main .title-section {
+	text-transform: uppercase;
+	font-size: 28px;
+}
+.contact-section-main .title-section::first-letter {
+	font-size: 32px;
+}
+.contact-section-main .footer-address {
+	font-size: 14px;
+}
+.contact-section-main .footer-address > * {
+	width: 100%;
+	max-width: 50%;
+	margin: 0;
+}
+.map-fraims-wrap .map-address iframe {
+	width: 100%;
 }
 
 /* footer */
@@ -1481,9 +1505,6 @@ footer {
 .footer-nav .f-dropdown > * {
     min-height: 0;
 }
-
-
-
 .footer-col .title-col {
 	font-family: "Anton", sans-serif;
 	font-size: 24px;
@@ -1496,7 +1517,8 @@ footer {
 .footer-wrap .footer-nav {
 	display: none;
 }
-.footer-wrap .title-address {
+.footer-wrap .title-address,
+.contact-section-main .title-address {
 	font-family: "Georgia";
 	font-weight: bold;
 	font-style: italic;
@@ -1508,11 +1530,15 @@ footer {
 	width: 100%;
 	max-width: 50%;
 }
+.contact-section-main .footer-address .primary,
 .footer-col .primary {
 	font-family: "Anton", sans-serif;
 	font-size: 24px;
 	text-transform: uppercase;
 	text-decoration: underline;
+}
+.contact-section-main .footer-address .primary {
+	font-size: 20px;
 }
 .footer-logo img {
     max-width: 135px;
@@ -2094,6 +2120,39 @@ footer {
 	transform: rotate(180deg);
 }
 
+/* contact page */
+.content-section .contact-mail {
+	font-family: "Anton", sans-serif;
+	text-align: center;
+	color: var(--primary);
+	font-size: 32px;
+	text-decoration: underline;
+	text-transform: uppercase;
+	margin: 0 0 31px;
+}
+.content-section .your-shedule {
+	font-family: "Anton", sans-serif;
+	text-align: center;
+	font-size: 20px;
+}
+.content-section .your-shedule p {
+	margin: 0;
+}
+.contact-section-main .map-fraims-wrap {
+	display: grid;
+	gap: 20px;
+	padding: 25px 0;
+}
+.contact-section-main .title-address {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 15px;
+}
+.contact-section-main .address-item .footer-address {
+	display: flex;
+}
+
 @media (min-width: 768px) {
 	body {
 		font-size: 16px;
@@ -2246,10 +2305,10 @@ footer {
 
 	/* process-section */
 	.process-section .card-item .title-section {
-		font-size: 64px;
+		font-size: 60px;
 	}
 	.process-section .card-item .title-section::first-letter {
-		font-size: 72px;
+		font-size: 64px;
 	}
 	.process-section .card-item .subtitle-section {
 		font-size: 32px;
@@ -2304,6 +2363,7 @@ footer {
 	}
 	.footer-wrap .title-address {
 		max-width: max-content;
+		margin: 0 0 10px;
 	}
 	.footer-wrap .info-address {
 		max-width: max-content;
@@ -2503,6 +2563,27 @@ footer {
 	}
 	.progress-section {
 		display: block;
+	}
+
+	/* contact page */
+	.content-section .contact-mail {
+		font-size: 48px;
+	}
+	.content-section .your-shedule {
+		font-size: 24px;
+	}
+	.contact-section-main .footer-address .primary {
+		font-size: 24px;
+	}
+	.contact-section-main .footer-address {
+		font-size: 12px;
+	}
+	.contact-section-main .title-section {
+		text-transform: uppercase;
+		font-size: 60px;
+	}
+	.contact-section-main .title-section::first-letter {
+		font-size: 64px;
 	}
 
 	/* footer */

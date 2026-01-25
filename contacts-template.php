@@ -64,7 +64,7 @@ get_header();
         <?php
         if ( ! empty( $locations ) ) :
         ?>
-        <div class="map-fraims-wrap location-wrap col-span-3 sm-col-3">
+        <div class="map-fraims-wrap location-wrap grid md-col-3">
             <?php
             foreach( $locations as $loc ) :
                 ?>
