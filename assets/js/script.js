@@ -727,16 +727,33 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Form send
-document.addEventListener( 'wpcf7submit', function( event ) {
-    console.log( event );
+document.addEventListener('wpcf7submit', function(event) {
+    // console.log(event);
     
-    if ( '92032' == event.detail.contactFormId ) {
-        if ( 'mail_sent' === event.detail.status ) {
+    const targetFormId = '92032';
+    
+    if (targetFormId == event.detail.contactFormId) {
+        if ('mail_sent' === event.detail.status) {
+            // Create success message block
+            const successMessage = document.createElement('div');
+            successMessage.className = 'form-success-message';
+            successMessage.innerHTML = `
+                <button class='form-success-close' aria-label='Close message'>&times;</button>
+                <h2 class='title-section'>Thank You!</h2>
+                <p>We will be in touch with you shortly</p>
+            `;
             
-        } else {
-            
+            // Find the contact form wrapper and insert the message
+            const contactWrap = event.target.closest('.contact-wrap');
+            if (contactWrap) {
+                contactWrap.appendChild(successMessage);
+                
+                // Add close functionality
+                const closeButton = successMessage.querySelector('.form-success-close');
+                closeButton.addEventListener('click', function() {
+                    successMessage.remove();
+                });
+            }
         }
     }
-    
-}, false );
-
+}, false);
