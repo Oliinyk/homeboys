@@ -1381,7 +1381,9 @@ section {
 /* text-banner-section */
 .text-banner-section .text-banner-wrap {
 	display: flex;
-	gap: 40px;
+	flex-wrap: wrap;
+	gap: 30px;
+	padding: 0;
 }
 .text-banner-section .text-wrap {
 	max-width: 500px;
@@ -1624,7 +1626,7 @@ footer {
 .location-list {
 	display: grid;
 	gap: 5px;
-	padding: 25px 0 35px;
+	padding: 20px 0;
 }
 .location-list-item {
 	display: flex;
@@ -1681,10 +1683,18 @@ footer {
 .location-list-item.active .address-link {
 	color: var(--dark-gray);
 }
-.hero-section .location-list-item.active,
-.gallery-section .location-list-item:not(.active) {
+.hero-section .location-list-item {
 	display: none;
 }
+.hero-section .location-list-item.active {
+	display: flex;
+}
+.gallery-section .location-list-item.active {
+	display: none;
+}
+/* .gallery-section .location-list-item:not(.active) {
+	display: none;
+} */
 
 /* gallery-section */
 .home-gallery-section {
@@ -1708,7 +1718,7 @@ footer {
 	object-fit: cover;
 }
 .gallery-section .card-item + .card-item {
-	margin-top: 15px;
+	margin-top: 5px;
 }
 .gallery-section .card-item .item-title {
 	margin: 0;
@@ -2030,7 +2040,8 @@ footer {
 }
 .team-section .employee-item.single-item img {
 	border-radius: 50%;
-	max-height: 110px;
+	max-width: 94px;
+	max-height: 94px;
 	height: 94px;
 }
 .team-section .employee-item.single-item .side:first-child {
@@ -2058,6 +2069,7 @@ footer {
 	text-decoration: underline;
 	font-size: 14px;
 	display: block;
+	word-break: break-all;
 }
 .employee-item .employee-desc {
 	font-size: 12px;
@@ -2263,6 +2275,7 @@ footer {
 	}
 	.location-list {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
+		padding: 25px 0 35px;
 	}
 	.location-list-item {
 		text-align: left;
@@ -2270,8 +2283,9 @@ footer {
 	.location-list-item.active {
 		border: none;
 	}
+	.hero-section .location-list-item,
 	.hero-section .location-list-item.active,
-	.gallery-section .location-list-item:not(.active) {
+	.gallery-section .location-list-item.active {
 		display: flex;
 	}
 	.location-bottom-content {
@@ -2363,6 +2377,7 @@ footer {
 		margin-right: 0;
 	}
 	.team-section .employee-item.single-item img {
+		max-width: 110px;
 		max-height: 110px;
 		height: 110px;
 	}
@@ -2443,7 +2458,7 @@ footer {
 	}
 	.nav-link {
 		font-size: 12px;
-		padding: 38px 32px;
+		padding: 38px 28px;
 		max-height: 90px;
 	}
 	.nav-list li:last-child .nav-link {
@@ -2543,6 +2558,9 @@ footer {
 	.gallery-section .label .label-top {
 		font-size: 12px;
 	}
+	.gallery-section .card-item + .card-item {
+		margin-top: 15px;
+	}
 	.gallery-section .card-item .item-title {
 		font-size: 48px;
 	}
@@ -2551,6 +2569,12 @@ footer {
 	}
 	.gallery-section .grid-item .card-top-info {
 		font-size: 20px;
+	}
+
+	/* text-banner-section */
+	.text-banner-section .text-banner-wrap {
+		flex-wrap: nowrap;
+		gap: 40px;
 	}
 
 	/* plans-section */
