@@ -1057,6 +1057,9 @@ section {
 .dark-section .swiper-wrapper .item-title {
 	color: var(--white);
 }
+.page-template-blog-template .hero-section {
+	max-height: 326px;
+}
 .page-template-blog-template .blog-section {
 	padding-top: 25px;
 }
@@ -1076,6 +1079,7 @@ section {
 	object-fit: cover;
 	width: 100%;
 	height: 100%;
+	aspect-ratio: 16 / 9;
 }
 .filter-container + .card-list {
 	margin-top: 40px;
@@ -1160,6 +1164,7 @@ section {
 	right: 0;
 	bottom: 10px;
 	text-align: center;
+	z-index: 2;
 }
 .find-home-section .card-item .item-info {
     margin: 0 10px;
@@ -1239,6 +1244,7 @@ section {
 	padding: 0;
 }
 .customer-guidelines-section {
+	padding: 25px 0 0;
 	background-color: var(--yellow);
 }
 .customer-guidelines-section .title-section {
@@ -2063,16 +2069,22 @@ footer {
 }
 .team-section .employee-item img {
 	width: 100%;
+	max-width: 100%;
 	object-fit: cover;
 }
 .team-section .employee-item.group-item img {
-	max-height: 203px;
+	/* height: 100%; */
+	height: 203px;
 }
 .team-section .employee-item.single-item img {
 	border-radius: 50%;
 	max-width: 94px;
 	max-height: 94px;
 	height: 94px;
+}
+.team-section .employee-item.group-item .side:first-child {
+	height: 203px;
+	max-width: calc(100% + 32px);
 }
 .team-section .employee-item.single-item .side:first-child {
 	width: 100%;
@@ -2305,6 +2317,9 @@ footer {
 	.card-list {
 		gap: 20px;
 	}
+	.card-list img {
+		aspect-ratio: auto;
+	}
 	.location-list {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		padding: 25px 0 35px;
@@ -2378,6 +2393,9 @@ footer {
 		font-size: 24px;
 	}
 
+	.customer-guidelines-section {
+		padding: 50px 0;
+	}
 	.customer-guidelines-section .title-section {
 		font-size: 64px;
 	}
@@ -2403,6 +2421,9 @@ footer {
 	}
 
 	/* about page */
+	.page-template-blog-template .hero-section {
+		max-height: none;
+	}
 	.team-section .content-section .content-wrap {
 		padding: 40px 60px;
 	}
@@ -2411,6 +2432,10 @@ footer {
 		margin-left: 0;
 		margin-right: 0;
 	}
+	.team-section .employee-item.group-item .side:first-child {
+		height: auto;
+		max-width: 288px;
+	}
 	.team-section .employee-item.single-item img {
 		max-width: 110px;
 		max-height: 110px;
@@ -2418,7 +2443,7 @@ footer {
 	}
 	.team-section .employee-item.group-item img {
 		border-radius: 50%;
-		max-height: none;
+		/* max-height: none; */
 		height: 288px;
 	}
 	.employee-item.group-item {
