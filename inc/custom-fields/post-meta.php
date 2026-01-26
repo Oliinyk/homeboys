@@ -241,7 +241,7 @@ function hb2_meta_fields() {
                 ->set_width(50),
             Field::make( 'textarea', 'youtube_embed', __( 'YouTube Embed Code', 'home-boys-2' ) )
                 ->set_width(50),
-            Field::make( 'textarea', 'plan_description', __( 'Description', 'home-boys-2' ) ), 
+            Field::make( 'rich_text', 'plan_description', __( 'Description', 'home-boys-2' ) ), 
             Field::make( 'media_gallery', 'plan_photos', __( 'Photos', 'home-boys-2' ) )     
         )
     );

@@ -161,7 +161,7 @@ endif;
                 <?php
                 endif;
                 if ( ! empty( $description ) ) :
-                    echo $description;
+                    echo wpautop( $description );
                 endif;
 
                 if ( ! empty( $content ) ) :
