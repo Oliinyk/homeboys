@@ -430,6 +430,9 @@ a:focus {
 	color: var(--dark-gray);
 	outline: none;
 }
+.filter-container select {
+	height: 32px;
+}
 .filter-container .slider-container {
 	position: relative;
 	height: 20px;
@@ -2034,7 +2037,10 @@ footer {
 .page-template-about-template .site {
 	background-color: var(--yellow);
 }
-
+.team-section {
+	overflow-x: hidden;
+	padding-bottom: 0;
+}
 .team-section .content-section {
 	margin: 0 0 50px;
 }
@@ -2071,6 +2077,8 @@ footer {
 .team-section .employee-item.single-item .side:first-child {
 	width: 100%;
 	max-width: 110px;
+	margin-left: 0;
+	margin-right: 0;
 }
 .team-section .employee-item .side:first-child {
 	flex: 1 0 auto;
