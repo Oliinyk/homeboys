@@ -811,6 +811,9 @@ section {
 }
 
 /* welcome-section */
+.welcome-section {
+	padding-bottom: 0;
+}
 .welcome-section .title-section {
 	color: var(--primary);
 }
@@ -884,6 +887,9 @@ section {
 }
 
 /* our-partner-section */
+.partner-section {
+	padding-top: 25px;
+}
 .partner-section .subtitle-section {
 	color: var(--primary);
 	margin: 0 0 25px;
@@ -1048,6 +1054,15 @@ section {
 .dark-section .swiper-wrapper .item-title {
 	color: var(--white);
 }
+.page-template-blog-template .blog-section {
+	padding-top: 25px;
+}
+.page-template-blog-template .blog-section .item-title {
+	font-size: 14px;
+}
+.page-template-blog-template .card-list {
+    gap: 20px;
+}
 
 /* find-home-section */
 .card-list {
@@ -1088,6 +1103,7 @@ section {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	z-index: 2;
 }
 .card-top-info li:not(:last-child)::after {
     position: absolute;
@@ -1162,6 +1178,8 @@ section {
     margin-top: 4px;
     color: var(--yellow);
     font-size: 10px;
+	position: relative;
+	z-index: 2;
 }
 .controls-sort {
 	display: flex;
@@ -1350,6 +1368,9 @@ section {
 }
 
 /* process-section */
+.process-section {
+	padding-bottom: 0;
+}
 .process-section .item-info {
     height: 100%;
     display: flex;
@@ -1373,9 +1394,11 @@ section {
 	font-size: 14px;
 	line-height: 1;
 	color: var(--white);
+	z-index: 2;
 }
 .process-section .item-info .btn {
 	font-family: "Montserrat", sans-serif;
+	z-index: 2;
 }
 
 /* text-banner-section */
@@ -1716,6 +1739,7 @@ footer {
 .gallery-section .card-item img {
 	max-height: 534px;
 	object-fit: cover;
+	aspect-ratio: 16 / 9;
 }
 .gallery-section .card-item + .card-item {
 	margin-top: 5px;
@@ -1769,7 +1793,7 @@ footer {
 .galleries-grid {
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: 20px;
+	gap: 0;
 	margin: 0 auto;
 	padding: 20px 0 50px;
 }
@@ -2293,6 +2317,9 @@ footer {
 	}
 
 	/* galleries-page */
+	.galleries-grid {
+		gap: 20px;
+	}
 	.gallery-section .galleries-grid {
 		grid-template-columns: repeat(2, 1fr);
 	}
@@ -2539,6 +2566,13 @@ footer {
 		display: flex;
 	}
 
+	.page-template-blog-template .blog-section .item-title {
+		font-size: 16px;
+	}
+	.page-template-blog-template .card-list {
+		gap: 30px;
+	}
+
 	/* find-home-section */
 	.card-list {
 		gap: 30px;
@@ -2669,7 +2703,7 @@ footer {
 }
 
 @media (max-width: 767px) {
-	.blog-section .container {
+	.blog-section .slider-container {
 		max-width: 100%;
 		padding: 0;
 	}

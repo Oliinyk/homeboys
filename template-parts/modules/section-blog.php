@@ -20,7 +20,7 @@ if ( ! $blog_posts->have_posts() ) {
 }
 ?>
 <section class="blog-section<?php echo $classes?>">
-    <div class="container">
+    <div class="container slider-container">
         <h4 class="subtitle-section">
             <?php echo esc_html( $section_small_title ); ?>
         </h4>
