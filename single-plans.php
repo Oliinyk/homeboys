@@ -32,6 +32,10 @@ if ( ! $thumbnail ) {
     $thumbnail = apply_filters( 'hb2_get_random_image', false );
 }
 
+$base_price_format     = ! empty( $base_price ) ? number_format( intval( $base_price ), 0, '.', ',' ) : '';
+$complect_price_format = ! empty( $complect_price ) ? '$' . number_format( intval( $complect_price ), 0, '.', ',' ) : '$' . $base_price_format;
+$price_short_desc      = ! empty( $complect_pr_desc ) ? ' ' . $complect_pr_desc : ' Includes standard delivery & set within 100 miles';
+
 // Overlay
 get_template_part( 'template-parts/modules/nav_overlay', null );
 
@@ -178,7 +182,7 @@ endif;
 
                     <div class="price-row">
                         <h4 class="price-title">
-                            $<?php echo number_format( intval($base_price), 0, '.', ',' )?>
+                            $<?php echo $base_price_format?>
                         </h4>
 
                         <?php
@@ -194,17 +198,9 @@ endif;
                         ?>
                     </div>
 
-                    <?php
-                    if ( ! empty( $complect_price ) ) :
-                        $complect_price_format = number_format( intval($complect_price), 0, '.', ',' );
-                        $short_desc = ! empty( $complect_pr_desc ) ? $complect_pr_desc : '';
-                        ?>
                         <p>
-                            Model Price: $<?php echo $complect_price_format . ' ' . $short_desc?>
+                            Model Price: <?php echo $complect_price_format . $price_short_desc?>
                         </p>
-                        <?php
-                    endif;
-                    ?>
                 </div>
 
                 <div class="plan-items">
