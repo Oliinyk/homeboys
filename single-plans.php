@@ -10,6 +10,8 @@ $series             = carbon_get_post_meta( $p_ID, 'plan_series' );
 $youtube_embed      = carbon_get_post_meta( $p_ID, 'youtube_embed' );
 $plan_tour          = carbon_get_post_meta( $p_ID, 'plan_tour' );
 $base_price         = carbon_get_post_meta( $p_ID, 'plan_price' );
+$complect_price     = carbon_get_post_meta( $p_ID, 'complectation_price' );
+$complect_pr_desc   = carbon_get_post_meta( $p_ID, 'complectation_price_desc' );
 $location           = carbon_get_post_meta( $p_ID, 'plan_location' );
 $size               = carbon_get_post_meta( $p_ID, 'plan_size' );
 $beds               = carbon_get_post_meta( $p_ID, 'plan_beds' );
@@ -176,7 +178,7 @@ endif;
 
                     <div class="price-row">
                         <h4 class="price-title">
-                            $<?php echo number_format( floatval($base_price), 0, '.', ',' )?>
+                            $<?php echo number_format( intval($base_price), 0, '.', ',' )?>
                         </h4>
 
                         <?php
@@ -192,8 +194,17 @@ endif;
                         ?>
                     </div>
 
-                    <!-- What is this data? -->
-                    <p>Model Price: $223,040 Includes standard delivery & set within 100 miles</p>
+                    <?php
+                    if ( ! empty( $complect_price ) ) :
+                        $complect_price_format = number_format( intval($complect_price), 0, '.', ',' );
+                        $short_desc = ! empty( $complect_pr_desc ) ? $complect_pr_desc : '';
+                        ?>
+                        <p>
+                            Model Price: $<?php echo $complect_price_format . ' ' . $short_desc?>
+                        </p>
+                        <?php
+                    endif;
+                    ?>
                 </div>
 
                 <div class="plan-items">
