@@ -25,14 +25,21 @@ $query_params = [
     'paged'             => get_query_var( 'paged', 1 ),
     'meta_query'        => [
         'relation' => 'AND',
+        'order_column' => [
+            'key'     => '_plan_order',
+            'type'    => 'NUMERIC',
+            'compare' => 'EXISTS',
+        ],
         'price_column' => [
             'key'      => '_plan_price',
             'compare'  => 'EXISTS',
             'type'     => 'DECIMAL',
         ],
     ],
-    'order'   => strtoupper( $order ),
-    'orderby' => 'price_column',
+    'orderby' => [
+        'order_column' => 'ASC',
+        'price_column' => strtoupper($order),
+    ]
 ];
 
 // Filter by prices
