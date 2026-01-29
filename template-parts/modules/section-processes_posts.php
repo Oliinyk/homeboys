@@ -25,12 +25,12 @@ if ( ! $processes->have_posts() ) {
     <div class="container">
         <ul class="breadcrumbs">
             <li class="crumb-item">
-                <a href="#">About us</a>
+                <a href="#">PROCESS</a>
             </li>
 
             <li class="crumb-item">
                 <span>
-                    <?php echo $block_title?>
+                    <?php echo esc_html( get_the_title() ); ?>
                 </span>
             </li>
         </ul>
