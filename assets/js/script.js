@@ -141,6 +141,10 @@
 
 // --- Initialize Swiper ---
 var swiper = new Swiper(".mySwiper", {
+    loop: true,
+    autoplay: {
+    delay: 5000,
+    },
     pagination: {
         el: ".swiper-pagination",
         clickable: true,
@@ -148,33 +152,6 @@ var swiper = new Swiper(".mySwiper", {
 });
 
 // From Our People swiper
-// var storiesSlider = new Swiper(".stories-swiper", {
-//     // slidesPerView: 1,
-//     spaceBetween: 30,
-//     loop: true,
-//     navigation: {
-//         nextEl: '.swiper-button-next',
-//         prevEl: '.swiper-button-prev',
-//         // enabled: false,
-//     },
-//     breakpoints: {
-//         768: {
-//             slidesPerView: 2,
-//             spaceBetween: 30,
-//             // navigation: {
-//             //     enabled: false,
-//             // },
-//         },
-//         992: {
-//             slidesPerView: 2,
-//             spaceBetween: 40,
-//             // navigation: {
-//             //     enabled: true,
-//             // },
-//         },
-//     },
-// });
-
 let storiesSlider;
 const swiperEl = document.querySelector('.stories-swiper');
 
