@@ -566,8 +566,13 @@ function hb2_meta_fields() {
     Container::make( 'post_meta', __( 'Employee data', 'home-boys-2' ) )
         ->where( 'post_type', '=', 'employees' )
         ->add_fields( array(
+            Field::make( 'text', 'employee_order', __( 'Display Order', 'home-boys-2' ) )
+                ->set_default_value( '5' )
+                ->set_attribute( 'type', 'number' )
+                ->set_width( 10 )
+                ->set_required( true ),
             Field::make( 'checkbox', 'is_group', __( 'Is group', 'home-boys-2' ) )
-                ->set_width( 20 ),
+                ->set_width( 10 ),
             Field::make( 'text', 'employee_name', __( 'Employee Name', 'home-boys-2' ) )
                 ->set_required( true )
                 ->set_width( 40 ),
