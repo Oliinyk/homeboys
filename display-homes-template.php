@@ -102,8 +102,9 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                 <ul class="card-top-info">
                     <?php
                     if ( ! empty( $plan_sqft ) ) :
+                        $sqft = number_format( intval( $plan_sqft ), 0, ',', ',' );
                         ?>
-                        <li><?php echo esc_html( $plan_sqft ); ?> ft²</li>
+                        <li><?php echo esc_html( $sqft ); ?> ft²</li>
                      <?php
                     endif;
 
@@ -121,9 +122,10 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                 </ul>
                 <?php
                 if ( ! empty( $plan_price ) ) :
+                    $price = number_format( intval( $plan_price ), 0, ',', ',' );
                     ?>
                     <div class="card-labels">
-                        <div class="label">$ <?php echo esc_html( $plan_price ); ?></div>
+                        <div class="label">$ <?php echo esc_html( $price ); ?></div>
                     </div>
                     <?php
                 endif;
