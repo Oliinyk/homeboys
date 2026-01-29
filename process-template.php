@@ -49,7 +49,7 @@ if ( ! empty( $content ) ) :
             if ( ! empty( $content ) ) :
             ?>
             <div class="content-wrap">
-                <?php echo $content ?>
+                <?php echo apply_filters( 'the_content', $content ) ?>
             </div>
             <?php
             endif

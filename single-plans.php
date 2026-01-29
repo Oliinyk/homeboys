@@ -10,6 +10,8 @@ $series             = carbon_get_post_meta( $p_ID, 'plan_series' );
 $youtube_embed      = carbon_get_post_meta( $p_ID, 'youtube_embed' );
 $plan_tour          = carbon_get_post_meta( $p_ID, 'plan_tour' );
 $base_price         = carbon_get_post_meta( $p_ID, 'plan_price' );
+$complect_price     = carbon_get_post_meta( $p_ID, 'complectation_price' );
+$complect_pr_desc   = carbon_get_post_meta( $p_ID, 'complectation_price_desc' );
 $location           = carbon_get_post_meta( $p_ID, 'plan_location' );
 $size               = carbon_get_post_meta( $p_ID, 'plan_size' );
 $beds               = carbon_get_post_meta( $p_ID, 'plan_beds' );
@@ -29,6 +31,10 @@ $series_list = apply_filters( 'hb2_get_series_list', [] );
 if ( ! $thumbnail ) {
     $thumbnail = apply_filters( 'hb2_get_random_image', false );
 }
+
+$base_price_format     = ! empty( $base_price ) ? number_format( intval( $base_price ), 0, '.', ',' ) : '';
+$complect_price_format = ! empty( $complect_price ) ? '$' . number_format( intval( $complect_price ), 0, '.', ',' ) : '$' . $base_price_format;
+$price_short_desc      = ! empty( $complect_pr_desc ) ? ' ' . $complect_pr_desc : ' Includes standard delivery & set within 100 miles';
 
 // Overlay
 get_template_part( 'template-parts/modules/nav_overlay', null );
@@ -161,7 +167,7 @@ endif;
                 <?php
                 endif;
                 if ( ! empty( $description ) ) :
-                    echo $description;
+                    echo wpautop( $description );
                 endif;
 
                 if ( ! empty( $content ) ) :
@@ -176,7 +182,7 @@ endif;
 
                     <div class="price-row">
                         <h4 class="price-title">
-                            $<?php echo number_format( floatval($base_price), 0, '.', ',' )?>
+                            $<?php echo $base_price_format?>
                         </h4>
 
                         <?php
@@ -192,8 +198,9 @@ endif;
                         ?>
                     </div>
 
-                    <!-- What is this data? -->
-                    <p>Model Price: $223,040 Includes standard delivery & set within 100 miles</p>
+                        <p>
+                            Model Price: <?php echo $complect_price_format . $price_short_desc?>
+                        </p>
                 </div>
 
                 <div class="plan-items">

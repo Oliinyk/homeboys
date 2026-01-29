@@ -23,6 +23,18 @@ if ( ! $processes->have_posts() ) {
 ?>
 <section class="financing-section dark-section">
     <div class="container">
+        <ul class="breadcrumbs">
+            <li class="crumb-item">
+                <a href="#">About us</a>
+            </li>
+
+            <li class="crumb-item">
+                <span>
+                    <?php echo $block_title?>
+                </span>
+            </li>
+        </ul>
+
         <?php
         if ( ! empty( $block_title ) ) :
             ?>

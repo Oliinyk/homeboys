@@ -12,7 +12,7 @@ $query_params = [
             'type'     => 'DECIMAL',
         ],
     ],
-    'order'   => 'DESC',
+    'order'   => 'ASC',
     'orderby' => 'order_column',
 ];
 

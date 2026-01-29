@@ -34,7 +34,7 @@ get_template_part( 'template-parts/modules/section', 'partner' );
     <div class="container">
         <?php
         if ( ! empty( $content ) ) :
-            echo $content;
+            echo apply_filters( 'the_content', $content );
         endif;
         ?>
 

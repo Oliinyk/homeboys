@@ -188,25 +188,33 @@ function hb2_meta_fields() {
         ->add_fields( array(
             Field::make( 'text', 'plan_name', __( 'Display Name', 'home-boys-2' ) ),
             Field::make( 'text', 'plan_order', __( 'Display Order', 'home-boys-2' ) )
-                ->set_width(33)
+                ->set_default_value( '5' )
+                ->set_width(25)
                 ->set_required( true )
                 ->set_attribute( 'type', 'number' ),
             Field::make( 'text', 'plan_beds', __( 'Bedrooms', 'home-boys-2' ) )
-                ->set_width(33)
+                ->set_width(25)
                 ->set_required( true )
                 ->set_attribute( 'type', 'number' ),
             Field::make( 'text', 'plan_baths', __( 'Bathrooms', 'home-boys-2' ) )
-                ->set_width(33)
+                ->set_width(25)
                 ->set_required( true )
                 ->set_attribute( 'type', 'number' ),
             Field::make( 'text', 'plan_size', __( 'Size', 'home-boys-2' ) )
-                ->set_width(33)
+                ->set_width(25)
                 ->set_required( true )
                 ->help_text( 'ft<sup>2</sup>' )
                 ->set_attribute( 'type', 'number' ),
-            Field::make( 'text', 'plan_price', __( 'Price Range', 'home-boys-2' ) )
+            Field::make( 'text', 'plan_price', __( 'Basic Price', 'home-boys-2' ) )
+                ->set_required( true )
                 ->set_attribute( 'type', 'number' )
-                ->set_width(33),
+                ->set_width(25),
+            Field::make( 'text', 'complectation_price', __( 'Complectation price' ) )
+                ->set_attribute( 'type', 'number' )
+                ->set_width(25),
+            Field::make( 'text', 'complectation_price_desc', __( 'Complectation price description' ) )
+                ->set_default_value( 'Includes standard delivery & set within 100 miles' )
+                ->set_width(50),
             Field::make( 'select', 'plan_series', __( 'Series', 'home-boys-2' ) )
                 ->add_options( $plan_series_opt )
                 ->set_width(33),
@@ -218,17 +226,21 @@ function hb2_meta_fields() {
                 ->help_text( 'This field is required for the search box. Searched content needs to match exactly as it is input here.' ),    
             Field::make( 'select', 'plan_width', __( 'Width', 'home-boys-2' ) )
                 ->add_options( $plan_width_opt )
-                ->set_width(33),
+                ->set_width(20),
             Field::make( 'select', 'plan_type', __( 'Plan Type', 'home-boys-2' ) )
                 ->add_options( $plan_type_opt )
-                ->set_width(33),
-            Field::make( 'text', 'plan_tour', __( 'Virtual Tour', 'home-boys-2' ) )
-                ->set_width(33)
-                ->set_attribute( 'type', 'url' ),
+                ->set_width(20),
             Field::make( 'select', 'plan_location', __( 'Location', 'home-boys-2' ) )
                 ->add_options( $plan_location_opt )
                 ->set_required( true )
-                ->set_width(33),
+                ->set_width(20),
+            Field::make( 'text', 'plan_tour', __( 'Virtual Tour', 'home-boys-2' ) )
+                ->set_width(40)
+                ->set_attribute( 'type', 'url' ),
+            Field::make( 'textarea', 'matterport_embed', __( 'Matterport Embed Code', 'home-boys-2' ) )
+                ->set_width(50),
+            Field::make( 'textarea', 'youtube_embed', __( 'YouTube Embed Code', 'home-boys-2' ) )
+                ->set_width(50),    
             Field::make( 'file', 'plan_brochure', __( 'View Plan', 'home-boys-2' ) )
                 ->set_width(25),
             Field::make( 'file', 'plan_brochure2', __( 'Standard Features', 'home-boys-2' ) )
@@ -237,11 +249,7 @@ function hb2_meta_fields() {
                 ->set_width(25),
             Field::make( 'file', 'plan_brochure4', __( 'Misc', 'home-boys-2' ) )
                 ->set_width(25),
-            Field::make( 'textarea', 'matterport_embed', __( 'Matterport Embed Code', 'home-boys-2' ) )
-                ->set_width(50),
-            Field::make( 'textarea', 'youtube_embed', __( 'YouTube Embed Code', 'home-boys-2' ) )
-                ->set_width(50),
-            Field::make( 'textarea', 'plan_description', __( 'Description', 'home-boys-2' ) ), 
+            Field::make( 'rich_text', 'plan_description', __( 'Description', 'home-boys-2' ) ), 
             Field::make( 'media_gallery', 'plan_photos', __( 'Photos', 'home-boys-2' ) )     
         )
     );
@@ -558,8 +566,13 @@ function hb2_meta_fields() {
     Container::make( 'post_meta', __( 'Employee data', 'home-boys-2' ) )
         ->where( 'post_type', '=', 'employees' )
         ->add_fields( array(
+            Field::make( 'text', 'employee_order', __( 'Display Order', 'home-boys-2' ) )
+                ->set_default_value( '5' )
+                ->set_attribute( 'type', 'number' )
+                ->set_width( 10 )
+                ->set_required( true ),
             Field::make( 'checkbox', 'is_group', __( 'Is group', 'home-boys-2' ) )
-                ->set_width( 20 ),
+                ->set_width( 10 ),
             Field::make( 'text', 'employee_name', __( 'Employee Name', 'home-boys-2' ) )
                 ->set_required( true )
                 ->set_width( 40 ),
