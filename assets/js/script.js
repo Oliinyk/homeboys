@@ -633,59 +633,87 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const html = content.innerHTML;
         
+        // Option 1: Comment <!-- wp:read-more -->
         if (html.includes('<!-- wp:read-more')) {
             const parts = html.split(/<!-- wp:read-more.*?-->/);
             
             if (parts.length > 1) {
-                const visibleContent = parts[0];
-                const hiddenContent = parts.slice(1).join('');
-                
-                content.innerHTML = `
-                    <div class="read-more-wrapper">
-                        ${visibleContent}
-                        <div class="read-more-content collapsed" style="max-height: 0; opacity: 0;">
-                            ${hiddenContent}
-                        </div>
-                        <button class="btn primary-btn show-all-btn readMoreBtn">
-                            Show All
-                        </button>
-                    </div>
-                `;
-                
-                const btn = content.querySelector('.readMoreBtn');
-                const collapsible = content.querySelector('.read-more-content');
-                
-                // give height to the content
-                collapsible.style.maxHeight = 'none';
-                collapsible.style.opacity = '1';
-                const fullHeight = collapsible.scrollHeight;
-                collapsible.style.maxHeight = '0';
-                collapsible.style.opacity = '0';
-                
-                btn.addEventListener('click', function() {
-                    if (collapsible.classList.contains('collapsed')) {
-                        // opening
-                        collapsible.classList.remove('collapsed');
-                        collapsible.style.maxHeight = fullHeight + 'px';
-                        collapsible.style.opacity = '1';
-                        this.textContent = 'Show Less';
-                        this.classList.add('read-less');
-                    } else {
-                        // closing
-                        collapsible.classList.add('collapsed');
-                        collapsible.style.maxHeight = '0';
-                        collapsible.style.opacity = '0';
-                        this.textContent = 'Show All';
-                        this.classList.remove('read-less');
-                        
-                        // scroll to the button
-                        setTimeout(() => {
-                            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        }, 100);
-                    }
-                });
+                createReadMoreStructure(content, parts[0], parts.slice(1).join(''));
+                return;
             }
         }
+        
+        // Option 2: HTML element <a class="wp-block-read-more">
+        const readMoreLink = content.querySelector('a.wp-block-read-more');
+        if (readMoreLink) {
+            // Find all elements before and after the link
+            const parent = readMoreLink.parentElement;
+            const allNodes = Array.from(parent.childNodes);
+            const linkIndex = allNodes.indexOf(readMoreLink);
+            
+            // We collect content before and after
+            const beforeNodes = allNodes.slice(0, linkIndex);
+            const afterNodes = allNodes.slice(linkIndex + 1);
+            
+            let visibleContent = '';
+            beforeNodes.forEach(node => {
+                visibleContent += node.nodeType === 1 ? node.outerHTML : node.textContent;
+            });
+            
+            let hiddenContent = '';
+            afterNodes.forEach(node => {
+                hiddenContent += node.nodeType === 1 ? node.outerHTML : node.textContent;
+            });
+            
+            createReadMoreStructure(parent, visibleContent, hiddenContent);
+        }
+    }
+    
+    function createReadMoreStructure(container, visibleContent, hiddenContent) {
+        container.innerHTML = `
+            <div class="read-more-wrapper">
+                ${visibleContent}
+                <div class="read-more-content collapsed" style="max-height: 0; opacity: 0;">
+                    ${hiddenContent}
+                </div>
+                <button class="btn primary-btn show-all-btn readMoreBtn">
+                    Show All
+                </button>
+            </div>
+        `;
+        
+        const btn = container.querySelector('.readMoreBtn');
+        const collapsible = container.querySelector('.read-more-content');
+        
+        // give height to the content
+        collapsible.style.maxHeight = 'none';
+        collapsible.style.opacity = '1';
+        const fullHeight = collapsible.scrollHeight;
+        collapsible.style.maxHeight = '0';
+        collapsible.style.opacity = '0';
+        
+        btn.addEventListener('click', function() {
+            if (collapsible.classList.contains('collapsed')) {
+                // opening
+                collapsible.classList.remove('collapsed');
+                collapsible.style.maxHeight = fullHeight + 'px';
+                collapsible.style.opacity = '1';
+                this.textContent = 'Show Less';
+                this.classList.add('read-less');
+            } else {
+                // closing
+                collapsible.classList.add('collapsed');
+                collapsible.style.maxHeight = '0';
+                collapsible.style.opacity = '0';
+                this.textContent = 'Show All';
+                this.classList.remove('read-less');
+                
+                // scroll to the button
+                setTimeout(() => {
+                    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        });
     }
     
     // Update height when window is resized
