@@ -24,17 +24,6 @@ get_template_part( 'template-parts/modules/section', 'hero', ['id' => $p_id] );
 
 <section class="team-section">
     <div class="container">
-        <ul class="breadcrumbs">
-            <li class="crumb-item">
-                <a href="#">About us</a>
-            </li>
-
-            <li class="crumb-item">
-                <span>
-                    <?php the_title()?>
-                </span>
-            </li>
-        </ul>
         <div class="content-section">
             <div class="container">
                 <ul class="breadcrumbs">
