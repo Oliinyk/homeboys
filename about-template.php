@@ -37,6 +37,17 @@ get_template_part( 'template-parts/modules/section', 'hero', ['id' => $p_id] );
         </ul>
         <div class="content-section">
             <div class="container">
+                <ul class="breadcrumbs">
+                    <li class="crumb-item">
+                        <a href="#">ABOUT US</a>
+                    </li>
+
+                    <li class="crumb-item">
+                        <span>
+                            <?php echo esc_html( get_the_title() ); ?>
+                        </span>
+                    </li>
+                </ul>
                 <div class="content-wrap">
                     <?php
                     if ( ! empty( $small_title ) ) :

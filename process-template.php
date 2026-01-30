@@ -33,6 +33,18 @@ if ( ! empty( $content ) ) :
     ?>
     <section class="content-section">
         <div class="container">
+            <ul class="breadcrumbs">
+                <li class="crumb-item">
+                    <a href="#">PROCESS</a>
+                </li>
+
+                <li class="crumb-item">
+                    <span>
+                        <?php echo esc_html( get_the_title() ); ?>
+                    </span>
+                </li>
+            </ul>
+            
             <?php
             if ( ! empty( $small_title ) ) :
             ?>
