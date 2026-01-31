@@ -250,7 +250,7 @@ endif;
                     if ( ! empty( $view_plan_doc ) ) :
                         $view_doc_src = wp_get_attachment_url( $view_plan_doc );
                         ?>
-                        <a href="<?php echo esc_url( $view_doc_src )?>" download>
+                        <a href="<?php echo esc_url( $view_doc_src )?>" target="_blank">
                             <?php
                                 include( get_template_directory() . '/assets/img/icons/pdf-svg.html' );
                             ?>
@@ -263,7 +263,7 @@ endif;
                     if ( ! empty( $standart_features ) ) :
                         $standart_features_src = wp_get_attachment_url( $standart_features );
                         ?>
-                        <a href="<?php echo esc_url( $standart_features_src )?>" download>
+                        <a href="<?php echo esc_url( $standart_features_src )?>" target="_blank">
                             <?php
                                 include( get_template_directory() . '/assets/img/icons/pdf-svg.html' );
                             ?>
@@ -277,7 +277,7 @@ endif;
                         $list_options_doc_src = wp_get_attachment_url( $list_options_doc );
 
                         ?>
-                        <a href="<?php echo esc_url( $list_options_doc_src )?>" download>
+                        <a href="<?php echo esc_url( $list_options_doc_src )?>" target="_blank">
                             <?php
                                 include( get_template_directory() . '/assets/img/icons/pdf-svg.html' );
                             ?>

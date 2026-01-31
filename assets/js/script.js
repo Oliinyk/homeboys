@@ -143,7 +143,7 @@
 var swiper = new Swiper(".mySwiper", {
     loop: true,
     autoplay: {
-    delay: 5000,
+        delay: 5000,
     },
     pagination: {
         el: ".swiper-pagination",
@@ -255,6 +255,9 @@ const galleryThumbs = new Swiper('.gallery-thumbs', {
 // main slider
 const galleryMain = new Swiper('.gallery-main', {
     spaceBetween: 10,
+    autoplay: {
+        delay: 5000,
+    },
     navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
