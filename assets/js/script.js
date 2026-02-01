@@ -738,8 +738,12 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('wpcf7submit', function(event) {
     // console.log(event);
     
+    // Contact Us form ID
     const targetFormId = '92032';
+    //  Newsletters form ID
+    const newslettersFormId = '97862';
     
+    // Contact Us
     if (targetFormId == event.detail.contactFormId) {
         if ('mail_sent' === event.detail.status) {
             // Create success message block
@@ -764,4 +768,27 @@ document.addEventListener('wpcf7submit', function(event) {
             }
         }
     }
+    // Newsletters
+    if (newslettersFormId == event.detail.contactFormId) {
+        if ('mail_sent' === event.detail.status) {
+            const successMessage = document.createElement('div');
+            successMessage.className = 'form-success-message';
+            successMessage.innerHTML = `
+                <button class='form-success-close' aria-label='Close message'>&times;</button>
+                <h2 class='title-section'>Thank You!</h2>
+                <p>You have successfully subscribed to our newsletter</p>
+            `;
+
+            const newsletterWrap = event.target.closest('.contact-section');
+            if (newsletterWrap) {
+                newsletterWrap.appendChild(successMessage);
+
+                const closeButton = successMessage.querySelector('.form-success-close');
+                closeButton.addEventListener('click', function() {
+                    successMessage.remove();
+                });
+            }
+        }
+    }
+
 }, false);

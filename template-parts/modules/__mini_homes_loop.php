@@ -28,7 +28,7 @@ $manufacturer_arr = apply_filters( 'hb2_get_manufacturers_list', true ) ;
 $series           = apply_filters( 'hb2_get_series_list', true ) ;
 $on_display       = apply_filters( 'hb2_on_display_arr', [] );
 ?>
-<div class="card-list md-col-4">
+<div class="card-list sm-col-2 md-col-4">
     <?php
     while( $plans_posts->have_posts() ) :
         $plans_posts->the_post();

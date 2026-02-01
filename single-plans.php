@@ -198,9 +198,14 @@ endif;
                         ?>
                     </div>
 
-                        <p>
-                            Model Price: <?php echo $complect_price_format . $price_short_desc?>
+                    <div class="model-price-wrap">
+                        <p class="model-price">
+                            Model Price: <?php echo $complect_price_format; ?>
                         </p>
+                        <p class="model-desc">
+                            <?php echo $price_short_desc; ?>
+                        </p>
+                    </div>
                 </div>
 
                 <div class="plan-items">

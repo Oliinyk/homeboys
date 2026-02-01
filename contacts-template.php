@@ -14,7 +14,7 @@ $title          = ! empty( $page_title ) ? $page_title : get_the_title();
 
 get_header();
 ?>
-<section class="content-section">
+<section class="content-section contact-section-hero">
     <div class="container">
         <?php
         if ( ! empty( $mail_contact ) ) :
