@@ -58,6 +58,7 @@ $on_display       = apply_filters( 'hb2_on_display_arr', [] );
                 $title          = carbon_get_post_meta( $plan_id, 'plan_name' );
                 $permalink      = get_the_permalink($plan_id);
                 $thumbnail      = get_the_post_thumbnail_url();
+                $plan_photos    = carbon_get_post_meta( $plan_id, 'plan_photos' );
                 $plan_size      = carbon_get_post_meta( $plan_id, 'plan_size' );
                 $plan_beds      = carbon_get_post_meta( $plan_id, 'plan_beds' );
                 $plan_baths     = carbon_get_post_meta( $plan_id, 'plan_baths' );
@@ -67,9 +68,13 @@ $on_display       = apply_filters( 'hb2_on_display_arr', [] );
                 $plan_series    = carbon_get_post_meta( $plan_id, 'plan_series' );
                 $manufacturer   = carbon_get_post_meta( $plan_id, 'plan_manufacturer' );
 
-                if ( empty( $thumbnail ) ) {
-                    $thumbnail = apply_filters( 'hb2_get_random_image', true );
-                };
+                if ( empty( $thumbnail ) &&  ! empty( $plan_photos ) ) {
+                    $gallery = maybe_unserialize( $plan_photos );
+
+                    $thumbmail_id = $gallery[0];
+
+                    $thumbnail = wp_get_attachment_image_url( $thumbmail_id, 'large' );
+                }
 
                 $floor_data = [
                     'title'         => $title,
