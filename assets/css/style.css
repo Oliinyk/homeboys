@@ -1036,7 +1036,7 @@ section {
 	font-weight: 700;
 }
 .contact-section .wpcf7-spinner {
-	opacity: 0;
+	opacity: 0.5;
 	position: absolute;
     left: 5px;
     top: 4px;
@@ -2550,7 +2550,6 @@ footer {
 	.contact-section form {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 25px 17px;
-		max-width: 214px;
 	}			
 	.card-list {
 		gap: 10px;

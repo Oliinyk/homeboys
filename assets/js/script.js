@@ -734,7 +734,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Form send
+// Contact Form - Thank You message
 document.addEventListener('wpcf7submit', function(event) {
     // console.log(event);
     
@@ -768,7 +768,7 @@ document.addEventListener('wpcf7submit', function(event) {
             }
         }
     }
-    // Newsletters
+    // Newsletters - Thank You message
     if (newslettersFormId == event.detail.contactFormId) {
         if ('mail_sent' === event.detail.status) {
             const successMessage = document.createElement('div');
@@ -787,6 +787,12 @@ document.addEventListener('wpcf7submit', function(event) {
                 closeButton.addEventListener('click', function() {
                     successMessage.remove();
                 });
+
+                setTimeout(function() {
+                    if (successMessage.isConnected) {
+                        successMessage.remove();
+                    }
+                }, 5000);
             }
         }
     }
