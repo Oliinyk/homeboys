@@ -2003,7 +2003,7 @@ footer {
 .gallery-thumbs-slider .gallery-main {
     position: relative;
     overflow: hidden;
-    max-height: 500px;
+    max-height: 509px;
     background: #000;
 	width: 100%;
 	height: 100%;
@@ -2040,23 +2040,21 @@ footer {
     overflow-y: auto;
     overflow-x: hidden;
 	width: 100%;
-    height: 500px;
+    height: 509px;
     padding-right: 5px;
 	display: none;
 }
 .gallery-thumbs .swiper-wrapper {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
+    gap: 1px;
     height: auto !important;
     transform: none !important;
 }
 .gallery-thumbs .swiper-slide {
     cursor: pointer;
     overflow: hidden;
-    opacity: 0.6;
     transition: all 0.3s;
-    /* aspect-ratio: 1; */
     width: auto !important;
     height: auto !important;
 	max-height: 101px;
@@ -2931,7 +2929,7 @@ footer {
 	.card-list {
 		gap: 30px;
 	}
-	.find-home-section .card-list img {
+	.find-home-section .card-list.md-col-4 img {
 		aspect-ratio: auto;
 		max-height: 182px;
 	}
