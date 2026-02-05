@@ -41,7 +41,6 @@ if ( ! $posts->have_posts() ) {
 
 $manufacturer_arr = apply_filters( 'hb2_get_manufacturers_list', true ) ;
 $series           = apply_filters( 'hb2_get_series_list', true ) ;
-$on_display       = apply_filters( 'hb2_on_display_arr', [] );
 ?>
 <section class="find-home-section">
     <div class="container">
@@ -84,7 +83,7 @@ $on_display       = apply_filters( 'hb2_on_display_arr', [] );
                     'size'          => $plan_size,
                     'beds'          => $plan_beds,
                     'baths'         => $plan_baths,
-                    'location'      => $on_display[$plan_location],
+                    'location'      => apply_filters( 'hb2_on_display_arr', $plan_location ),
                     'manufacturer'  => $manufacturer_arr[$manufacturer],
                     'series'        => $series[$plan_series],
                 ];

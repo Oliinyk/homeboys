@@ -9,8 +9,9 @@ if ( empty( $locations ) ) {
 ?>
 <div class="location-list <?php echo esc_attr( $additional_class ); ?>">
     <?php
-    foreach ( $locations as $key => $location ) :
-        $aclive_class = ( $key === $active_index ) ? ' active' : '';
+    foreach ( $locations as $location ) :
+        $key          = $location['location_key'];
+        $aclive_class = ( $key == $active_index ) ? ' active' : '';
 
         $location_page_query = new WP_Query( [
             'post_type'      => 'page',

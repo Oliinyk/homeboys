@@ -75,13 +75,7 @@ function hb2_meta_fields() {
 
     $plan_type_opt = hb2_get_type_options();
 
-    $plan_location_opt = [
-        -1 => '-Select',
-        0  => 'Spokane Only',
-        1  => 'Tri Cities Only',
-        2  => 'Spokane and Tri Cities',
-        3  => 'Montana',
-    ];
+    $plan_location_opt = hb2_get_locations_options();
 
     $galleries_types_opt = [
         0 => __( 'All', 'home-boys-2' ),
@@ -223,16 +217,15 @@ function hb2_meta_fields() {
                 ->set_width(33),
             Field::make( 'text', 'plan_number', __( 'Manufacturer Number', 'home-boys-2' ) )
                 ->set_width(33)
-                ->help_text( 'This field is required for the search box. Searched content needs to match exactly as it is input here.' ),    
+                ->help_text( 'This field is required for the search box. Searched content needs to match exactly as it is input here.' ),
+            Field::make( 'set', 'plan_location', __( 'Location', 'home-boys-2' ) )
+                ->add_options( $plan_location_opt )
+                ->set_width(20),       
             Field::make( 'select', 'plan_width', __( 'Width', 'home-boys-2' ) )
                 ->add_options( $plan_width_opt )
                 ->set_width(20),
             Field::make( 'select', 'plan_type', __( 'Plan Type', 'home-boys-2' ) )
                 ->add_options( $plan_type_opt )
-                ->set_width(20),
-            Field::make( 'select', 'plan_location', __( 'Location', 'home-boys-2' ) )
-                ->add_options( $plan_location_opt )
-                ->set_required( true )
                 ->set_width(20),
             Field::make( 'text', 'plan_tour', __( 'Virtual Tour', 'home-boys-2' ) )
                 ->set_width(40)

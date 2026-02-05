@@ -274,14 +274,34 @@ function hb2_get_locations_list() {
     return is_array( $locations ) ? $locations : [];
 }
 
-function hb2_on_display_arr() {
-    return [
-        0 => "Spokane",
-        1 => "Tri-Cities",
-        2 => "Spokane <br/>
-            Tri-Cities",
-        3 => "Montana",
-    ];
+function hb2_on_display_arr( $locations ) {
+    if ( empty( $locations ) ) {
+        return '';
+    }
+
+    if ( ! is_array( $locations ) ) {
+        $locations = [ $locations ];
+    }
+
+    $list = hb2_get_locations_list();
+    $names = [];
+
+    foreach ( $locations as $loc ) {
+        if ( -1 == $loc ) {
+            continue;
+        };
+
+        $loc_data = array_filter( $list, function( $item ) use ( $loc ) {
+            return intval( $item['location_key'] ) === intval( $loc );
+        } );
+
+        if ( ! empty( $loc_data ) ) {
+            $loc_data = array_values( $loc_data )[0];
+            $names[] = $loc_data['location_bage_name'] ?: $loc_data['location_name'];
+        }
+    }
+
+    return implode( '<br/>', $names );
 }
 
 // Get manufacturers list
@@ -349,8 +369,8 @@ function hb2_get_locations_options() {
     $locations = hb2_get_locations_list();
 
     $options = [ -1 => '-Select-' ];
-    foreach ( $locations as $key => $loc ) {
-        $options[ $key ] = $loc['location_name'];
+    foreach ( $locations as $loc ) {
+        $options[ $loc['location_key'] ] = $loc['location_name'];
     }
     return $options;
 }

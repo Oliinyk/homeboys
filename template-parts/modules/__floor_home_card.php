@@ -52,7 +52,7 @@ $data = $args['data-floor'];
             <?php
         endif;
 
-        if ( isset( $data['location'] ) && ! empty( $data['location'] ) )
+        if ( isset( $data['location'] ) && ! empty( $data['location'] ) ) :
         ?>
         <div class="label danger">
             <span class="label-top">On Display</span>
@@ -60,6 +60,9 @@ $data = $args['data-floor'];
                 <?php echo $data['location']?>
             </span>
         </div>
+        <?php
+        endif;
+        ?>
     </div>
 
     <div class="item-info">
@@ -75,7 +78,7 @@ $data = $args['data-floor'];
         <p class="item-subtitle">
             <?php 
                 echo isset( $data['manufacturer'] ) ? $data['manufacturer'] : '';
-                echo isset( $data['series'] ) ? '|' . $data['series'] : '';
+                echo isset( $data['series'] ) ? ' | ' . $data['series'] : '';
             ?>
         </p>
     </div>

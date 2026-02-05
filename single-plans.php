@@ -12,7 +12,7 @@ $plan_tour          = carbon_get_post_meta( $p_ID, 'plan_tour' );
 $base_price         = carbon_get_post_meta( $p_ID, 'plan_price' );
 $complect_price     = carbon_get_post_meta( $p_ID, 'complectation_price' );
 $complect_pr_desc   = carbon_get_post_meta( $p_ID, 'complectation_price_desc' );
-$location           = carbon_get_post_meta( $p_ID, 'plan_location' );
+$loc                = carbon_get_post_meta( $p_ID, 'plan_location' );
 $size               = carbon_get_post_meta( $p_ID, 'plan_size' );
 $beds               = carbon_get_post_meta( $p_ID, 'plan_beds' );
 $baths              = carbon_get_post_meta( $p_ID, 'plan_baths' );
@@ -23,7 +23,7 @@ $description        = carbon_get_post_meta( $p_ID, 'plan_description' );
 $content            = get_the_content();
 
 $gallery       = array_unique( maybe_unserialize( $photos ) );
-$on_display    = apply_filters( 'hb2_on_display_arr', [] );
+$location      = apply_filters( 'hb2_on_display_arr', $loc );
 
 $manuf_list  = apply_filters( 'hb2_get_manufacturers_list', [] );
 $series_list = apply_filters( 'hb2_get_series_list', [] );
@@ -186,12 +186,12 @@ endif;
                         </h4>
 
                         <?php
-                        if ( array_key_exists( $location, $on_display ) ) :
+                        if ( ! empty( $location ) ) :
                         ?>
                         <div class="label danger">
                             <span class="label-top">On Display</span>
 
-                            <span><?php echo $on_display[$location]?></span>
+                            <span><?php echo $location?></span>
                         </div>
                         <?php
                         endif;

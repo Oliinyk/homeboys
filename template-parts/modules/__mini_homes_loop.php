@@ -64,7 +64,7 @@ $on_display       = apply_filters( 'hb2_on_display_arr', [] );
             'size'          => $plan_size,
             'beds'          => $plan_beds,
             'baths'         => $plan_baths,
-            'location'      => $on_display[$plan_location],
+            'location'      => apply_filters( 'hb2_on_display_arr', $plan_location ),
             'manufacturer'  => array_key_exists( $manufacturer, $manufacturer_arr ) ?  $manufacturer_arr[$manufacturer] : null,
             'series'        => array_key_exists( $plan_series, $series ) ? $series[$plan_series] : null,
         ];

@@ -74,8 +74,15 @@ function hb2_options_fields() {
                 ->set_collapsed( true )
                 ->setup_labels( $locations_labels )
                 ->add_fields( array(
-                    Field::make( 'text', 'location_name', __( 'Location Name', 'home-boys-2' ) )
+                    Field::make( 'text', 'location_key', __( 'Location Key (for filtering)', 'home-boys-2' ) )
+                        ->set_width( 20 )
+                        ->set_attribute( 'type', 'number' )
                         ->set_required( true ),
+                    Field::make( 'text', 'location_name', __( 'Location Name', 'home-boys-2' ) )
+                        ->set_width( 40 )
+                        ->set_required( true ),
+                    Field::make( 'text', 'location_bage_name', __( 'Location Bage', 'home-boys-2' ) )
+                        ->set_width( 40 ),    
                     Field::make( 'text', 'location_address', __( 'Location Address', 'home-boys-2' ) ),
                     Field::make( 'textarea', 'location_map', __( 'Locaton MAP embed', 'home-boys-2' ) ),
                     Field::make( 'text', 'location_link_href', __( 'Map link Location' ) ),

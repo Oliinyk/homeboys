@@ -37,7 +37,6 @@ $query_params = [
 $query              = new WP_Query( $query_params );
 $content            = get_the_content();
 $not_found_message  = carbon_get_theme_option( 'not_found_posts_message' );
-$locations_list     = apply_filters( 'hb2_locations_list', true );
 $manufacturer_arr   = apply_filters( 'hb2_get_manufacturers_list', true );
 $series_arr         = apply_filters( 'hb2_get_series_list', true );
 
@@ -117,7 +116,7 @@ get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] );
                             'size'          => $plan_sqft,
                             'beds'          => $plan_beds,
                             'baths'         => $plan_baths,
-                            'location'      => $locations_list[$plan_locations]['location_name'],
+                            'location'      => apply_filters( 'hb2_on_display_arr', $plan_locations ),
                             'manufacturer'  => $manufacturer_arr[$plan_manuf],
                             'series'        => $series_arr[$plan_series],
                         ];
