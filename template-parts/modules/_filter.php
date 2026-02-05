@@ -139,8 +139,8 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                             class="counter-value js-counter-input" 
                             max="<?php echo $max_beds; ?>" 
                             min="<?php echo $min_beds; ?>" 
-                            value="<?php echo $beds_value; ?>"
-                            readonly
+                            value=""
+                            placeholder="-"
                             >
                         
                         <button type="button" class="counter-btn arrow-right js-counter-up"></button>
@@ -162,8 +162,8 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                             class="counter-value js-counter-input" 
                             max="<?php echo $max_baths; ?>" 
                             min="<?php echo $min_baths; ?>" 
-                            value="<?php echo $baths_value; ?>"
-                            readonly
+                            value=""
+                            placeholder="-"
                             >
                         
                         <button type="button" class="counter-btn arrow-right js-counter-up"></button>
