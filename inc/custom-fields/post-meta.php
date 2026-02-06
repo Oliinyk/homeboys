@@ -203,10 +203,10 @@ function hb2_meta_fields() {
                 ->set_required( true )
                 ->set_attribute( 'type', 'number' )
                 ->set_width(25),
-            Field::make( 'text', 'complectation_price', __( 'Complectation price' ) )
+            Field::make( 'text', 'plan_set_price', __( 'Price of the set' ) )
                 ->set_attribute( 'type', 'number' )
                 ->set_width(25),
-            Field::make( 'text', 'complectation_price_desc', __( 'Complectation price description' ) )
+            Field::make( 'text', 'plan_set_price_desc', __( 'Set price description' ) )
                 ->set_default_value( 'Includes standard delivery & set within 100 miles' )
                 ->set_width(50),
             Field::make( 'select', 'plan_series', __( 'Series', 'home-boys-2' ) )
