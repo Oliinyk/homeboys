@@ -75,13 +75,7 @@ function hb2_meta_fields() {
 
     $plan_type_opt = hb2_get_type_options();
 
-    $plan_location_opt = [
-        -1 => '-Select',
-        0  => 'Spokane Only',
-        1  => 'Tri Cities Only',
-        2  => 'Spokane and Tri Cities',
-        3  => 'Montana',
-    ];
+    $plan_location_opt = hb2_get_locations_options();
 
     $galleries_types_opt = [
         0 => __( 'All', 'home-boys-2' ),
@@ -209,10 +203,10 @@ function hb2_meta_fields() {
                 ->set_required( true )
                 ->set_attribute( 'type', 'number' )
                 ->set_width(25),
-            Field::make( 'text', 'complectation_price', __( 'Complectation price' ) )
+            Field::make( 'text', 'plan_set_price', __( 'Price of the set' ) )
                 ->set_attribute( 'type', 'number' )
                 ->set_width(25),
-            Field::make( 'text', 'complectation_price_desc', __( 'Complectation price description' ) )
+            Field::make( 'text', 'plan_set_price_desc', __( 'Set price description' ) )
                 ->set_default_value( 'Includes standard delivery & set within 100 miles' )
                 ->set_width(50),
             Field::make( 'select', 'plan_series', __( 'Series', 'home-boys-2' ) )
@@ -223,16 +217,15 @@ function hb2_meta_fields() {
                 ->set_width(33),
             Field::make( 'text', 'plan_number', __( 'Manufacturer Number', 'home-boys-2' ) )
                 ->set_width(33)
-                ->help_text( 'This field is required for the search box. Searched content needs to match exactly as it is input here.' ),    
+                ->help_text( 'This field is required for the search box. Searched content needs to match exactly as it is input here.' ),
+            Field::make( 'set', 'plan_location', __( 'Location', 'home-boys-2' ) )
+                ->add_options( $plan_location_opt )
+                ->set_width(20),       
             Field::make( 'select', 'plan_width', __( 'Width', 'home-boys-2' ) )
                 ->add_options( $plan_width_opt )
                 ->set_width(20),
             Field::make( 'select', 'plan_type', __( 'Plan Type', 'home-boys-2' ) )
                 ->add_options( $plan_type_opt )
-                ->set_width(20),
-            Field::make( 'select', 'plan_location', __( 'Location', 'home-boys-2' ) )
-                ->add_options( $plan_location_opt )
-                ->set_required( true )
                 ->set_width(20),
             Field::make( 'text', 'plan_tour', __( 'Virtual Tour', 'home-boys-2' ) )
                 ->set_width(40)
@@ -251,14 +244,6 @@ function hb2_meta_fields() {
                 ->set_width(25),
             Field::make( 'rich_text', 'plan_description', __( 'Description', 'home-boys-2' ) ), 
             Field::make( 'media_gallery', 'plan_photos', __( 'Photos', 'home-boys-2' ) )     
-        )
-    );
-
-    Container::make( 'post_meta', __( 'Is ADU' ) )
-        ->where( 'post_type', '=', 'plans' )
-        ->set_context( 'side' )
-        ->add_fields( array(
-            Field::make( 'checkbox', 'is_adu', __( 'Mark as ADU', 'home-boys-2' ) ),
         )
     );
 

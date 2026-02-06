@@ -201,7 +201,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                         'size'          => $plan_sqft,
                         'beds'          => $plan_beds,
                         'baths'         => $plan_baths,
-                        'location'      => $locations_list[$plan_locations]['location_name'],
+                        'location'      => apply_filters( 'hb2_on_display_arr', $plan_locations ),
                         'manufacturer'  => $manufacturer_arr[$plan_manuf],
                         'series'        => array_key_exists( $plan_series, $series_arr ) ? $series_arr[$plan_series] : '',
                     ];

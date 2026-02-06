@@ -223,25 +223,33 @@ function hb2_get_menu_items( $menu ) {
     $nav_menu_items = wp_get_nav_menu_items( $menu );
     $menu_arr = [];
 
+    global $post;
+    $current_id = $post->ID;
+
     if ( ! empty( $nav_menu_items ) ) {
         foreach ( $nav_menu_items as $item ) {
-            $item_id = $item->ID;
+            $item_id   = $item->ID;
             $parent_id = $item->menu_item_parent;
+
+            $classes   = implode( ' ', $item->classes );
 
             if ( $parent_id == 0 ) {
                 // This is a top-level item
                 $menu_arr[ $item_id ] = [
-                    'classes' => 'dropdown has-dropdown',
-                    'title' => $item->title,
-                    'url'   => $item->url,
-                    'children' => [],
+                    'classes'   => "dropdown has-dropdown {$classes}",
+                    'object_id' => intval( $item->object_id ),
+                    'title'     => $item->title,
+                    'url'       => $item->url,
+                    'children'  => [],
                 ];
             } else {
                 // This is a child item
                 if ( isset( $menu_arr[ $parent_id ] ) ) {
                     $menu_arr[ $parent_id ]['children'][] = [
-                        'title' => $item->title,
-                        'url'   => $item->url,
+                        'classes'   => $classes,
+                        'object_id' => intval( $item->object_id ),
+                        'title'     => $item->title,
+                        'url'       => $item->url,
                     ];
                 }
             }
@@ -270,18 +278,43 @@ function get_random_image() {
 
 // Get locations list
 function hb2_get_locations_list() {
-    $locations = carbon_get_theme_option( 'locations_list' );
-    return is_array( $locations ) ? $locations : [];
+    $locations = carbon_get_theme_option('locations_list');
+
+    if ( ! is_array( $locations ) ) {
+        return [];
+    }
+
+    return array_column($locations, null, 'location_key');
 }
 
-function hb2_on_display_arr() {
-    return [
-        0 => "Spokane",
-        1 => "Tri-Cities",
-        2 => "Spokane <br/>
-            Tri-Cities",
-        3 => "Montana",
-    ];
+function hb2_on_display_arr( $locations ) {
+    if ( empty( $locations ) ) {
+        return '';
+    }
+
+    if ( ! is_array( $locations ) ) {
+        $locations = [ $locations ];
+    }
+
+    $list = hb2_get_locations_list();
+    $names = [];
+
+    foreach ( $locations as $loc ) {
+        if ( -1 == $loc ) {
+            continue;
+        };
+
+        $loc_data = array_filter( $list, function( $item ) use ( $loc ) {
+            return intval( $item['location_key'] ) === intval( $loc );
+        } );
+
+        if ( ! empty( $loc_data ) ) {
+            $loc_data = array_values( $loc_data )[0];
+            $names[] = $loc_data['location_bage_name'] ?: $loc_data['location_name'];
+        }
+    }
+
+    return implode( '<br/>', $names );
 }
 
 // Get manufacturers list
@@ -349,8 +382,8 @@ function hb2_get_locations_options() {
     $locations = hb2_get_locations_list();
 
     $options = [ -1 => '-Select-' ];
-    foreach ( $locations as $key => $loc ) {
-        $options[ $key ] = $loc['location_name'];
+    foreach ( $locations as $loc ) {
+        $options[ $loc['location_key'] ] = $loc['location_name'];
     }
     return $options;
 }

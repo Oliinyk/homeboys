@@ -11,17 +11,23 @@ $series_arr         = apply_filters( 'hb2_get_series_list', true );
 
 $plans_query_args = [
     'post_type'      => 'plans',
-    'posts_per_page' => 4,
+    'posts_per_page' => $_GET['per_page'] ?? 4,
     'post_status'    => 'publish',
-    'orderby'        => 'date',
-    'page'           => get_query_var( 'paged', 1 ),
     'meta_query'     => [
-        [
-            'key'     => 'plan_location',
-            'value'   => $selected_location,
+        'relation' => 'AND',
+        'order_column' => [
+            'key'     => '_plan_order',
+            'compare' => 'EXISTS',
+        ],
+        'location_column' => [
+            'key'     => '_plan_location',
+            'value'   => (int) $selected_location,
             'compare' => '=',
         ],
     ],
+    'orderby' => [
+        'order_column' => 'ASC',
+    ]
 ];
 
 $plans = new WP_Query( $plans_query_args );
@@ -40,7 +46,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
             </li>
             
             <?php
-            if ( 0 <= $selected_location ) :
+            if ( 0 <= $selected_location && isset( $locations[ $selected_location ] ) ) :
                 ?>
                 <li class="crumb-item">
                     <?php echo esc_html( $locations[ $selected_location ]['location_name'] ); ?>
@@ -67,94 +73,101 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
 <section class="gallery-section">
     <div class="container">
         <?php 
-
-        while ( $plans->have_posts() ) :
-            $plans->the_post();
-            $plan_id        = get_the_ID();
-            $plan_title     = carbon_get_post_meta( $plan_id, 'plan_name' );
-            $plan_permalink = get_permalink( $plan_id );
-            $thumbmail_id   = get_post_thumbnail_id( $plan_id );
-            $plan_photos    = carbon_get_post_meta( $plan_id, 'plan_photos' );
-            $plan_price     = carbon_get_post_meta( $plan_id, 'plan_price' );
-            $plan_sqft      = carbon_get_post_meta( $plan_id, 'plan_size' );
-            $plan_beds      = carbon_get_post_meta( $plan_id, 'plan_beds' );
-            $plan_baths     = carbon_get_post_meta( $plan_id, 'plan_baths' );
-            $plan_manuf     = carbon_get_post_meta( $plan_id, 'plan_manufacturer' );
-            $plan_series    = carbon_get_post_meta( $plan_id, 'plan_series' );
-            
-
-            if ( empty( $thumbmail_id ) &&  ! empty( $plan_photos ) ) {
-                $gallery = maybe_unserialize( $plan_photos );
-
-                $thumbmail_id = $gallery[0];
-            }
-
-            $plan_thumbnail = wp_get_attachment_image_url( $thumbmail_id, 'large' );
-
-            if ( empty( $plan_thumbnail ) ) {
-                $plan_thumbnail = apply_filters( 'hb2_get_random_image', true );
-            }
-
-            ?>
-            <a href="<?php echo esc_url( $plan_permalink )?>" class="card-item">
-                <img src="<?php echo esc_url( $plan_thumbnail ); ?>" alt="#" class="slide-image">
-
-                <ul class="card-top-info">
-                    <?php
-                    if ( ! empty( $plan_sqft ) ) :
-                        $sqft = number_format( intval( $plan_sqft ), 0, ',', ',' );
-                        ?>
-                        <li><?php echo esc_html( $sqft ); ?> ft²</li>
-                     <?php
-                    endif;
-
-                    if ( ! empty( $plan_beds ) ) :
-                        ?>
-                    <li><?php echo esc_html( $plan_beds ); ?> BEDS</li>
-                    <?php
-                    endif;
-                    if ( ! empty( $plan_baths ) ) :
-                        ?>
-                    <li><?php echo esc_html( $plan_baths ); ?> BATHS</li>
-                    <?php
-                    endif;
-                    ?>
-                </ul>
-                <?php
-                if ( ! empty( $plan_price ) ) :
-                    $price = number_format( intval( $plan_price ), 0, ',', ',' );
-                    ?>
-                    <div class="card-labels">
-                        <div class="label">$ <?php echo esc_html( $price ); ?></div>
-                    </div>
-                    <?php
-                endif;
-                ?>
-                <div class="item-info">
-                    <?php
-                    if ( ! empty( $plan_title ) ) :
-                        ?>
-                        <h4 class="item-title">
-                            <?php echo esc_html( $plan_title ); ?>
-                        </h4>
-                        <?php
-                    endif;
-                    ?>
-                    
-                    <p class="item-subtitle">
-                        <?php
-                            echo isset( $manufacturer_arr[$plan_manuf] ) ? $manufacturer_arr[$plan_manuf] : '';
-                            echo isset( $series_arr[$plan_series] ) ? ' | ' . $series_arr[$plan_series] : '';
-                        ?>
-                    </p>
-                </div>
-            </a>
-            <?php
-        endwhile;
-
-        get_template_part( 'template-parts/modules/__show-all-button', null );
+        if ( $plans->have_posts() ) :
         
-        wp_reset_postdata();
+            while ( $plans->have_posts() ) :
+                $plans->the_post();
+                $plan_id        = get_the_ID();
+                $plan_order     = get_post_meta( $plan_id, 'plan_order', true );
+                $plan_title     = carbon_get_post_meta( $plan_id, 'plan_name' );
+                $plan_permalink = get_permalink( $plan_id );
+                $thumbmail_id   = get_post_thumbnail_id( $plan_id );
+                $plan_photos    = carbon_get_post_meta( $plan_id, 'plan_photos' );
+                $plan_price     = carbon_get_post_meta( $plan_id, 'plan_price' );
+                $plan_sqft      = carbon_get_post_meta( $plan_id, 'plan_size' );
+                $plan_beds      = carbon_get_post_meta( $plan_id, 'plan_beds' );
+                $plan_baths     = carbon_get_post_meta( $plan_id, 'plan_baths' );
+                $plan_manuf     = carbon_get_post_meta( $plan_id, 'plan_manufacturer' );
+                $plan_series    = carbon_get_post_meta( $plan_id, 'plan_series' );
+                
+
+                if ( empty( $thumbmail_id ) &&  ! empty( $plan_photos ) ) {
+                    $gallery = maybe_unserialize( $plan_photos );
+
+                    $thumbmail_id = $gallery[0];
+                }
+
+                $plan_thumbnail = wp_get_attachment_image_url( $thumbmail_id, 'large' );
+
+                ?>
+                <a href="<?php echo esc_url( $plan_permalink )?>" class="card-item">
+                    <img src="<?php echo esc_url( $plan_thumbnail ); ?>" alt="#" class="slide-image">
+
+                    <ul class="card-top-info">
+                        <?php
+                        if ( ! empty( $plan_sqft ) ) :
+                            $sqft = number_format( intval( $plan_sqft ), 0, ',', ',' );
+                            ?>
+                            <li><?php echo esc_html( $sqft ); ?> ft²</li>
+                        <?php
+                        endif;
+
+                        if ( ! empty( $plan_beds ) ) :
+                            ?>
+                        <li><?php echo esc_html( $plan_beds ); ?> BEDS</li>
+                        <?php
+                        endif;
+                        if ( ! empty( $plan_baths ) ) :
+                            ?>
+                        <li><?php echo esc_html( $plan_baths ); ?> BATHS</li>
+                        <?php
+                        endif;
+                        ?>
+                    </ul>
+                    <?php
+                    if ( ! empty( $plan_price ) ) :
+                        $price = number_format( intval( $plan_price ), 0, ',', ',' );
+                        ?>
+                        <div class="card-labels">
+                            <div class="label">$ <?php echo esc_html( $price ); ?></div>
+                        </div>
+                        <?php
+                    endif;
+                    ?>
+                    <div class="item-info">
+                        <?php
+                        if ( ! empty( $plan_title ) ) :
+                            ?>
+                            <h4 class="item-title">
+                                <?php echo esc_html( $plan_title ); ?>
+                            </h4>
+                            <?php
+                        endif;
+                        ?>
+                        
+                        <p class="item-subtitle">
+                            <?php
+                                echo isset( $manufacturer_arr[$plan_manuf] ) ? $manufacturer_arr[$plan_manuf] : '';
+                                echo isset( $series_arr[$plan_series] ) ? ' | ' . $series_arr[$plan_series] : '';
+                            ?>
+                        </p>
+                    </div>
+                </a>
+                <?php
+            endwhile;
+
+            get_template_part( 'template-parts/modules/__show-all-button', null );
+        
+            wp_reset_postdata();
+
+        else :
+            $not_found_message = carbon_get_theme_option( 'not_found_posts_message' );
+
+            if ( ! empty( $not_found_message ) ) :
+                echo "<p class='not-found-message'>{$not_found_message}</p>";
+            endif;    
+
+        endif;
         
         get_template_part( 'template-parts/modules/_location_list', null, [
             'locations' => $locations,
