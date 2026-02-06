@@ -27,13 +27,17 @@ if ( ! $employees->have_posts() ) {
 
     <h2 class="title-section">Team</h2>
 
-    <div class="content-wrap items grid sm-col-2 md-col-3">
+    <div>
         <?php
+        $compare_type    = null;
+        $container_start = "<div class='content-wrap items grid sm-col-2 md-col-3'>";
+        $container_end   = "</div>";
         while ( $employees->have_posts() ) :
             $employees->the_post();
             $eID = get_the_ID();
 
             $is_group       = carbon_get_post_meta( $eID, 'is_group' );
+            $type           = $is_group ? 'group' : 'single';
             $photo_id       = carbon_get_post_meta( $eID, 'employee_photo' );
             $title          = carbon_get_post_meta( $eID, 'employee_name' );
             $subtitle       = carbon_get_post_meta( $eID, 'employee_title' );
@@ -48,13 +52,29 @@ if ( ! $employees->have_posts() ) {
             }
 
             $photo_url = wp_get_attachment_image_url( $photo_id, 'large' );
+
+            // If the type is different from the previous one and it's not the first item, close the previous container
+            if ( $compare_type !== null && $compare_type !== $type ) {
+                echo $container_end;
+            }
+
+            // If the type is different from the previous one, open a new container
+            if ( $compare_type === null || $compare_type !== $type ) {
+                echo $container_start;
+            }
             
             if ( empty( $is_group ) ) :
                 include get_template_directory() . '/template-parts/modules/__employee-single-item.php';
             else :
                 include get_template_directory() . '/template-parts/modules/__employee-group-item.php';
-            endif;    
+            endif;
+            
+            $compare_type = $type;
         endwhile;
+
+        if ( $compare_type !== null ) {
+            echo $container_end;
+        }
         ?>
     </div>
 </div>
