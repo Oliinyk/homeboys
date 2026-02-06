@@ -154,7 +154,6 @@ a:focus {
 	justify-content: space-between;
 	padding: 13px 16px;
 }
-
 .site-header .logo {
 	height: 38px;
 	width: auto;
@@ -205,12 +204,22 @@ a:focus {
 	border-radius: 0;
 	letter-spacing: 0.2px;
 }
-
 .nav-link:hover {
 	color: var(--primary);
 }
 .nav-link:hover .arrow {
 	border-top: 4px solid var(--primary);
+}
+.current-menu-item .nav-link,
+.has-dropdown:has(.dropdown-menu .current-menu-item) > .nav-link {
+	color: var(--primary);
+	font-weight: 800;
+}
+.has-dropdown:has(.dropdown-menu .current-menu-item) > .nav-link .arrow {
+    border-top: 4px solid var(--primary);
+}
+.has-dropdown.open:has(.dropdown-menu .current-menu-item) > .nav-link .arrow {
+	border-top: 0;
 }
 
 /* DROPDOWN ARROW */
@@ -321,13 +330,11 @@ a:focus {
     z-index: 900;
 	z-index: 1;
 }
-
 .dropdown-bg.active {
     opacity: 1;
 }
 
 /* OVERLAY */
-
 .nav-overlay {
 	display: none;
 	position: fixed;
@@ -346,7 +353,6 @@ a:focus {
 	z-index: 1;
 	padding: 0 20px;
 }
-
 .hero-section .filter-container {
 	background: var(--white);
 	padding: 13px 48px 43px;
@@ -868,6 +874,14 @@ section {
 	margin: 0 auto;
 }
 
+/* ADU's & Tiny Homes */
+.page-template-adu-template .info-section {
+	padding: 42px 0 0;
+}
+.page-template-adu-template .info-section .subtitle-section {
+	max-width: 900px;
+}
+
 /* welcome-section */
 .welcome-section {
 	padding-bottom: 0;
@@ -1345,7 +1359,7 @@ section {
 	margin: 0 0 20px;
 }
 .sort-switcher {
-	border: 1px solid var(--gray);
+	border: 1px solid #D9D9D9;
 	cursor: pointer;
     max-width: 32px;
     max-height: 32px;
@@ -1356,10 +1370,15 @@ section {
     gap: 2px;
 	transition: all 0.25s;
 }
-.sort-switcher:hover,
+.sort-switcher:hover {
+	color: var(--white);
+	background-color: var(--primary);
+	border: 1px solid var(--primary);
+}
 .sort-switcher.active {
 	color: var(--white);
-	background-color: var(--gray);
+	background-color: #9B9B9B;
+	border: 1px solid #9B9B9B;
 }
 .sort-switcher .sort-ico {
 	fill: var(--gray);
