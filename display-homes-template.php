@@ -46,7 +46,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
             </li>
             
             <?php
-            if ( 0 <= $selected_location ) :
+            if ( 0 <= $selected_location && isset( $locations[ $selected_location ] ) ) :
                 ?>
                 <li class="crumb-item">
                     <?php echo esc_html( $locations[ $selected_location ]['location_name'] ); ?>

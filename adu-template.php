@@ -7,6 +7,7 @@ get_header();
 
 $p_ID = get_the_ID();
 $per_page = isset( $_GET['per_page'] ) ? intval( $_GET['per_page'] ) : 8;
+$price_query_param = carbon_get_theme_option( 'adu_price_devide' ) ?: 120000;
 
 $order = 'desc';
 
@@ -21,13 +22,17 @@ $query_params = [
     'meta_query'        => [
         'relation' => 'AND',
         'price_column' => [
-            'key'      => '_plan_price',
-            'compare'  => 'EXISTS',
-            'type'     => 'DECIMAL',
-        ],
-        [
-            'key'     => 'is_adu',
-            'compare' => 'EXISTS',
+            [
+                'key'      => '_plan_price',
+                'compare'  => 'EXISTS',
+                'type'     => 'DECIMAL',
+            ],
+            [
+                'key'     => '_plan_price',
+                'value'   => intval( $price_query_param ),
+                'type'    => 'NUMERIC',
+                'compare' => '<=',
+            ],
         ],
     ],
     'order'   => strtoupper( $order ),
@@ -132,7 +137,7 @@ get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] );
 
                 wp_reset_postdata();
             else :
-                echo $not_found_message;
+                echo "<p class='not-found-message'>{$not_found_message}<p>";
             endif;
             ?>
         </div>

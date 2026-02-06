@@ -247,14 +247,6 @@ function hb2_meta_fields() {
         )
     );
 
-    Container::make( 'post_meta', __( 'Is ADU' ) )
-        ->where( 'post_type', '=', 'plans' )
-        ->set_context( 'side' )
-        ->add_fields( array(
-            Field::make( 'checkbox', 'is_adu', __( 'Mark as ADU', 'home-boys-2' ) ),
-        )
-    );
-
     Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
         ->where( 'post_type', 'IN', ['plans', 'galleries'] )
         ->set_context( 'side' )

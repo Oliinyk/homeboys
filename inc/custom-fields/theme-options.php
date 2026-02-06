@@ -47,7 +47,7 @@ function hb2_options_fields() {
     ];
 
     Container::make( 'theme_options', __( 'General Settings', 'home-boys-2' ) )
-        ->add_fields( array(
+        ->add_tab( 'Global lists', array(
             // Social networks list
             Field::make( 'separator', 'networks_list_ser', __( 'Social Networks Links', 'home-boys-2' ) ),
             Field::make( 'complex', 'social_networks', __( 'Social Networks', 'home-boys-2' ) )
@@ -173,9 +173,8 @@ function hb2_options_fields() {
                          <%- type_label %>
                     <% } %>
                      ' ),
-
-            // Contact form
-            Field::make( 'separator', 'contact_form_sep', __( 'Contact Form', 'home-boys-2' ) ),
+        ) )
+        ->add_tab( 'Contact form settings', array(
             Field::make( 'text', 'form_title', __( 'Form title', 'home-boys-2' ) )
                 ->set_default_value( 'Contact <span class="primary">Us</span> For A Personalized Consultation' ),
             Field::make( 'textarea', 'form_code', __( 'Form shortcode', 'home-boys-2' ) )
@@ -189,9 +188,8 @@ function hb2_options_fields() {
             Field::make( 'text', 'form_r_subtitle', __( 'Right side subtitle', 'home-boys-2' ) )
                 ->set_default_value( 'General Manager' )
                 ->set_width( 35 ),
-                
-            // Partners
-            Field::make( 'separator', 'partners_sep', __( 'Partners', 'home-boys-2' ) ),
+        ) )
+        ->add_tab( 'Partners', array(
             Field::make( 'text', 'partners_section_title', __( 'Title section', 'home-boys-2' ) ),
             Field::make( 'complex', 'partners', __( 'Partners list', 'home-boys-2' ) )
                 ->set_collapsed( true )
@@ -210,9 +208,8 @@ function hb2_options_fields() {
                         <%- patner_name %>
                     <% } %>
                 ' ),
-
-            // Default labels and texts
-            Field::make( 'separator', 'labels_options_sep', __( 'Default labels, titles and texts settings', 'home-boys-2' ) ),
+        ) )
+        ->add_tab( 'Default labels, titles and texts settings', array(
             Field::make( 'text', 'stories_section__subtitle', __( 'Stories Section Subtitle', 'home-boys-2' ) )
                 ->set_default_value( 'Stories' )
                 ->set_width( 50 ),
@@ -237,8 +234,8 @@ function hb2_options_fields() {
             Field::make( 'textarea', 'sold_marker_placeholder', __( 'Sold marker placeholder', 'home-boys-2' ) )
                 ->set_rows( 2 )
                 ->set_default_value( '<span class="label-top">Home Was</span><span>Sold</span>' ),
-            // FOOTER 
-            Field::make( 'separator', 'footer_separator', __( 'FOOTER', 'home-boys-2' ) ),
+        ) )
+        ->add_tab( 'FOOTER', array(
             Field::make( 'image', 'footer_site_logo', __( 'Footer logo', 'home-boys-2' ) )
                 ->set_value_type( 'url' ),
             Field::make( 'text', 'footer_mail_block_title', __( 'Contact block title', 'home-boys-2' ) )
@@ -270,5 +267,9 @@ function hb2_options_fields() {
                 ->set_default_value('Newsletters'),
             Field::make( 'text', 'footer_form_shortcode', __( 'Footer Form code', 'home-boys-2' ) ), 
             Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ),
+        ) )
+        ->add_tab( 'Other', array(
+            Field::make( 'text', 'adu_price_devide', __( 'ADU price devide', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
         ) );
 };

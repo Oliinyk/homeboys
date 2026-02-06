@@ -270,8 +270,13 @@ function get_random_image() {
 
 // Get locations list
 function hb2_get_locations_list() {
-    $locations = carbon_get_theme_option( 'locations_list' );
-    return is_array( $locations ) ? $locations : [];
+    $locations = carbon_get_theme_option('locations_list');
+
+    if ( ! is_array( $locations ) ) {
+        return [];
+    }
+
+    return array_column($locations, null, 'location_key');
 }
 
 function hb2_on_display_arr( $locations ) {
