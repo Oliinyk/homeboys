@@ -198,12 +198,18 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
             endif;
 
             if ( ! in_array( 'manufacturer', $filter_exclude_fields, true ) ) :
+
                 ?>
                 <div class="filter-group">
                     <div class="filter-label">Manufacturer</div>
 
                     <select name="manufacturer">
                         <?php
+                        unset($manufacturers_options['-1']);
+                        asort($manufacturers_options, SORT_STRING);
+                        
+                        $manufacturers_options = ['-1 '=> '-Select-'] + $manufacturers_options;
+
                         foreach ( $manufacturers_options as $key => $manufacturer ) :
                             $selected = intval( $manuf_value ) == $key ? ' selected' : '';
                             ?>
@@ -224,6 +230,11 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                     <div class="filter-label">Series</div>
                     <select name="series">
                         <?php
+                        unset($series_options['-1']);
+                        asort($series_options, SORT_STRING);
+                        
+                        $series_options = ['-1 '=> '-Select-'] + $series_options;
+                        
                         foreach ( $series_options as $key => $series ) :
                             $selected = intval( $series_value ) == $key ? ' selected' : '';
                             ?>
