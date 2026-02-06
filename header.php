@@ -51,10 +51,15 @@ $menu_content = apply_filters( 'hb2_get_menu_items', 'menu-1' );
                     <?php
                     foreach ( $menu_content as $item ):
                         $has_children  = ! empty( $item['children'] );
+                        $is_current    = $item['object_id'] == get_queried_object_id();
+
+                        if ( $is_current ) {
+                            $item['classes'] .= ' current-menu-item';
+                        }
 
                         if ( $has_children ) :
                         ?>
-                        <li class="<?php echo esc_attr( $item['classes'] ); ?>">
+                        <li class="<?php echo esc_attr( $item['classes'] ); ?>" data-id="<?php echo esc_attr( $item['object_id'] ); ?>">
                             <button class="nav-link">
                                 <?php echo esc_html( $item['title'] ); ?>
                                 <span class="arrow"></span>
@@ -62,8 +67,16 @@ $menu_content = apply_filters( 'hb2_get_menu_items', 'menu-1' );
                             <ul class="dropdown-menu">
                                 <?php
                                 foreach ( $item['children'] as $sub_item ):
+                                    $is_current_sub = $sub_item['object_id'] == get_queried_object_id();
+                                    if ( $is_current_sub ) {
+                                        $sub_item['classes'] .= ' current-menu-item';
+                                    }
                                 ?>
-                                <li><a href="<?php echo esc_url( $sub_item['url'] ); ?>"><?php echo esc_html( $sub_item['title'] ); ?></a></li>
+                                <li class="<?php echo esc_attr( $sub_item['classes'] ); ?>" data-id="<?php echo esc_attr( $sub_item['object_id'] ); ?>">
+                                    <a href="<?php echo esc_url( $sub_item['url'] ); ?>">
+                                        <?php echo esc_html( $sub_item['title'] ); ?>
+                                    </a>
+                                </li>
                                 <?php
                                 endforeach;
                                 ?>
@@ -72,7 +85,9 @@ $menu_content = apply_filters( 'hb2_get_menu_items', 'menu-1' );
                         <?php
                         else :
                         ?>
-                        <li><a href="<?php echo esc_url( $item['url'] ); ?>" class="nav-link"><?php echo esc_html( $item['title'] ); ?></a></li>
+                        <li class="<?php echo esc_attr( $item['classes'] ); ?>" data-id="<?php echo esc_attr( $item['object_id'] ); ?>">
+                            <a href="<?php echo esc_url( $item['url'] ); ?>" class="nav-link"><?php echo esc_html( $item['title'] ); ?></a>
+                        </li>
                         <?php
                         endif;
                     endforeach;    

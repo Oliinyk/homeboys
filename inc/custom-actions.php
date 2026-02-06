@@ -223,25 +223,33 @@ function hb2_get_menu_items( $menu ) {
     $nav_menu_items = wp_get_nav_menu_items( $menu );
     $menu_arr = [];
 
+    global $post;
+    $current_id = $post->ID;
+
     if ( ! empty( $nav_menu_items ) ) {
         foreach ( $nav_menu_items as $item ) {
-            $item_id = $item->ID;
+            $item_id   = $item->ID;
             $parent_id = $item->menu_item_parent;
+
+            $classes   = implode( ' ', $item->classes );
 
             if ( $parent_id == 0 ) {
                 // This is a top-level item
                 $menu_arr[ $item_id ] = [
-                    'classes' => 'dropdown has-dropdown',
-                    'title' => $item->title,
-                    'url'   => $item->url,
-                    'children' => [],
+                    'classes'   => "dropdown has-dropdown {$classes}",
+                    'object_id' => intval( $item->object_id ),
+                    'title'     => $item->title,
+                    'url'       => $item->url,
+                    'children'  => [],
                 ];
             } else {
                 // This is a child item
                 if ( isset( $menu_arr[ $parent_id ] ) ) {
                     $menu_arr[ $parent_id ]['children'][] = [
-                        'title' => $item->title,
-                        'url'   => $item->url,
+                        'classes'   => $classes,
+                        'object_id' => intval( $item->object_id ),
+                        'title'     => $item->title,
+                        'url'       => $item->url,
                     ];
                 }
             }
