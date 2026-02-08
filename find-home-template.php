@@ -35,6 +35,11 @@ $query_params = [
             'compare'  => 'EXISTS',
             'type'     => 'DECIMAL',
         ],
+        'sold_column' => [
+            'key'     => '_is_sold',
+            'value'   => 'yes',
+            'compare' => '!=',
+        ],
     ],
     'orderby' => [
         'order_column' => 'ASC',

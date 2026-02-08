@@ -226,3 +226,61 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 require get_template_directory() . '/inc/custom-fields/index.php';
 
 require_once get_template_directory() . '/custom-importer.php';
+
+
+
+// add_action('init', function () {
+
+//     if ( ! function_exists('carbon_get_post_meta') ) {
+//         return;
+//     }
+
+//     migrate_galleries_to_plans_cf();
+
+// });
+
+function migrate_galleries_to_plans_cf() {
+
+    $args = [
+        'post_type'      => 'galleries',
+        'posts_per_page' => -1,
+        'post_status'    => 'any',
+        'fields'         => 'ids',
+    ];
+
+    $posts = get_posts($args);
+
+    if (empty($posts)) {
+        return;
+    }
+
+    $map = [
+		'gallery_order'        => 'plan_order',
+        'gallery_photos'       => 'plan_photos',
+        'gallery_description'  => 'plan_description',
+        'gallery_manufacturer' => 'plan_manufacturer',
+        'gallery_series'       => 'plan_series',
+        'gallery_name'         => 'plan_name',
+    ];
+
+    foreach ($posts as $post_id) {
+
+        wp_update_post([
+            'ID'        => $post_id,
+            'post_type' => 'plans',
+        ]);
+
+        foreach ($map as $old => $new) {
+
+            $value = carbon_get_post_meta($post_id, $old);
+
+            if ( ! empty($value) ) {
+
+                carbon_set_post_meta($post_id, $new, $value);
+
+            }
+        }
+
+        carbon_set_post_meta($post_id, 'is_sold', 'yes');
+    }
+}

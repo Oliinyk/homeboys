@@ -13,6 +13,11 @@ $plans_query_args = [
             'compare'  => 'EXISTS',
             'type'     => 'DECIMAL',
         ],
+        'sold_column' => [
+            'key'     => '_is_sold',
+            'value'   => 'yes',
+            'compare' => '!=',
+        ],
     ],
     'order'   => 'DESC',
     'orderby' => 'price_column',
