@@ -128,6 +128,20 @@ if ( isset( $_GET['series'] ) ) {
     array_push( $query_params['meta_query'], $series_q );
 }
 
+if ( isset( $_GET['search'] ) ) {
+    $query_params['s'] = sanitize_text_field($_GET['search']);
+    
+     $search_q = [
+        [
+            'key'     => '_plan_name',
+            'compare' => 'LIKE',
+            'value'   => $_GET['search'],
+        ],
+    ];
+
+    array_push( $query_params['meta_query'], $search_q );
+}
+
 $locations_list   = apply_filters( 'hb2_locations_list', true );
 $manufacturer_arr = apply_filters( 'hb2_get_manufacturers_list', true );
 $series_arr       = apply_filters( 'hb2_get_series_list', true );

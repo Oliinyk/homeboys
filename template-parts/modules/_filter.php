@@ -253,7 +253,7 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                 ?>
                 <div class="filter-group">
                     <div class="filter-label">Model Number/Name</div>
-                    <input type="text" name="model" placeholder="Double" class="filer-input">
+                    <input type="text" name="search" placeholder="Double" class="filer-input">
                 </div>
                 <?php
             endif;
