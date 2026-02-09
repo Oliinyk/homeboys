@@ -2270,7 +2270,10 @@ footer {
 	margin: 0 auto 33px;
 }
 .employees .items {
-	gap: 50px 40px;
+	gap: 20px 20px;
+}
+.employees .items:not(:last-child) {
+	margin: 0 0 20px;
 }
 .team-section .employee-item .item-wrap {
 	display: flex;
@@ -2512,7 +2515,8 @@ footer {
 		max-width: 235px;
 	}
 	.filter-row {
-		gap: 32px;
+		/* gap: 32px; */
+		gap: 20px;
 	}
 	.filter-wrap .filter-row {
 		justify-content: space-between;
@@ -2702,6 +2706,12 @@ footer {
 	}
 	.team-section .content-section {
 		margin: 0 0 89px;
+	}
+	.employees .items {
+		gap: 50px 40px;
+	}
+	.employees .items:not(:last-child) {
+		margin: 0 0 50px;
 	}
 	.team-section .employees .title-section {
 		margin: 0 0 50px;

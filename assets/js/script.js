@@ -301,10 +301,8 @@ document.addEventListener('click', function (e) {
     });
 }, true);
 
-
+// Filter
 document.addEventListener('DOMContentLoaded', function () {
-
-    // Filter
     // RANGE + INPUT SYNC
     const formatters = {
         price: {
@@ -446,6 +444,47 @@ document.addEventListener('DOMContentLoaded', function () {
         update();
     });
 
+    // Restore beds and baths values from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const bedsValue = urlParams.get('beds');
+    const bathsValue = urlParams.get('baths');
+
+    if (bedsValue) {
+        const bedsInput = document.querySelector('input[name="beds"]');
+        if (bedsInput) {
+            bedsInput.value = bedsValue;
+            // Trigger update to enable/disable buttons
+            const bedsGroup = bedsInput.closest('.counter-group');
+            if (bedsGroup) {
+                const downBtn = bedsGroup.querySelector('.js-counter-down');
+                const upBtn = bedsGroup.querySelector('.js-counter-up');
+                const min = +bedsInput.min;
+                const max = +bedsInput.max;
+                const val = +bedsInput.value;
+                if (downBtn) downBtn.disabled = val <= min;
+                if (upBtn) upBtn.disabled = val >= max;
+            }
+        }
+    }
+
+    if (bathsValue) {
+        const bathsInput = document.querySelector('input[name="baths"]');
+        if (bathsInput) {
+            bathsInput.value = bathsValue;
+            // Trigger update to enable/disable buttons
+            const bathsGroup = bathsInput.closest('.counter-group');
+            if (bathsGroup) {
+                const downBtn = bathsGroup.querySelector('.js-counter-down');
+                const upBtn = bathsGroup.querySelector('.js-counter-up');
+                const min = +bathsInput.min;
+                const max = +bathsInput.max;
+                const val = +bathsInput.value;
+                if (downBtn) downBtn.disabled = val <= min;
+                if (upBtn) upBtn.disabled = val >= max;
+            }
+        }
+    }
+
     // FORM SUBMIT
     const form = document.querySelector('.filter-container');
 
@@ -469,6 +508,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // skip empty model
                 if (key === 'model' && value.trim() === '') {
+                    continue;
+                }
+
+                // skip empty beds and baths
+                if ((key === 'beds' || key === 'baths') && value.trim() === '') {
                     continue;
                 }
 
