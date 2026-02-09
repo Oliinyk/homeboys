@@ -20,9 +20,16 @@ $plans_query_args = [
             'compare' => 'EXISTS',
         ],
         'location_column' => [
-            'key'     => '_plan_location',
-            'value'   => (int) $selected_location,
-            'compare' => '=',
+            [
+                'key'     => '_plan_location',
+                'value'   => (int) $selected_location,
+                'compare' => '=',
+            ],
+        ],
+        'sold_column' => [
+            'key'     => '_is_sold',
+            'value'   => 'yes',
+            'compare' => '!=',
         ],
     ],
     'orderby' => [

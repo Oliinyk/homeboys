@@ -7,7 +7,7 @@ get_header();
 
 $p_ID = get_the_ID();
 $per_page = isset( $_GET['per_page'] ) ? intval( $_GET['per_page'] ) : 8;
-$price_query_param = carbon_get_theme_option( 'adu_price_devide' ) ?: 120000;
+$adu_upper_limit = carbon_get_theme_option( 'adu_upper_limit' ) ?: 1200;
 
 $order = 'desc';
 
@@ -22,17 +22,15 @@ $query_params = [
     'meta_query'        => [
         'relation' => 'AND',
         'price_column' => [
-            [
-                'key'      => '_plan_price',
-                'compare'  => 'EXISTS',
-                'type'     => 'DECIMAL',
-            ],
-            [
-                'key'     => '_plan_price',
-                'value'   => intval( $price_query_param ),
-                'type'    => 'NUMERIC',
-                'compare' => '<=',
-            ],
+            'key'      => '_plan_price',
+            'compare'  => 'EXISTS',
+            'type'     => 'DECIMAL',
+        ],
+        [
+            'key'     => '_plan_size',
+            'value'   => intval( $adu_upper_limit ),
+            'type'    => 'NUMERIC',
+            'compare' => '<=',
         ],
     ],
     'order'   => strtoupper( $order ),

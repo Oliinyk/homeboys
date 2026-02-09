@@ -9,43 +9,30 @@ $hero_params = ['id' => $p_id];
 
 $q_params = [
     'post_status'    => 'publish',
-    'post_type'      => 'galleries',
-    'posts_per_page' => 6,
+    'post_type'      => 'plans',
+    'posts_per_page' => $_GET['per_page'] ?? 6,
     'meta_query'     => [
         'relation' => 'AND',
-        [
-            'key'     => '_gallery_photos',
-            'compare' => 'EXISTS'
+        'sold_column' => [
+            'key'     => '_is_sold',
+            'value'   => 'yes',
+            'compare' => '=',
         ],
+        'order_column' => [
+            'key'     => '_plan_order',
+            'compare' => 'EXISTS',
+        ],
+        'gallery_column' => [
+            'key'     => '_plan_photos',
+            'value'   => '',
+            'compare' => '!=',
+        ]
     ],
+    'orderby' => [
+        'order_column' => 'ASC',
+    ]
 ];
 
-$includes_type = carbon_get_post_meta( $p_id, 'display_gelleries_type' );
-
-switch ( $includes_type ) {
-    case '1' :
-        $a = [
-            'key'     => '_is_sold',
-            'compare' => 'NOT EXISTS',
-        ];
-        array_push( $q_params['meta_query'], $a );
-        break;
-    case '2' :
-        $b = [
-            'relation' => 'AND',
-            [
-               'key'     => '_is_sold',
-               'compare' => 'EXISTS', 
-            ],
-            [
-                'key' => '_is_sold',
-                'value' => 'yes',
-                'compare' => '=',
-            ]
-        ];
-        array_push( $q_params['meta_query'], $b );
-        break;    
-}
 
 $query = new WP_Query( $q_params );
 
@@ -60,6 +47,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
 
 // Hero section
 get_template_part( 'template-parts/modules/section', 'hero', $hero_params );
+
 ?>
 
 <section class="gallery-section">
@@ -72,20 +60,27 @@ get_template_part( 'template-parts/modules/section', 'hero', $hero_params );
 
                     $g_ID           = get_the_ID();
                     $permalink      = get_the_permalink();
-                    $gallery_phts   = carbon_get_post_meta( $g_ID, 'gallery_photos' );
+                    $gallery_phts   = carbon_get_post_meta( $g_ID, 'plan_photos' );
+
+                    if ( empty( $gallery_phts ) ) {
+                        continue;
+                    } 
+
                     $first_pht_id   = $gallery_phts[0];
                     $thumbnail_url  = wp_get_attachment_image_url( $first_pht_id, 'full' );
-                    $title          = carbon_get_post_meta( $g_ID, 'gallery_name' );
-                    $video_embeds   = carbon_get_post_meta( $g_ID, 'gallery_video_embeds' );
-                    $tour_embeds    = carbon_get_post_meta( $g_ID, 'gallery_tours' );
-                    $manufacturer   = carbon_get_post_meta( $g_ID, 'gallery_manufacturer' );
-                    $series         = carbon_get_post_meta( $g_ID, 'gallery_series' );
+                    $title          = carbon_get_post_meta( $g_ID, 'plan_name' ) ?: get_the_title();
+                    $video_embeds   = carbon_get_post_meta( $g_ID, 'youtube_embed' );
+                    $tour_embeds    = carbon_get_post_meta( $g_ID, 'plan_tour' );
+                    $manufacturer   = carbon_get_post_meta( $g_ID, 'plan_manufacturer' );
+                    $series         = carbon_get_post_meta( $g_ID, 'plan_series' );
                     $is_sold        = 'yes' == carbon_get_post_meta( $g_ID, 'is_sold' );
+                    $order_key      = carbon_get_post_meta( $g_ID, 'plan_order' );
                     $photos_count   = count( $gallery_phts );
-                    $videos_count   = ! empty( $video_embeds ) ? count( $video_embeds ) : 0 ; 
-                    $tours_count    = ! empty( $tour_embeds ) ? count( $tour_embeds ) : 0 ;
+
+                    $videos_count   = ! empty( $video_embeds ) ? 1 : 0 ;
+                    $tours_count    = ! empty( $tour_embeds ) ? 1 : 0 ;
                     ?>
-                    <a href="<?php echo esc_url( $permalink )?>" class="grid-item card-item">
+                    <a href="<?php echo esc_url( $permalink )?>" class="grid-item card-item" data-key=<?php echo $order_key?>>
                         <img src="<?php echo esc_url( $thumbnail_url )?>" alt="<?php echo $title?>">
 
                         <ul class="card-top-info">
@@ -135,12 +130,16 @@ get_template_part( 'template-parts/modules/section', 'hero', $hero_params );
                     </a>
                     <?php
                 endwhile;
+
                 wp_reset_postdata();
             else :
                 echo $not_found_message;
             endif;
             ?>
         </div>
+        <?php
+        get_template_part( 'template-parts/modules/__show-all-button', null );
+        ?>
     </div>
 </section>
 

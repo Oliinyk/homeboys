@@ -214,7 +214,7 @@ $documents          = carbon_get_theme_option( 'footer_documents' );
                             endforeach;
                             ?>
                         </ul>
-                        <p class="copyright">Copyright © <?php echo date('Y'); ?> by HomeBoys</p>
+                        <p class="copyright">Copyright © <?php echo date('Y'); ?> by The Home Boys</p>
                     </div>
                     <?php
                 endif;

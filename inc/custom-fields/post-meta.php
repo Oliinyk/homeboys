@@ -319,14 +319,14 @@ function hb2_meta_fields() {
     );
 
     // Gallery page
-    Container::make( 'post_meta', __( 'Display Galleries', 'home-boys-2' ) )
-        ->where( 'post_template', '=', 'galleries-template.php' )
-        ->set_context( 'side')
-        ->add_fields( array(
-            Field::make( 'select', 'display_gelleries_type', __( 'Select type', 'home-boys-2' ) )
-                ->add_options( $galleries_types_opt ),
-        )
-    );
+    // Container::make( 'post_meta', __( 'Display Galleries', 'home-boys-2' ) )
+    //     ->where( 'post_template', '=', 'galleries-template.php' )
+    //     ->set_context( 'side')
+    //     ->add_fields( array(
+    //         Field::make( 'select', 'display_gelleries_type', __( 'Select type', 'home-boys-2' ) )
+    //             ->add_options( $galleries_types_opt ),
+    //     )
+    // );
 
     // Contacts page
     Container::make( 'post_meta', __( 'Shedules', 'home-boys-2' ) )
