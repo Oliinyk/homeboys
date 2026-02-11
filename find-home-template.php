@@ -229,17 +229,14 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
     
                 endwhile;
 
+                get_template_part( 'template-parts/modules/__show-all-button', null );
             else :
-                echo $not_found_message;
+                echo "<p class='not-found-message'>{$not_found_message}</p>";
             endif;
-            ?>
-        </div>
-
-        <?php
-            get_template_part( 'template-parts/modules/__show-all-button', null );
 
             wp_reset_postdata();
-        ?>
+            ?>
+        </div>
     </div>
 </section>
 
