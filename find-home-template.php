@@ -164,23 +164,28 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
 
 <section class="home-gallery-section">
     <div class="container">
-        <div class="controls-sort">
-            <span>Sort by:</span>
-            <span class="sort-switcher sort-down<?php echo 'desc' == $order ? ' active' : ''?>" data-sort="desc">
-                $
-                <svg class="sort-ico" width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.17219 11.306L4.11258 4.27272e-07L5.02649 3.47375e-07L5.04636 11.1157L8.28477 8.01318L9 8.69839L4.50993 13L4.49007 13L3.7947 12.3148L7.65525e-07 8.67936L0.715232 7.99414L4.17219 11.306Z" />
-                </svg>
-            </span>
+        <?php
+        if ( $homes->have_posts() ) :
+            ?>
+            <div class="controls-sort">
+                <span>Sort by:</span>
+                <span class="sort-switcher sort-down<?php echo 'desc' == $order ? ' active' : ''?>" data-sort="desc">
+                    $
+                    <svg class="sort-ico" width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.17219 11.306L4.11258 4.27272e-07L5.02649 3.47375e-07L5.04636 11.1157L8.28477 8.01318L9 8.69839L4.50993 13L4.49007 13L3.7947 12.3148L7.65525e-07 8.67936L0.715232 7.99414L4.17219 11.306Z" />
+                    </svg>
+                </span>
 
-            <span class="sort-switcher sort-up <?php echo 'asc' == $order ? ' active' : ''?>" data-sort="asc">
-                $
-                <svg class="sort-ico" width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.17219 1.694L4.11258 13L5.02649 13L5.04636 1.88433L8.28477 4.98682L9 4.30161L4.50993 5.6114e-07L4.49007 5.59403e-07L3.7947 0.685213L7.65525e-07 4.32064L0.715232 5.00586L4.17219 1.694Z" />
-                </svg>
-            </span>
-        </div>
-
+                <span class="sort-switcher sort-up <?php echo 'asc' == $order ? ' active' : ''?>" data-sort="asc">
+                    $
+                    <svg class="sort-ico" width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.17219 1.694L4.11258 13L5.02649 13L5.04636 1.88433L8.28477 4.98682L9 4.30161L4.50993 5.6114e-07L4.49007 5.59403e-07L3.7947 0.685213L7.65525e-07 4.32064L0.715232 5.00586L4.17219 1.694Z" />
+                    </svg>
+                </span>
+            </div>
+            <?php
+        endif;
+        ?>
         <div class="card-list sm-col-2">
             <?php
             if ( $homes->have_posts() ) :
@@ -229,16 +234,16 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
     
                 endwhile;
 
-            else :
-                echo $not_found_message;
+                get_template_part( 'template-parts/modules/__show-all-button', null );
             endif;
-            ?>
-        </div>
-
-        <?php
-            get_template_part( 'template-parts/modules/__show-all-button', null );
 
             wp_reset_postdata();
+            ?>
+        </div>
+        <?php
+        if ( ! $homes->have_posts() ) {
+            echo "<p class='not-found-message'>{$not_found_message}</p>";
+        }
         ?>
     </div>
 </section>
