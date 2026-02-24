@@ -576,40 +576,48 @@ a:focus {
 	flex-direction: column;
 	justify-content: center;
 }
+.filter-container .counter-group .filter-label {
+	padding: 0 10px;
+}
 .filter-container .counter-container {
 	display: flex;
 	align-items: center;
-	gap: 5px;
 }
 .filter-container .counter-btn {
+	cursor: pointer;
+	padding: 10px;
+	background: transparent;
+	border: none;
+}
+.filter-container .counter-btn span {
+	display: block;
 	width: 0;
 	height: 0;
-	border: none;
-	cursor: pointer;
 	transition: all 0.3s;
-	border-top: 16px solid transparent;
-	border-bottom: 16px solid transparent;
+	border-top: 6px solid transparent;
+	border-bottom: 6px solid transparent;
 	background: transparent;
 	padding: 0;
+	border-radius: 0;
 }
-.filter-container .counter-btn.arrow-left {
-	border-right: 16px solid var(--primary);
+.filter-container .counter-btn.arrow-left span {
+	border-right: 6px solid var(--primary);
 }
-.filter-container .counter-btn.arrow-right {
-	border-left: 16px solid var(--primary);
+.filter-container .counter-btn.arrow-right span {
+	border-left: 6px solid var(--primary);
 }
-.filter-container .counter-btn:hover.arrow-left {
+.filter-container .counter-btn:hover.arrow-left span {
 	border-right-color: var(--primary);
 }
-.filter-container .counter-btn:hover.arrow-right {
+.filter-container .counter-btn:hover.arrow-right span {
 	border-left-color: var(--primary);
 }
-.filter-container .counter-btn:disabled.arrow-left,
-.filter-container .counter-btn:disabled:hover.arrow-left {
+.filter-container .counter-btn:disabled.arrow-left span,
+.filter-container .counter-btn:disabled:hover.arrow-left span {
 	border-right-color: var(--light-gray);
 }
-.filter-container .counter-btn:disabled.arrow-right,
-.filter-container .counter-btn:disabled:hover.arrow-right {
+.filter-container .counter-btn:disabled.arrow-right span,
+.filter-container .counter-btn:disabled:hover.arrow-right span {
 	border-left-color:  var(--light-gray);
 }
 /* .filter-container .counter-btn:disabled {

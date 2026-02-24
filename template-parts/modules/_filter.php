@@ -132,7 +132,7 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                     <div class="filter-label">Beds</div>
 
                     <div class="counter-container">
-                        <button type="button" class="counter-btn arrow-left js-counter-down"></button>
+                        <button type="button" class="counter-btn arrow-left js-counter-down"><span></span></button>
                         
                         <input type="number" 
                             name="beds" 
@@ -143,7 +143,7 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                             placeholder="-"
                             >
                         
-                        <button type="button" class="counter-btn arrow-right js-counter-up"></button>
+                        <button type="button" class="counter-btn arrow-right js-counter-up"><span></span></button>
                     </div>
                 </div>
                 <?php
@@ -155,7 +155,7 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                     <div class="filter-label">Baths</div>
 
                     <div class="counter-container">
-                        <button type="button" class="counter-btn arrow-left js-counter-down"></button>
+                        <button type="button" class="counter-btn arrow-left js-counter-down"><span></span></button>
 
                         <input type="number" 
                             name="baths" 
@@ -166,7 +166,7 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                             placeholder="-"
                             >
                         
-                        <button type="button" class="counter-btn arrow-right js-counter-up"></button>
+                        <button type="button" class="counter-btn arrow-right js-counter-up"><span></span></button>
                     </div>
                 </div>
                 <?php

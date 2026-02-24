@@ -16,7 +16,7 @@ if ( isset( $_GET['sort'] ) ) {
     $order = $_GET['sort'];
 }
 
-$per_page = isset( $_GET['per_page'] ) ? intval( $_GET['per_page'] ) : 12;
+$per_page = isset( $_GET['per_page'] ) ? -1 : 12;
 
 $query_params = [
     'post_status'       => 'publish',
