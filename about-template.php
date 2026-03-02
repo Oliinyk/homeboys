@@ -2,12 +2,18 @@
 /**
  * Template name: About Us Template
  */
-$p_id = get_the_ID();
+$small_title     = carbon_get_theme_option( 'about_page_small_title' );
+$title           = carbon_get_theme_option( 'about_page_title' );
+$p_title         = ! empty( $title ) ? $title : get_the_title();
+$content         = carbon_get_theme_option( 'about_page_content' );
 
-$small_title = carbon_get_post_meta( $p_id, 'page_small_title' );
-$title       = carbon_get_post_meta( $p_id, 'page_title' );
-$p_title     = ! empty( $title ) ? $title : get_the_title();
-$content     = get_the_content();
+$team_block_small_tile = carbon_get_theme_option( 'about_page_team_small_title' );
+$team_block_title      = carbon_get_theme_option( 'about_page_team_title' );
+
+$hero_data = [
+    'sb_hero_image'        => carbon_get_theme_option( 'about_page_hero' ),
+    'sb_hero_image_height' => carbon_get_theme_option( 'about_page_hero_image_height' ),
+];
 
 $blog__params = [
     'classes' => ' dark-section',
@@ -19,7 +25,7 @@ get_header();
 get_template_part( 'template-parts/modules/nav_overlay', null );
 
 // Hero section
-get_template_part( 'template-parts/modules/section', 'hero', ['id' => $p_id] );
+get_template_part( "template-parts/modules/section", "single_banner__hero", $hero_data );
 ?>
 
 <section class="team-section">
@@ -55,9 +61,11 @@ get_template_part( 'template-parts/modules/section', 'hero', ['id' => $p_id] );
                     <?php
                     if ( ! empty( $content ) ) :
                         ?>
-                        
-                            <?php echo $content ?>
-                        
+                        <p class="has-text-align-center"></p>
+                            <?php
+                            echo $content;
+                            ?>
+                        </p>
                         <?php
                     endif
                     ?>
@@ -66,7 +74,10 @@ get_template_part( 'template-parts/modules/section', 'hero', ['id' => $p_id] );
         </div>
 
         <?php
-        get_template_part( 'template-parts/modules/_employees', null );
+        get_template_part( 'template-parts/modules/_employees', [
+            'small_title' => $team_block_small_tile,
+            'title'       => $team_block_title,
+        ] );
         ?>
     </div>
 </section>

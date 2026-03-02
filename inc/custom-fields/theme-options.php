@@ -56,6 +56,7 @@ function hb2_options_fields() {
         'singular_name' => __( 'State', 'home-boys-2' ),
     ];
 
+    // General settings
     Container::make( 'theme_options', __( 'General Settings', 'home-boys-2' ) )
         ->add_tab( 'Global lists', array(
             // Social networks list
@@ -283,6 +284,7 @@ function hb2_options_fields() {
                 ->set_attribute( 'type', 'number' )
         ) );
 
+    //  Front page options
     Container::make( 'theme_options', __( 'Front Page', 'home-boys-2' ) )
         ->set_page_menu_position( 5 )
         ->set_icon( 'dashicons-admin-home' )
@@ -358,6 +360,7 @@ function hb2_options_fields() {
                 ' ),
         ) );
 
+    // Contact page options
     Container::make( 'theme_options', __( 'Contact Page', 'home-boys-2' ) )
         ->set_page_menu_position( 7 )
         ->set_icon( 'dashicons-phone' )
@@ -399,4 +402,33 @@ function hb2_options_fields() {
                     <% } %>
                      ' ),    
         ));
+
+    // About page options
+    Container::make( 'theme_options', __( 'About Page', 'home-boys-2' ) )
+        ->set_page_menu_position( 6 )
+        ->set_icon( 'dashicons-info' )
+        ->add_fields( array(
+            Field::make( 'image', 'about_page_hero', __( 'Hero image', 'home-boys-2' ) )
+                ->set_width( 50 )
+                ->set_value_type( 'url' ),
+            Field::make( 'text', 'about_page_hero_image_height', __( 'Height banner (px)', 'home-boys-2' ) )
+                    ->set_attribute( 'type', 'number' )
+                    ->set_attribute( 'min', '200' )
+                    ->set_attribute( 'max', '540' )
+                    ->set_attribute( 'step', '10' )
+                    ->set_default_value(250)
+                    ->set_width(50),
+            // Titles
+            Field::make( 'separator', 'about_page_titles_sep', __( 'Titles', 'home-boys-2' ) ),
+            Field::make( 'text', 'about_page_small_title', __( 'Page small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'about_page_title', __( 'Page title', 'home-boys-2' ) ),
+            // Content 
+            Field::make( 'separator', 'about_page_content_sep', __( 'Content', 'home-boys-2' ) ),
+            Field::make( 'rich_text', 'about_page_content', __( 'Page content', 'home-boys-2' ) ),
+            // Team block
+            Field::make( 'separator', 'about_page_team_sep', __( 'Team block', 'home-boys-2' ) ),
+            Field::make( 'text', 'about_page_team_small_title', __( 'Team block small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'about_page_team_title', __( 'Team block title', 'home-boys-2' ) )
+                ->help_text( "To edit the team list, go <a href='edit.php?post_type=employees'>here</a>" ),
+        ) );
 };
