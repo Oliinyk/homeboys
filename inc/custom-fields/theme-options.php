@@ -41,6 +41,11 @@ function hb2_options_fields() {
         'singular_name' => __( 'Partner', 'home-boys-2' ),
     ];
 
+    $shedule_labels = [
+        'plural_name'   => __( 'Shedule items', 'home-boys-2' ),
+        'singular_name' => __( 'Shedule', 'home-boys-2' ),
+    ];
+
     $documents_labels = [
         'plural_name'   => __( 'Documents', 'home-boys-2' ),
         'singular_name' => __( 'Document', 'home-boys-2' ),
@@ -352,4 +357,46 @@ function hb2_options_fields() {
                     <% } %>
                 ' ),
         ) );
+
+    Container::make( 'theme_options', __( 'Contact Page', 'home-boys-2' ) )
+        ->set_page_menu_position( 7 )
+        ->set_icon( 'dashicons-phone' )
+        ->add_fields( array(
+            Field::make( 'text', 'contact_page_mail', __( 'Contact mail', 'home-boys-2' ) ),
+            Field::make( 'complex', 'contact_page_shedule', __( 'Shedule Strings', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $shedule_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'contact_shedule_item', __( 'Shedule', 'home-boys-2' ) )
+                        ->set_required( true )
+                ) )
+                ->set_header_template( '
+                    <% if (contact_shedule_item) { %>
+                        <%- contact_shedule_item %>
+                    <% } %>
+                ' ),
+            // Titles
+            Field::make( 'separator', 'contact_page_locatons_titles_sep', __( 'Titles', 'home-boys-2' ) ),
+            Field::make( 'text', 'contact_page_small_title', __( 'Page small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'contact_page_title', __( 'Page title', 'home-boys-2' ) ),
+
+            // Locations list    
+            Field::make( 'separator', 'contact_page_locatons_list_options_sep', __( 'Locations', 'home-boys-2' ) ),
+            Field::make( 'complex', 'contact_page_locations_list', __( 'Locations List', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $locations_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'contact_page_location_name', __( 'Location Name', 'home-boys-2' ) )
+                        ->set_width( 40 )
+                        ->set_required( true ),   
+                    Field::make( 'text', 'contact_page_location_address', __( 'Location Address', 'home-boys-2' ) ),
+                    Field::make( 'textarea', 'contact_page_location_map', __( 'Locaton MAP embed', 'home-boys-2' ) ),
+                    Field::make( 'text', 'contact_page_location_phone', __( 'Location Phone', 'home-boys-2'  ) ),
+                ))
+                ->set_header_template( '
+                    <% if (contact_page_location_name) { %>
+                         <%- contact_page_location_name %>
+                    <% } %>
+                     ' ),    
+        ));
 };

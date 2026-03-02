@@ -5,11 +5,11 @@
 
 $id = get_the_ID();
 
-$mail_contact   = carbon_get_theme_option( 'footer_mail_contact' );
-$shedules       = carbon_get_post_meta( $id, 'shedule_strings' );
-$small_title    = carbon_get_post_meta( $id, 'page_small_title' );
-$page_title     = carbon_get_post_meta( $id, 'page_title' );
-$locations      = apply_filters( 'hb2_locations_list', false );
+$mail_contact   = carbon_get_theme_option( 'contact_page_mail' );
+$shedules       = carbon_get_theme_option( 'contact_page_shedule' );
+$small_title    = carbon_get_theme_option( 'contact_page_small_title' );
+$page_title     = carbon_get_theme_option( 'contact_page_title' );
+$locations      = carbon_get_theme_option( 'contact_page_locations_list' );;
 $title          = ! empty( $page_title ) ? $page_title : get_the_title();
 
 get_header();
@@ -34,7 +34,7 @@ get_header();
                 foreach( $shedules as $item ) :
                 ?>
                 <p>
-                    <?php echo $item['shedule_item']; ?>
+                    <?php echo $item['contact_shedule_item']; ?>
                 </p>
                 <?php
                 endforeach;
@@ -74,35 +74,35 @@ get_header();
                             <path d="M5.34334 20.4173C5.3536 20.4278 5.35873 20.4383 5.36387 20.4487L8.49969 26L15.8491 13C17.3836 10.2847 17.3836 7.04516 15.8491 4.33512C14.3145 1.61978 11.5689 0 8.49969 0C5.43573 0 2.68488 1.61975 1.15029 4.33512C-0.3843 7.0505 -0.384267 10.29 1.15542 13L5.34334 20.4173ZM8.49969 3.5069C11.2814 3.5069 13.5551 5.82382 13.5551 8.67033C13.5551 11.5168 11.2866 13.8338 8.49969 13.8338C5.71273 13.8338 3.44429 11.5221 3.44429 8.67033C3.44429 5.82395 5.71789 3.5069 8.49969 3.5069Z" fill="#D43031"/>
                         </svg>
                         <?php
-                        echo $loc['location_name'];
+                        echo $loc['contact_page_location_name'];
                         ?>
                     </h5>
 
                     <div class="map-address">
                         <?php
-                        if ( ! empty( $loc['location_map'] ) ) :
-                            echo $loc['location_map'];
+                        if ( ! empty( $loc['contact_page_location_map'] ) ) :
+                            echo $loc['contact_page_location_map'];
                         endif;
                         ?>
                     </div>
 
                     <div class="footer-address">
                         <?php
-                        if ( ! empty( $loc['location_phone'] ) ) :
+                        if ( ! empty( $loc['contact_page_location_phone'] ) ) :
                             ?>
-                            <a href="tel:<?php echo esc_attr( $loc['location_phone'] ); ?>" class="primary">
-                                <?php echo esc_html( $loc['location_phone'] ); ?>
+                            <a href="tel:<?php echo esc_attr( $loc['contact_page_location_phone'] ); ?>" class="primary">
+                                <?php echo esc_html( $loc['contact_page_location_phone'] ); ?>
                             </a>
                             <?php
                         endif;
 
-                        if ( ! empty( $loc['location_address'] ) ) :
+                        if ( ! empty( $loc['contact_page_location_address'] ) ) :
                             
                             $before = ! empty( $location_link_href ) ? "<a href='{$location_link_href}' target='_blank'>" : "<p>";
                             $after  = ! empty( $location_link_href ) ? "</a>" : "</p>";
 
                             echo $before;
-                                echo esc_html( $loc['location_address'] );
+                                echo esc_html( $loc['contact_page_location_address'] );
                             echo $after;
 
                         endif;
