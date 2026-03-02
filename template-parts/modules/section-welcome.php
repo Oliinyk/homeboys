@@ -1,14 +1,12 @@
 <?php
-$post_id = $args['id'];
-
-$subtitle           = carbon_get_post_meta( $post_id, 'welcome_small_title' );
-$title              = carbon_get_post_meta( $post_id, 'welcome_main_title' );
-$description_top    = carbon_get_post_meta( $post_id, 'welcome_description_top' );
-$delivering_title   = carbon_get_post_meta( $post_id, 'welcome_delivering_title' );
-$states             = carbon_get_post_meta( $post_id, 'welcome_states' );
-$video_url          = carbon_get_post_meta( $post_id, 'welcome_video_embed_url' );
-$iframe_title       = carbon_get_post_meta( $post_id, 'welcome_video_iframe_title' );
-$description_bottom = carbon_get_post_meta( $post_id, 'welcome_description_bottom' );
+$subtitle           = carbon_get_theme_option( 'welcome_small_title' );
+$title              = carbon_get_theme_option( 'welcome_main_title' );
+$description_top    = carbon_get_theme_option( 'welcome_description_top' );
+$delivering_title   = carbon_get_theme_option( 'welcome_delivering_title' );
+$states             = carbon_get_theme_option( 'welcome_states' );
+$video_url          = carbon_get_theme_option( 'welcome_video_embed_url' );
+$iframe_title       = carbon_get_theme_option( 'welcome_video_iframe_title' );
+$description_bottom = carbon_get_theme_option( 'welcome_description_bottom' );
 ?>
 <section class="welcome-section">
     <div class="container">
