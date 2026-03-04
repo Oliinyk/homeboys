@@ -1,10 +1,11 @@
 <?php
-$current = get_the_ID();
+$current       = get_the_ID();
+$current_width = carbon_get_post_meta( $current, 'plan_width' );
 
 $q_params = [
     'post_status'       => 'publish',
     'post_type'         => 'plans',
-    'posts_per_page'    => 2, //get_option( 'posts_per_page' )
+    'posts_per_page'    => 2,
     'post__not_in'      => [$current],
     'meta_query'     => [
         'relation' => 'AND',
@@ -13,14 +14,10 @@ $q_params = [
             'compare'  => 'EXISTS',
             'type'     => 'DECIMAL',
         ],
-        'sold_column' => [
-            'key'     => '_is_sold',
-            'value'   => 'yes',
-            'compare' => '!=',
-        ],
     ],
     'order'   => 'DESC',
-    'orderby' => 'price_column',
+    'orderby' => 'rand',
+    // 'orderby' => 'price_column',
 ];
 
 if ( isset( $args['id'] ) ) {
@@ -28,10 +25,8 @@ if ( isset( $args['id'] ) ) {
 
     if ( ! empty( $orient_price ) ) {
         $price_param = [
-            'key'     => '_plan_price',
-            'compare' => 'BETWEEN',
-            'value'   => [ intval($orient_price)-5000, intval($orient_price)+5000 ],
-            'type'    => 'SIGNED',
+            'key'     => 'plan_width',
+            'value'   => $current_width,
         ];
 
         array_push( $q_params['meta_query'], $price_param );

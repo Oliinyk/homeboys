@@ -182,13 +182,13 @@ function hb2_meta_fields() {
         )
     );
 
-    Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
-        ->where( 'post_type', 'IN', ['plans', 'galleries'] )
-        ->set_context( 'side' )
-        ->add_fields( array(
-            Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) ),
-        )
-    );
+    // Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
+    //     ->where( 'post_type', 'IN', ['plans', 'galleries'] )
+    //     ->set_context( 'side' )
+    //     ->add_fields( array(
+    //         Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) ),
+    //     )
+    // );
 
     // Stories post type meta
     Container::make( 'post_meta', __( 'Story content', 'home-boys-2' ) )
@@ -214,42 +214,36 @@ function hb2_meta_fields() {
         ->where( 'post_type', '=', 'galleries' )
         ->add_fields( array(
             Field::make( 'text', 'gallery_name', __( 'Gallery Name', 'home-boys-2' ) )
+                ->set_width( 75 ),
+            Field::make( 'text', 'gallery_order', __( 'Display Order', 'home-boys-2' ) )
+                ->set_default_value( '3' )
+                ->set_attribute( 'type', 'number' )
+                ->set_width( 25 )
                 ->set_required( true ),
+            Field::make( 'text', 'gallery_beds', __( 'Bedrooms', 'home-boys-2' ) )
+                ->set_width(50)
+                ->set_attribute( 'type', 'number' ),
+            Field::make( 'text', 'gallery_baths', __( 'Bathrooms', 'home-boys-2' ) )
+                ->set_width(50)
+                ->set_attribute( 'type', 'number' ),
+            Field::make( 'text', 'gallery_size', __( 'Size', 'home-boys-2' ) )
+                ->set_width(50)
+                ->help_text( 'ft<sup>2</sup>' )
+                ->set_attribute( 'type', 'number' ),
+            Field::make( 'text', 'gallery_price', __( 'Price', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
+                ->set_width(50),    
             Field::make( 'select', 'gallery_series', __( 'Series', 'home-boys-2' ) )
                 ->add_options( $plan_series_opt )
                 ->set_width(50),
             Field::make( 'select', 'gallery_manufacturer', __( 'Manufacturer', 'home-boys-2' ) )
                 ->add_options( $plan_manufacturer_opt )
                 ->set_width(50),
-            Field::make( 'complex', 'gallery_video_embeds', __( 'Video embeds', 'home-boys-2' ) )
-                ->set_collapsed( true )
-                ->setup_labels( $embeds_labels )
-                ->add_fields( array(
-                    Field::make( 'text', 'gve_title', __( 'Title', 'home-boys-2' ) ),
-                    Field::make( 'textarea', 'gve_code', __( 'Embed code', 'home-boys-2' ) )
-                        ->set_required( true ),
-                ) )
-                ->set_header_template( '
-                    <% if (gve_title) { %>
-                        <%- gve_title %>
-                    <% } %>
-                ' ),
-            Field::make( 'complex', 'gallery_tours', __( 'Tour embeds', 'home-boys-2' ) )
-                ->set_collapsed( true )
-                ->setup_labels( $embeds_labels )
-                ->add_fields( array(
-                    Field::make( 'text', 'gvt_title', __( 'Title', 'home-boys-2' ) ),
-                    Field::make( 'text', 'gvt_url', __( 'Tour URL', 'home-boys-2' ) )
-                        ->set_required( true ),
-                ) )
-                ->set_header_template( '
-                    <% if (gvt_title) { %>
-                        <%- gvt_title %>
-                    <% } %>
-                ' ),
+            Field::make( 'textarea', 'gallery_matterport_embed', __( 'Matterport Embed Code', 'home-boys-2' ) ),
+            Field::make( 'textarea', 'gallery_youtube_embed', __( 'YouTube Embed Code', 'home-boys-2' ) ),
             Field::make( 'textarea', 'gallery_description', __( 'Gallery Description', 'home-boys-2' ) ),
             Field::make( 'media_gallery', 'gallery_photos', __( 'Gallery Photos', 'home-boys-2' ) )
-                ->help_text( __( 'First photo will be featured', 'home-boys-2' ) ),    
+                ->help_text( __( 'First photo will be featured', 'home-boys-2' ) ),
         )
     );
 

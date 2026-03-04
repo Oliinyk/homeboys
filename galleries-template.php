@@ -9,21 +9,16 @@ $hero_params = ['id' => $p_id];
 
 $q_params = [
     'post_status'    => 'publish',
-    'post_type'      => 'plans',
+    'post_type'      => 'galleries',
     'posts_per_page' => $_GET['per_page'] ?? 6,
     'meta_query'     => [
         'relation' => 'AND',
-        'sold_column' => [
-            'key'     => '_is_sold',
-            'value'   => 'yes',
-            'compare' => '=',
-        ],
         'order_column' => [
-            'key'     => '_plan_order',
+            'key'     => '_gallery_order',
             'compare' => 'EXISTS',
         ],
         'gallery_column' => [
-            'key'     => '_plan_photos',
+            'key'     => '_gallery_photos',
             'value'   => '',
             'compare' => '!=',
         ]
@@ -60,7 +55,7 @@ get_template_part( 'template-parts/modules/section', 'hero', $hero_params );
 
                     $g_ID           = get_the_ID();
                     $permalink      = get_the_permalink();
-                    $gallery_phts   = carbon_get_post_meta( $g_ID, 'plan_photos' );
+                    $gallery_phts   = carbon_get_post_meta( $g_ID, 'gallery_photos' );
 
                     if ( empty( $gallery_phts ) ) {
                         continue;
@@ -68,13 +63,12 @@ get_template_part( 'template-parts/modules/section', 'hero', $hero_params );
 
                     $first_pht_id   = $gallery_phts[0];
                     $thumbnail_url  = wp_get_attachment_image_url( $first_pht_id, 'full' );
-                    $title          = carbon_get_post_meta( $g_ID, 'plan_name' ) ?: get_the_title();
-                    $video_embeds   = carbon_get_post_meta( $g_ID, 'youtube_embed' );
-                    $tour_embeds    = carbon_get_post_meta( $g_ID, 'plan_tour' );
-                    $manufacturer   = carbon_get_post_meta( $g_ID, 'plan_manufacturer' );
-                    $series         = carbon_get_post_meta( $g_ID, 'plan_series' );
-                    $is_sold        = 'yes' == carbon_get_post_meta( $g_ID, 'is_sold' );
-                    $order_key      = carbon_get_post_meta( $g_ID, 'plan_order' );
+                    $title          = carbon_get_post_meta( $g_ID, 'gallery_name' ) ?: get_the_title();
+                    $video_embeds   = carbon_get_post_meta( $g_ID, 'gallery_youtube_embed' );
+                    $tour_embeds    = carbon_get_post_meta( $g_ID, 'gallery_matterport_embed' );
+                    $manufacturer   = carbon_get_post_meta( $g_ID, 'gallery_manufacturer' );
+                    $series         = carbon_get_post_meta( $g_ID, 'gallery_series' );
+                    $order_key      = carbon_get_post_meta( $g_ID, 'gallery_order' );
                     $photos_count   = count( $gallery_phts );
 
                     $videos_count   = ! empty( $video_embeds ) ? 1 : 0 ;
@@ -106,17 +100,12 @@ get_template_part( 'template-parts/modules/section', 'hero', $hero_params );
                             </li>
                         </ul>
 
-                        <?php
-                        if ( $is_sold ) :
-                            ?>
-                            <div class="card-labels">
-                                <div class="label sold">
-                                    <?php echo $sold_marker_placeholder?>
-                                </div>
+                        <div class="card-labels">
+                            <div class="label sold">
+                                <?php echo $sold_marker_placeholder?>
                             </div>
-                            <?php
-                        endif;
-                        ?>
+                        </div>
+                        
                         <div class="item-info">
                             <h4 class="item-title"><?php echo $title?></h4>
 
