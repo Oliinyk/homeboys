@@ -182,14 +182,6 @@ function hb2_meta_fields() {
         )
     );
 
-    // Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
-    //     ->where( 'post_type', 'IN', ['plans', 'galleries'] )
-    //     ->set_context( 'side' )
-    //     ->add_fields( array(
-    //         Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) ),
-    //     )
-    // );
-
     // Stories post type meta
     Container::make( 'post_meta', __( 'Story content', 'home-boys-2' ) )
         ->where( 'post_type', '=', 'stories' )
@@ -267,28 +259,28 @@ function hb2_meta_fields() {
     );
 
     // Process Template
-    Container::make( 'post_meta', __( 'Process items block', 'home-boys-2' ) )
-        ->where( 'post_template', '=', 'process-template.php' )
-        ->add_fields( array(
-            Field::make( 'checkbox', 'include_process_posts', __( 'Include Process Items', 'home-boys-2' ) )
-                ->set_width( 25 ),
-            Field::make( 'text', 'process_block_title', __( 'Process Items Block title', 'home-boys-2' ) )
-                ->set_width( 75 )
-                ->set_conditional_logic( array(
-                    array(
-                        'field' => 'include_process_posts',
-                        'value' => true,
-                    )
-                ) ),
-            Field::make( 'textarea', 'process_block_desc', __( 'Process Items Block description', 'home-boys-2' ) )
-                ->set_conditional_logic( array(
-                    array(
-                        'field' => 'include_process_posts',
-                        'value' => true,
-                    )
-                ) ),
-        )
-    );
+    // Container::make( 'post_meta', __( 'Process items block', 'home-boys-2' ) )
+    //     ->where( 'post_template', '=', 'process-template.php' )
+    //     ->add_fields( array(
+    //         Field::make( 'checkbox', 'include_process_posts', __( 'Include Process Items', 'home-boys-2' ) )
+    //             ->set_width( 25 ),
+    //         Field::make( 'text', 'process_block_title', __( 'Process Items Block title', 'home-boys-2' ) )
+    //             ->set_width( 75 )
+    //             ->set_conditional_logic( array(
+    //                 array(
+    //                     'field' => 'include_process_posts',
+    //                     'value' => true,
+    //                 )
+    //             ) ),
+    //         Field::make( 'textarea', 'process_block_desc', __( 'Process Items Block description', 'home-boys-2' ) )
+    //             ->set_conditional_logic( array(
+    //                 array(
+    //                     'field' => 'include_process_posts',
+    //                     'value' => true,
+    //                 )
+    //             ) ),
+    //     )
+    // );
     
     // Guidelines Template
     Container::make( 'post_meta', __( 'Page meta', 'home-boys-2' ) )
@@ -407,9 +399,13 @@ function hb2_meta_fields() {
     );
 
     // Process post type meta
-    Container::make( 'post_meta', __( 'Process data', 'home-boys-2' ) )
+    Container::make( 'post_meta', __( 'Finannsing data', 'home-boys-2' ) )
         ->where( 'post_type', '=', 'process' )
         ->add_fields( array(
+            Field::make( 'text', 'process_order', __( 'Display Order', 'home-boys-2' ) )
+                ->set_default_value( '2' )
+                ->set_attribute( 'type', 'number' )
+                ->set_required( true ),
             Field::make( 'complex', 'process_contacts', __( 'Contacts', 'home-boys-2' ) )
                 ->set_collapsed( true )
                 ->setup_labels( $contacts_labels )

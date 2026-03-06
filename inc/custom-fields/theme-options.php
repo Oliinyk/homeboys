@@ -431,4 +431,14 @@ function hb2_options_fields() {
             Field::make( 'text', 'about_page_team_title', __( 'Team block title', 'home-boys-2' ) )
                 ->help_text( "To edit the team list, go <a href='edit.php?post_type=employees'>here</a>" ),
         ) );
+
+    Container::make( 'theme_options', __( 'Financing Page Settings', 'home-boys-2' ) )
+        ->set_page_parent( 'edit.php?post_type=process' )
+        ->add_fields( array(
+            Field::make( 'text', 'financing_page_small_title', __( 'Page small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'financing_page_title', __( 'Page title', 'home-boys-2' ) ),
+            Field::make( 'text', 'financing_posts_block_title', __( 'Financing Items Block title', 'home-boys-2' ) ),
+            Field::make( 'textarea', 'financing_posts_block_desc', __( 'Financing Items Block description', 'home-boys-2' ) ),
+            Field::make( 'rich_text', 'financing_page_content', __( 'Page content', 'home-boys-2' ) ),
+    ) );    
 };

@@ -2,16 +2,30 @@
 $block_title       = isset( $args['title'] ) ? $args['title'] : '';
 $block_description = isset( $args['description'] ) ? $args['description'] : '';
 
+add_filter('posts_clauses', 'process_order_sorting', 10, 2);
+
+function process_order_sorting($clauses, $query) {
+    if ( ! is_admin() && $query->get('post_type') === 'process' ) {
+        global $wpdb;
+        $clauses['join'] .= "
+            LEFT JOIN {$wpdb->postmeta} AS pm_order
+            ON ({$wpdb->posts}.ID = pm_order.post_id
+            AND pm_order.meta_key = '_process_order')
+        ";
+
+        $clauses['orderby'] = "
+            COALESCE(pm_order.meta_value+0, 999999) ASC,
+            {$wpdb->posts}.post_title ASC
+        ";
+    }
+
+    return $clauses;
+}
+
 $query_args = [
     'post_type'      => 'process',
     'post_status'    => 'publish',
     'posts_per_page' => -1,
-    'meta_query'     => [
-        [
-            'key' => '_process_contacts',
-            'compare' => 'EXISTS',
-        ],
-    ],
 ];
 
 $processes = new WP_Query( $query_args );
