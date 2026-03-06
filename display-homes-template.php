@@ -11,7 +11,7 @@ $series_arr         = apply_filters( 'hb2_get_series_list', true );
 
 $plans_query_args = [
     'post_type'      => 'plans',
-    'posts_per_page' => $_GET['per_page'] ?? 4,
+    'posts_per_page' => -1,
     'post_status'    => 'publish',
     'meta_query'     => [
         'relation' => 'AND',
@@ -104,7 +104,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                     $thumbmail_id = $gallery[0];
                 }
 
-                $plan_thumbnail = wp_get_attachment_image_url( $thumbmail_id, 'large' );
+                $plan_thumbnail = wp_get_attachment_image_url( $thumbmail_id, 'full' );
 
                 ?>
                 <a href="<?php echo esc_url( $plan_permalink )?>" class="card-item">
@@ -163,7 +163,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                 <?php
             endwhile;
 
-            get_template_part( 'template-parts/modules/__show-all-button', null );
+            // get_template_part( 'template-parts/modules/__show-all-button', null );
         
             wp_reset_postdata();
 
