@@ -9,6 +9,7 @@ $manufacturer       = carbon_get_post_meta( $p_ID, 'plan_manufacturer' );
 $series             = carbon_get_post_meta( $p_ID, 'plan_series' );
 $youtube_embed      = carbon_get_post_meta( $p_ID, 'youtube_embed' );
 $plan_tour          = carbon_get_post_meta( $p_ID, 'plan_tour' );
+$matterport_embed   = carbon_get_post_meta( $p_ID, 'matterport_embed' );
 $base_price         = carbon_get_post_meta( $p_ID, 'plan_price' );
 $complect_price     = carbon_get_post_meta( $p_ID, 'plan_set_price' );
 $complect_pr_desc   = carbon_get_post_meta( $p_ID, 'plan_set_price_desc' );
@@ -166,6 +167,17 @@ endif;
                 </div>
                 <?php
                 endif;
+
+                if ( ! empty( $matterport_embed ) ) :
+                    ?>
+                    <div class="video-wrap">
+                        <?php
+                        echo $matterport_embed;
+                        ?>
+                    </div>
+                    <?php
+                endif;
+
                 if ( ! empty( $description ) ) :
                     echo wpautop( $description );
                 endif;

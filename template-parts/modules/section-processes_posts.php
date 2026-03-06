@@ -5,8 +5,11 @@ $block_description = isset( $args['description'] ) ? $args['description'] : '';
 add_filter('posts_clauses', 'process_order_sorting', 10, 2);
 
 function process_order_sorting($clauses, $query) {
+
     if ( ! is_admin() && $query->get('post_type') === 'process' ) {
+
         global $wpdb;
+
         $clauses['join'] .= "
             LEFT JOIN {$wpdb->postmeta} AS pm_order
             ON ({$wpdb->posts}.ID = pm_order.post_id
@@ -14,7 +17,11 @@ function process_order_sorting($clauses, $query) {
         ";
 
         $clauses['orderby'] = "
-            COALESCE(pm_order.meta_value+0, 999999) ASC,
+            CASE 
+                WHEN pm_order.meta_value IS NULL OR pm_order.meta_value = '' THEN 1
+                ELSE 0
+            END ASC,
+            pm_order.meta_value+0 ASC,
             {$wpdb->posts}.post_title ASC
         ";
     }

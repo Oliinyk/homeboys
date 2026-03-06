@@ -403,9 +403,7 @@ function hb2_meta_fields() {
         ->where( 'post_type', '=', 'process' )
         ->add_fields( array(
             Field::make( 'text', 'process_order', __( 'Display Order', 'home-boys-2' ) )
-                ->set_default_value( '2' )
-                ->set_attribute( 'type', 'number' )
-                ->set_required( true ),
+                ->set_attribute( 'type', 'number' ),
             Field::make( 'complex', 'process_contacts', __( 'Contacts', 'home-boys-2' ) )
                 ->set_collapsed( true )
                 ->setup_labels( $contacts_labels )

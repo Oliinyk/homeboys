@@ -1,5 +1,9 @@
 <?php
 $current = get_the_ID();
+$prices  = hb2_get_all_homes_prices_range();
+
+$max_range = $prices['max'];
+$min_range = $prices['max'] - $prices['max']/4;
 
 $plans_query_args = [
     'post_type'      => 'plans',
@@ -7,20 +11,15 @@ $plans_query_args = [
     'post_status'    => 'publish',
     'post__not_in'   => [$current],
     'meta_query'        => [
-        'relation' => 'AND',
         'price_column' => [
             'key'      => '_plan_price',
-            'compare'  => 'EXISTS',
+            'compare'  => 'BETWEEN',
+            'value'    => [$min_range, $max_range],
             'type'     => 'DECIMAL',
         ],
-        'sold_column' => [
-            'key'     => '_is_sold',
-            'value'   => 'yes',
-            'compare' => '!=',
-        ],
+
     ],
-    'order'   => 'DESC',
-    'orderby' => 'price_column',
+    'orderby' => 'rand'
 ];
 
 $plans_posts = new WP_Query( $plans_query_args );
