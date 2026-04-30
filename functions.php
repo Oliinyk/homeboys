@@ -235,52 +235,66 @@ require_once get_template_directory() . '/custom-importer.php';
 //         return;
 //     }
 
-//     migrate_galleries_to_plans_cf();
+//     migrate_galleries_plans();
 
 // });
 
-function migrate_galleries_to_plans_cf() {
+function migrate_galleries_plans() {
 
     $args = [
-        'post_type'      => 'galleries',
+        'post_type'      => 'plans',
         'posts_per_page' => -1,
         'post_status'    => 'any',
         'fields'         => 'ids',
+		'meta_query'     => [
+			[
+				'key'     => '_is_sold',
+				'value'   => 'yes',
+			],
+		],
     ];
 
-    $posts = get_posts($args);
+    $posts = get_posts( $args );
 
-    if (empty($posts)) {
+    if ( empty( $posts ) ) {
         return;
     }
 
     $map = [
-		'gallery_order'        => 'plan_order',
-        'gallery_photos'       => 'plan_photos',
-        'gallery_description'  => 'plan_description',
-        'gallery_manufacturer' => 'plan_manufacturer',
-        'gallery_series'       => 'plan_series',
-        'gallery_name'         => 'plan_name',
+		'plan_name'         => 'gallery_name',
+		'plan_order' 		=> 'gallery_order',
+		'plan_series'       => 'gallery_series',
+		'plan_manufacturer'	=> 'gallery_manufacturer',
+        'plan_photos'       => 'gallery_photos',
+        'plan_description'  => 'gallery_description',
+		'plan_beds'         => 'gallery_beds',
+		'plan_baths'        => 'gallery_baths',
+		'plan_size'         => 'gallery_size',
+		'plan_price'        => 'gallery_price',
+		'youtube_embed'     => 'gallery_youtube_embed',
+		'matterport_embed'  => 'gallery_matterport_embed',
     ];
 
     foreach ($posts as $post_id) {
 
         wp_update_post([
             'ID'        => $post_id,
-            'post_type' => 'plans',
+            'post_type' => 'galleries',
         ]);
 
-        foreach ($map as $old => $new) {
+        foreach ( $map as $old => $new ) {
 
-            $value = carbon_get_post_meta($post_id, $old);
+            $value = carbon_get_post_meta( $post_id, $old );
 
-            if ( ! empty($value) ) {
+			carbon_set_post_meta( $post_id, $new, $value );
 
-                carbon_set_post_meta($post_id, $new, $value);
+			delete_post_meta( $post_id, $old );
 
-            }
+            // if ( ! empty( $value ) ) {
+            //     carbon_set_post_meta( $post_id, $new, $value );
+            // }
         }
 
-        carbon_set_post_meta($post_id, 'is_sold', 'yes');
+        // carbon_set_post_meta($post_id, 'is_sold', 'yes');
     }
 }

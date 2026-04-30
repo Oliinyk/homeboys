@@ -1,5 +1,6 @@
 <?php
 $current = get_the_ID();
+$use_display_lots = (bool) carbon_get_theme_option( 'similar_homes_use_display_lots' );
 
 $q_params = [
     'post_status'       => 'publish',
@@ -23,7 +24,27 @@ $q_params = [
     'orderby' => 'price_column',
 ];
 
-if ( isset( $args['id'] ) ) {
+if ( $use_display_lots ) {
+    $q_params['meta_query'] = [
+        'relation' => 'AND',
+        'order_column' => [
+            'key'     => '_plan_order',
+            'compare' => 'EXISTS',
+        ],
+        'location_column' => [
+            'key'     => '_plan_location',
+            'value'   => '-1',
+            'compare' => 'NOT LIKE',
+        ],
+        'sold_column' => [
+            'key'     => '_is_sold',
+            'value'   => 'yes',
+            'compare' => '!=',
+        ],
+    ];
+    $q_params['order'] = 'ASC';
+    $q_params['orderby'] = 'order_column';
+} elseif ( isset( $args['id'] ) ) {
     $orient_price = carbon_get_post_meta( $args['id'], 'plan_price' );
 
     if ( ! empty( $orient_price ) ) {

@@ -1080,17 +1080,6 @@ section {
 	display: none;
 }
 
-.blogposts-template-default.single-blogposts .content-section .container {
-	max-width: 1040px;
-}
-.blogposts-template-default.single-blogposts .content-wrap {
-	max-width: 854px;
-	margin: 0 auto;
-}
-.blogposts-template-default.single-blogposts .content-wrap .post-thumb {
-	margin: 0 0 30px;
-}
-
 /* our-people-section */
 .our-people-section {
 	padding: 50px 0 20px;
@@ -1153,11 +1142,6 @@ section {
 .swiper-button-disabled.custom-prev .arrow-ico,
 .swiper-button-disabled.custom-next .arrow-ico {
 	fill: var(--dark-gray);
-}
-.content-section .date-wrap {
-	color: var(--gray);
-	text-align: center;
-	margin-top: -20px;
 }
 .blog-section .item-description,
 .swiper-wrapper .item-description {
@@ -1663,12 +1647,6 @@ section {
 .content-section ul {
 	margin-bottom: 30px;
 }
-.content-section ul {
-	padding-left: 20px;
-}
-.content-section ul li {
-	list-style: disc;
-}
 .contact-section-main {
 	padding-top: 0;
 }
@@ -1885,7 +1863,6 @@ footer {
 	text-transform: uppercase;
 }
 .breadcrumbs .crumb-item {
-	list-style: none;
 	position: relative;
 }
 .breadcrumbs .crumb-item:not(:last-child)::after {
@@ -1903,10 +1880,6 @@ footer {
 }
 .dark-section .breadcrumbs .crumb-item:not(:last-child)::after {
 	background-color: #D9D9D9;
-}
-
-.financing-section.dark-section + .content-section .breadcrumbs {
-	display: none;
 }
 
 /* location-list section */
@@ -2055,15 +2028,9 @@ footer {
     margin: 0 auto;
 }
 
-.gallery-thumbs-slider.one-gallery-image {
-	grid-template-columns: auto;
-}
-.gallery-thumbs-slider.one-gallery-image .js-fancybox-item {
-	width: 100%;
-}
 .gallery-thumbs-section .no-gallery {
-	background: #D9D9D9;
-	height: 250px;
+	background: #f8f8f8;
+	height: 509px;
 	display: flex;
 }
 .gallery-thumbs-section .no-gallery svg {
@@ -2803,14 +2770,9 @@ footer {
 	.group-item .item-wrap .side:last-child .employee-subtitle {
 		margin: 0 0 20px;
 	}
+
 	.map-fraims-wrap .map-address iframe {
 		max-height: 328px;
-	}
-	.content-section .date-wrap {
-		margin-top: -40px;
-	}
-	.gallery-thumbs-section .no-gallery {
-		height: 509px;
 	}
 
 	/* footer */

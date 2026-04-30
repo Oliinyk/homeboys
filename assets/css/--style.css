@@ -1087,9 +1087,6 @@ section {
 	max-width: 854px;
 	margin: 0 auto;
 }
-.blogposts-template-default.single-blogposts .content-wrap .post-thumb {
-	margin: 0 0 30px;
-}
 
 /* our-people-section */
 .our-people-section {
@@ -2055,22 +2052,6 @@ footer {
     margin: 0 auto;
 }
 
-.gallery-thumbs-slider.one-gallery-image {
-	grid-template-columns: auto;
-}
-.gallery-thumbs-slider.one-gallery-image .js-fancybox-item {
-	width: 100%;
-}
-.gallery-thumbs-section .no-gallery {
-	background: #D9D9D9;
-	height: 250px;
-	display: flex;
-}
-.gallery-thumbs-section .no-gallery svg {
-	margin: 0 auto;
-	padding: 50px 0;
-}
-
 /* main slider */
 .gallery-thumbs-slider .gallery-main {
     position: relative;
@@ -2803,14 +2784,13 @@ footer {
 	.group-item .item-wrap .side:last-child .employee-subtitle {
 		margin: 0 0 20px;
 	}
+
 	.map-fraims-wrap .map-address iframe {
 		max-height: 328px;
 	}
+
 	.content-section .date-wrap {
 		margin-top: -40px;
-	}
-	.gallery-thumbs-section .no-gallery {
-		height: 509px;
 	}
 
 	/* footer */

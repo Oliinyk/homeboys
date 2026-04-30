@@ -213,7 +213,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                     $plan_thumbnail = wp_get_attachment_image_url( $thumbmail_id, 'large' );
 
                     if ( empty( $plan_thumbnail ) ) {
-                        $plan_thumbnail = get_template_directory_uri() . '/assets/img/placeholder.png';
+                        $plan_thumbnail = apply_filters( 'hb2_get_random_image', true );
                     }
 
                     $floor_data = [

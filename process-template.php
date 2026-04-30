@@ -4,14 +4,14 @@
  */
 $p_ID = get_the_ID();
 
-$inlude_processes = carbon_get_post_meta( $p_ID, 'include_process_posts' );
+// $inlude_processes = carbon_get_post_meta( $p_ID, 'include_process_posts' );
 
-$processes_section_title = carbon_get_post_meta( $p_ID, 'process_block_title' );
-$processes_section_desc  = carbon_get_post_meta( $p_ID, 'process_block_desc' );
-$processes_section_args  = [
-    'title'       => $processes_section_title,
-    'description' => $processes_section_desc,
-];
+// $processes_section_title = carbon_get_post_meta( $p_ID, 'process_block_title' );
+// $processes_section_desc  = carbon_get_post_meta( $p_ID, 'process_block_desc' );
+// $processes_section_args  = [
+//     'title'       => $processes_section_title,
+//     'description' => $processes_section_desc,
+// ];
 
 $small_title = carbon_get_post_meta( $p_ID, 'page_small_title' );
 $title       = carbon_get_post_meta( $p_ID, 'page_title' );
@@ -24,9 +24,9 @@ $parners_include = carbon_get_post_meta( $p_ID, 'include_partners' );
 get_header();
 
 // Finansing dark section
-if ( ! empty( $inlude_processes ) ) :
-    get_template_part( 'template-parts/modules/section', 'processes_posts', $processes_section_args );
-endif;
+// if ( ! empty( $inlude_processes ) ) :
+//     get_template_part( 'template-parts/modules/section', 'processes_posts', $processes_section_args );
+// endif;
 
 // Content
 if ( ! empty( $content ) ) :

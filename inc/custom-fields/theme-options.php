@@ -269,6 +269,8 @@ function hb2_options_fields() {
             Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ),
         ) )
         ->add_tab( 'Other', array(
+            Field::make( 'checkbox', 'similar_homes_use_display_lots', __( 'Similar Homes: Use Display Lots', 'home-boys-2' ) )
+                ->help_text( __( 'Enable to show display lots in Similar Homes globally instead of price-based matches.', 'home-boys-2' ) ),
             Field::make( 'text', 'adu_upper_limit', __( 'ADU upper limit', 'home-boys-2' ) )
                 ->set_attribute( 'type', 'number' )
         ) );
