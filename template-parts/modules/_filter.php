@@ -32,7 +32,7 @@ $manuf_value     = isset( $_GET['manufacturer'] ) ? $_GET['manufacturer'] : -1;
 $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
 ?>
 <!-- filter -->
-<form class="filter-container" method="GET" action="/find-your-home">
+<form class="filter-container" method="GET" action="/plans">
     <div class="filter-grid">
         <div class="filter-row">
             <?php
@@ -253,7 +253,7 @@ $series_value    = isset( $_GET['series'] ) ? $_GET['series'] : -1;
                 ?>
                 <div class="filter-group">
                     <div class="filter-label">Model Number/Name</div>
-                    <input type="text" name="search" placeholder="Double" class="filer-input">
+                    <input type="text" name="search" placeholder="" class="filer-input">
                 </div>
                 <?php
             endif;

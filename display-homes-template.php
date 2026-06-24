@@ -26,11 +26,11 @@ $plans_query_args = [
                 'compare' => '=',
             ],
         ],
-        'sold_column' => [
-            'key'     => '_is_sold',
-            'value'   => 'yes',
-            'compare' => '!=',
-        ],
+        // 'sold_column' => [
+        //     'key'     => '_is_sold',
+        //     'value'   => 'yes',
+        //     'compare' => '!=',
+        // ],
     ],
     'orderby' => [
         'order_column' => 'ASC',
@@ -135,9 +135,28 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                     if ( ! empty( $plan_price ) ) :
                         $price = number_format( intval( $plan_price ), 0, ',', ',' );
                         ?>
+
                         <div class="card-labels">
-                            <div class="label">$ <?php echo esc_html( $price ); ?></div>
+                            <?php if ( ! empty( $price ) ) : ?>
+                                <div class="label">
+                                    $<?php echo esc_html( $price ); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php
+                            $post_id = $data['id'] ?? get_the_ID();
+                            $loc      = carbon_get_post_meta( $post_id, 'plan_location' );
+                            $location = apply_filters( 'hb2_on_display_arr', $loc );
+
+                            if ( ! empty( $location ) ) :
+                            ?>
+                                <div class="label danger">
+                                    <span class="label-top">On Display</span>
+                                    <span><?php echo wp_kses_post( $location ); ?></span>
+                                </div>
+                            <?php endif; ?>
                         </div>
+
                         <?php
                     endif;
                     ?>

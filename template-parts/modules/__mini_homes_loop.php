@@ -1,36 +1,85 @@
 <?php
 $current = get_the_ID();
-$prices  = hb2_get_all_homes_prices_range();
+$use_display_homes = (bool) carbon_get_theme_option( 'similar_homes_use_display_lots' );
+$origin_price = carbon_get_post_meta( $current, 'plan_price' );
+$limit        = 4;
+$posts_ids    = [];
 
-$max_range = $prices['max'];
-$min_range = $prices['max'] - $prices['max']/4;
-
-$plans_query_args = [
-    'post_type'      => 'plans',
-    'posts_per_page' => 4,
-    'post_status'    => 'publish',
-    'post__not_in'   => [$current],
-    'meta_query'        => [
-        'price_column' => [
-            'key'      => '_plan_price',
-            'compare'  => 'BETWEEN',
-            'value'    => [$min_range, $max_range],
-            'type'     => 'DECIMAL',
-        ],
-
+$base_meta_query = [
+    'relation' => 'AND',
+    'price_column' => [
+        'key'      => '_plan_price',
+        'compare'  => 'EXISTS',
+        'type'     => 'DECIMAL',
     ],
-    'orderby' => 'rand'
+    'sold_column' => [
+        'key'     => '_is_sold',
+        'value'   => 'yes',
+        'compare' => '!=',
+    ],
 ];
 
-$plans_posts = new WP_Query( $plans_query_args );
+if ( ! empty( $origin_price ) ) {
+    $base_meta_query[] = [
+        'key'     => '_plan_price',
+        'compare' => 'BETWEEN',
+        'value'   => [ intval( $origin_price ) - 50000, intval( $origin_price ) + 50000 ],
+        'type'    => 'SIGNED',
+    ];
+}
 
-if ( ! $plans_posts->have_posts() ) {
+$build_args = function( $meta_query, $exclude_ids, $posts_per_page ) {
+    return [
+        'post_type'      => 'plans',
+        'posts_per_page' => $posts_per_page,
+        'post_status'    => 'publish',
+        'post__not_in'   => $exclude_ids,
+        'meta_query'     => $meta_query,
+        'orderby'        => 'rand',
+    ];
+};
+
+if ( $use_display_homes ) {
+    $display_meta_query = $base_meta_query;
+    $display_meta_query[] = [
+        'key'     => '_plan_location',
+        'value'   => '-1',
+        'compare' => 'NOT LIKE',
+    ];
+
+    $display_posts = new WP_Query( $build_args( $display_meta_query, [ $current ], $limit ) );
+    if ( $display_posts->have_posts() ) {
+        $posts_ids = wp_list_pluck( $display_posts->posts, 'ID' );
+    }
+
+    $remain = $limit - count( $posts_ids );
+    if ( $remain > 0 ) {
+        $fallback_posts = new WP_Query( $build_args( $base_meta_query, array_merge( [ $current ], $posts_ids ), $remain ) );
+        if ( $fallback_posts->have_posts() ) {
+            $posts_ids = array_merge( $posts_ids, wp_list_pluck( $fallback_posts->posts, 'ID' ) );
+        }
+    }
+} else {
+    $default_posts = new WP_Query( $build_args( $base_meta_query, [ $current ], $limit ) );
+    if ( $default_posts->have_posts() ) {
+        $posts_ids = wp_list_pluck( $default_posts->posts, 'ID' );
+    }
+}
+
+if ( empty( $posts_ids ) ) {
     return;
 }
 
+$plans_posts = new WP_Query( [
+    'post_type'      => 'plans',
+    'post_status'    => 'publish',
+    'post__in'       => $posts_ids,
+    'posts_per_page' => count( $posts_ids ),
+    'orderby'        => 'post__in',
+] );
+
 $manufacturer_arr = apply_filters( 'hb2_get_manufacturers_list', true ) ;
 $series           = apply_filters( 'hb2_get_series_list', true ) ;
-$on_display       = apply_filters( 'hb2_on_display_arr', [] );
 ?>
 <div class="card-list sm-col-2 md-col-4">
     <?php

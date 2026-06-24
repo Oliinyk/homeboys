@@ -195,6 +195,29 @@ function home_boys_2_scripts() {
 add_action( 'wp_enqueue_scripts', 'home_boys_2_scripts' );
 
 /**
+ * Disable block editor for custom post types to match production
+ * (production has no Gutenberg → Carbon Fields uses classic build).
+ */
+add_filter( 'use_block_editor_for_post_type', function ( $use, $post_type ) {
+    $classic_types = [ 'plans', 'galleries', 'stories', 'employees', 'process' ];
+    return in_array( $post_type, $classic_types, true ) ? false : $use;
+}, 10, 2 );
+
+/**
+ * Admin-only styles.
+ * - Resizable media gallery field.
+ */
+function hb2_admin_enqueue() {
+    wp_enqueue_style(
+        'hb2-admin',
+        get_template_directory_uri() . '/assets/css/admin.css',
+        [],
+        '1.0.1'
+    );
+}
+add_action( 'admin_enqueue_scripts', 'hb2_admin_enqueue' );
+
+/**
  * Implement the Custom Header feature.
  */
 require get_template_directory() . '/inc/custom-header.php';

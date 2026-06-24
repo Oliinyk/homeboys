@@ -224,7 +224,7 @@ function hb2_get_menu_items( $menu ) {
     $menu_arr = [];
 
     global $post;
-    $current_id = $post->ID;
+    $current_id = isset( $post->ID ) ? $post->ID : 0;
 
     if ( ! empty( $nav_menu_items ) ) {
         foreach ( $nav_menu_items as $item ) {

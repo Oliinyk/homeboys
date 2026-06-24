@@ -20,6 +20,7 @@ $form_shortcode     = carbon_get_theme_option( 'footer_form_shortcode' );
 $description        = carbon_get_theme_option( 'footer_description_text' );
 $menu_items         = apply_filters( 'hb2_get_menu_items', 'menu-1' );
 $documents          = carbon_get_theme_option( 'footer_documents' );
+
 ?>
 	<footer class="footer">
         <div class="container">
@@ -187,7 +188,11 @@ $documents          = carbon_get_theme_option( 'footer_documents' );
                                 endif;
                                 ?>
                                 <div class="sm-col-span-2">
-                                    <?php echo do_shortcode( $form_shortcode )?>
+                                    <?php 
+                                        echo do_shortcode( $form_shortcode );
+                                    ?>
+                                    
+                                    <?php get_template_part( "template-parts/modules/mailchimp-embed" ); ?>
                                 </div>
                             </div>
                             <?php

@@ -10,7 +10,9 @@ $data = $args['data-floor'];
     <?php
     if ( isset( $data['img_src'] ) ) :
         ?>
-        <img src="<?php echo esc_url( $data['img_src'] )?>" alt="#">
+        <img src="<?php echo esc_url( ! empty($data['img_src']) 
+            ? $data['img_src'] 
+            : get_template_directory_uri() . '/assets/img/placeholder.png' ); ?>" alt="#">
         <?php
     endif;
     ?>

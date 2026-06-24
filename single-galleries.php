@@ -147,11 +147,11 @@ endif;
                 endif;
 
                 if ( ! empty( $description ) ) :
-                    echo wpautop( $description );
+                    echo '<div class="prose">' . wpautop( $description ) . '</div>';
                 endif;
 
                 if ( ! empty( $content ) ) :
-                    echo $content;
+                    echo '<div class="prose">' . $content . '</div>';
                 endif;    
                 ?>
             </div>
