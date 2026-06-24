@@ -19,6 +19,10 @@ $menu_content = apply_filters( 'hb2_get_menu_items', 'menu-1' );
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 
+	<!-- Google tag (gtag.js) --> 
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-HRBN2BSJQE"></script> 
+	<script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-HRBN2BSJQE'); </script>
+
 	<?php wp_head(); ?>
 </head>
 

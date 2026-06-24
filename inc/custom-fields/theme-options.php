@@ -41,11 +41,22 @@ function hb2_options_fields() {
         'singular_name' => __( 'Partner', 'home-boys-2' ),
     ];
 
+    $shedule_labels = [
+        'plural_name'   => __( 'Shedule items', 'home-boys-2' ),
+        'singular_name' => __( 'Shedule', 'home-boys-2' ),
+    ];
+
     $documents_labels = [
         'plural_name'   => __( 'Documents', 'home-boys-2' ),
         'singular_name' => __( 'Document', 'home-boys-2' ),
     ];
 
+    $states_labels = [
+        'plural_name'   => __( 'States', 'home-boys-2' ),
+        'singular_name' => __( 'State', 'home-boys-2' ),
+    ];
+
+    // General settings
     Container::make( 'theme_options', __( 'General Settings', 'home-boys-2' ) )
         ->add_tab( 'Global lists', array(
             // Social networks list
@@ -201,7 +212,7 @@ function hb2_options_fields() {
                     Field::make( 'image', 'partner_image', __( 'Partner image', 'home-boys-2' ) )
                         ->set_required( true )
                         ->set_width( 25 )
-                        ->set_value_type( 'url' )  
+                        ->set_value_type( 'url' )
                 ) )
                 ->set_header_template( '
                     <% if (patner_name) { %>
@@ -268,10 +279,170 @@ function hb2_options_fields() {
             Field::make( 'text', 'footer_form_shortcode', __( 'Footer Form code', 'home-boys-2' ) ), 
             Field::make( 'textarea', 'footer_description_text', __( 'Footer Description Text', 'home-boys-2' ) ),
         ) )
+        ->add_tab( 'Similar Homes', array(
+            Field::make( 'checkbox', 'similar_homes_use_display_lots', __( 'Use Display Homes For Similar Homes', 'home-boys-2' ) )
+                ->help_text( __( 'When enabled, Similar Homes will show only display homes, still filtered by similar price.', 'home-boys-2' ) ),
+        ) )
         ->add_tab( 'Other', array(
-            Field::make( 'checkbox', 'similar_homes_use_display_lots', __( 'Similar Homes: Use Display Lots', 'home-boys-2' ) )
-                ->help_text( __( 'Enable to show display lots in Similar Homes globally instead of price-based matches.', 'home-boys-2' ) ),
             Field::make( 'text', 'adu_upper_limit', __( 'ADU upper limit', 'home-boys-2' ) )
                 ->set_attribute( 'type', 'number' )
         ) );
+
+    //  Front page options
+    Container::make( 'theme_options', __( 'Front Page', 'home-boys-2' ) )
+        ->set_page_menu_position( 5 )
+        ->set_icon( 'dashicons-admin-home' )
+        ->add_tab( __( 'Page Slider', 'home-boys-2' ), array(
+            Field::make( 'separator', 'front_page_slider_ser', __( 'Page Slider', 'home-boys-2' ) ),
+            Field::make( 'media_gallery', 'front_page_slideshow', __( 'Slideshow Images', 'home-boys-2' ) ),
+            Field::make( 'checkbox', 'front_page_include_filter', __( 'Include filter', 'home-boys-2' ) )
+                ->set_width( 25 )
+                ->set_default_value( 'yes' ),
+            Field::make( 'text', 'front_page_filter_title', __( 'Filter title', 'home-boys-2' ) )
+                ->set_width( 75 )
+                ->set_default_value( 'Find Your Manufactured Home' )
+                ->set_conditional_logic( array(
+                    array(
+                        'field'   => 'front_page_include_filter',
+                        'value'   => true,
+                    )
+                )
+            ),
+        ) )
+        ->add_tab( __( 'Welcome section', 'home-boys-2' ) , array(
+            Field::make( 'separator', 'welcome_heading_block_separate', __( 'Welcome section', 'home-boys-2' ) ),
+            Field::make( 'text', 'welcome_small_title', __( 'Small title', 'home-boys-2' ) )
+                ->set_default_value( 'Welcome to' ),
+            Field::make( 'text', 'welcome_main_title', __( 'Main title', 'home-boys-2' ) )
+                ->set_default_value( 'The Home Boys' ),
+            Field::make( 'textarea', 'welcome_description_top', __( 'Top description text', 'home-boys-2' ) ),
+            Field::make( 'text', 'welcome_delivering_title', __( 'Delivering Block title', 'home-boys-2' ) )
+                ->set_default_value( 'Delivering to' ),
+            Field::make( 'complex', 'welcome_states', __( 'Delivering', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->set_max( 5 )
+                ->setup_labels( $states_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'st_name', __( 'Name', 'home-boys-2' ) )
+                        ->set_width( 70 )
+                        ->set_required( true ),
+                    Field::make( 'image', 'st_image', __( 'Image', 'home-boys-2' ) )
+                        ->set_width( 30 )
+                        ->set_value_type( 'url' )
+                        ->set_required( true )
+                ) )
+                ->set_header_template( '
+                    <% if (st_name) { %>
+                        <%- st_name %>
+                    <% } %>
+                ' ),
+            Field::make( 'text', 'welcome_video_embed_url', __( 'Embed source url', 'home-boys-2' ) )
+                ->set_default_value( 'https://www.youtube.com/embed/GNLO3jhL02w' ),
+            Field::make( 'text', 'welcome_video_iframe_title', __( 'Iframe title', 'home-boys-2' ) )
+                ->set_default_value( 'YouTube video player' ),
+            Field::make( 'textarea', 'welcome_description_bottom', __( 'Bottom description text', 'home-boys-2' ) ),
+        ) )
+        ->add_tab( __( 'Partners section', 'home-boys-2' ) , array(
+            Field::make( 'separator', 'front_partners_section_sep', __( 'Partners section', 'home-boys-2' ) ),
+            Field::make( 'text', 'front_partners_section_title', __( 'Partners Title section', 'home-boys-2' ) ),
+            Field::make( 'complex', 'front_partners', __( 'Partners list', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $partners_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'front_partner_name', __( 'Partner name', 'home-boys-2' ) )
+                        ->set_required( true )
+                        ->set_width( 75 ),
+                    Field::make( 'image', 'front_partner_image', __( 'Partner image', 'home-boys-2' ) )
+                        ->set_required( true )
+                        ->set_width( 25 )
+                        ->set_value_type( 'url' )
+                ) )
+                ->set_header_template( '
+                    <% if (front_partner_name) { %>
+                        <%- front_partner_name %>
+                    <% } %>
+                ' ),
+        ) );
+
+    // Contact page options
+    Container::make( 'theme_options', __( 'Contact Page', 'home-boys-2' ) )
+        ->set_page_menu_position( 7 )
+        ->set_icon( 'dashicons-phone' )
+        ->add_fields( array(
+            Field::make( 'text', 'contact_page_mail', __( 'Contact mail', 'home-boys-2' ) ),
+            Field::make( 'complex', 'contact_page_shedule', __( 'Shedule Strings', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $shedule_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'contact_shedule_item', __( 'Shedule', 'home-boys-2' ) )
+                        ->set_required( true )
+                ) )
+                ->set_header_template( '
+                    <% if (contact_shedule_item) { %>
+                        <%- contact_shedule_item %>
+                    <% } %>
+                ' ),
+            // Titles
+            Field::make( 'separator', 'contact_page_locatons_titles_sep', __( 'Titles', 'home-boys-2' ) ),
+            Field::make( 'text', 'contact_page_small_title', __( 'Page small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'contact_page_title', __( 'Page title', 'home-boys-2' ) ),
+
+            // Locations list    
+            Field::make( 'separator', 'contact_page_locatons_list_options_sep', __( 'Locations', 'home-boys-2' ) ),
+            Field::make( 'complex', 'contact_page_locations_list', __( 'Locations List', 'home-boys-2' ) )
+                ->set_collapsed( true )
+                ->setup_labels( $locations_labels )
+                ->add_fields( array(
+                    Field::make( 'text', 'contact_page_location_name', __( 'Location Name', 'home-boys-2' ) )
+                        ->set_width( 40 )
+                        ->set_required( true ),   
+                    Field::make( 'text', 'contact_page_location_address', __( 'Location Address', 'home-boys-2' ) ),
+                    Field::make( 'textarea', 'contact_page_location_map', __( 'Locaton MAP embed', 'home-boys-2' ) ),
+                    Field::make( 'text', 'contact_page_location_phone', __( 'Location Phone', 'home-boys-2'  ) ),
+                ))
+                ->set_header_template( '
+                    <% if (contact_page_location_name) { %>
+                         <%- contact_page_location_name %>
+                    <% } %>
+                     ' ),    
+        ));
+
+    // About page options
+    Container::make( 'theme_options', __( 'About Page', 'home-boys-2' ) )
+        ->set_page_menu_position( 6 )
+        ->set_icon( 'dashicons-info' )
+        ->add_fields( array(
+            Field::make( 'image', 'about_page_hero', __( 'Hero image', 'home-boys-2' ) )
+                ->set_width( 50 )
+                ->set_value_type( 'url' ),
+            Field::make( 'text', 'about_page_hero_image_height', __( 'Height banner (px)', 'home-boys-2' ) )
+                    ->set_attribute( 'type', 'number' )
+                    ->set_attribute( 'min', '200' )
+                    ->set_attribute( 'max', '540' )
+                    ->set_attribute( 'step', '10' )
+                    ->set_default_value(250)
+                    ->set_width(50),
+            // Titles
+            Field::make( 'separator', 'about_page_titles_sep', __( 'Titles', 'home-boys-2' ) ),
+            Field::make( 'text', 'about_page_small_title', __( 'Page small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'about_page_title', __( 'Page title', 'home-boys-2' ) ),
+            // Content 
+            Field::make( 'separator', 'about_page_content_sep', __( 'Content', 'home-boys-2' ) ),
+            Field::make( 'rich_text', 'about_page_content', __( 'Page content', 'home-boys-2' ) ),
+            // Team block
+            Field::make( 'separator', 'about_page_team_sep', __( 'Team block', 'home-boys-2' ) ),
+            Field::make( 'text', 'about_page_team_small_title', __( 'Team block small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'about_page_team_title', __( 'Team block title', 'home-boys-2' ) )
+                ->help_text( "To edit the team list, go <a href='edit.php?post_type=employees'>here</a>" ),
+        ) );
+
+    Container::make( 'theme_options', __( 'Financing Page Settings', 'home-boys-2' ) )
+        ->set_page_parent( 'edit.php?post_type=process' )
+        ->add_fields( array(
+            Field::make( 'text', 'financing_page_small_title', __( 'Page small title', 'home-boys-2' ) ),
+            Field::make( 'text', 'financing_page_title', __( 'Page title', 'home-boys-2' ) ),
+            Field::make( 'text', 'financing_posts_block_title', __( 'Financing Items Block title', 'home-boys-2' ) ),
+            Field::make( 'textarea', 'financing_posts_block_desc', __( 'Financing Items Block description', 'home-boys-2' ) ),
+            Field::make( 'rich_text', 'financing_page_content', __( 'Page content', 'home-boys-2' ) ),
+    ) );    
 };

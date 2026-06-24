@@ -1,5 +1,6 @@
 <?php
-
+$block_small_tile  = $args['small_title'] ?? 'Our';
+$block_title       = $args['title'] ?? 'Team';
 $query_params = [
     'post_type'      => 'employees',
     'post_status'    => 'publish',
@@ -23,9 +24,13 @@ if ( ! $employees->have_posts() ) {
 }
 ?>
 <div class="employees">
-    <h4 class="subtitle-section">Our</h4>
+    <h4 class="subtitle-section">
+        <?php echo esc_html( $block_small_tile ); ?>
+    </h4>
 
-    <h2 class="title-section">Team</h2>
+    <h2 class="title-section">
+        <?php echo esc_html( $block_title ); ?>
+    </h2>
 
     <div>
         <?php

@@ -658,7 +658,8 @@ a:focus {
 
 .submit-btn,
 a.submit-btn,
-.contact-section .wpcf7-submit {
+.contact-section .wpcf7-submit,
+#mc_embed_signup input.button {
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -719,7 +720,8 @@ a.submit-btn,
   initial-value: 0;
   inherits: false;
 }
-.contact-section .wpcf7-submit {
+.contact-section .wpcf7-submit,
+#mc_embed_signup input.button {
 	--gradient-opacity: 0;
 	background-image:
 		url("data:image/svg+xml,%3Csvg width='17' height='11' viewBox='0 0 17 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14.7848 5.09934L6.89478e-08 5.02649L5.60552e-08 6.14349L14.5359 6.16777L10.4788 10.1258L11.3748 11L17 5.51214L17 5.48786L16.104 4.63797L11.3499 1.39833e-07L10.4539 0.874172L14.7848 5.09934Z' fill='white'/%3E%3C/svg%3E"),
@@ -728,7 +730,8 @@ a.submit-btn,
 	background-position: right 30px center, 0 0;
 	transition: background-position 0.3s ease, --gradient-opacity 0.3s ease;
 }
-.contact-section .wpcf7-submit:hover {
+.contact-section .wpcf7-submit:hover,
+#mc_embed_signup input.button:hover {
 	--gradient-opacity: 1;
 	background-position: right 25px center, 0 0;
 }
@@ -1026,7 +1029,8 @@ section {
 	width: 100%;
 	max-width: 460px;
 }
-.contact-section form input {
+.contact-section form input,
+#mc_embed_signup input.email {
 	font-size: 12px;
 	border: 1px solid var(--light-gray);
 	border-radius: 0;
@@ -1037,7 +1041,8 @@ section {
 	line-height: 1.5;
 }
 .contact-section .btn,
-.contact-section .wpcf7-submit {
+.contact-section .wpcf7-submit,
+#mc_embed_signup input.button {
 	margin: 0 auto;
 	border-radius: 0;
 }
@@ -1692,6 +1697,45 @@ section {
 	max-height: 395px;
 }
 
+/* 404 */
+.error-section {
+	padding: 80px 0 60px;
+	text-align: center;
+}
+.error-section .subtitle-section {
+	margin-bottom: 35px;
+}
+.error-section .title-section {
+	color: var(--primary);
+}
+.error-oops {
+	font-family: "Georgia", serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: clamp(21px, 5vw, 32px);
+	color: var(--primary);
+	margin: 0 0 8px;
+}
+.error-title {
+	font-family: "Georgia", serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: clamp(32px, 5vw, 64px);
+	color: var(--primary);
+	margin: 0 0 24px;
+	line-height: 1.1;
+}
+.error-desc {
+	font-family: "Georgia", serif;
+	font-style: italic;
+	font-weight: bold;
+	font-size: 18px;
+	font-size: clamp(20px, 5vw, 24px);
+	max-width: 640px;
+	margin: 0 auto;
+	line-height: 1.5;
+}
+
 /* footer */
 footer {
     background-color: var(--yellow);
@@ -1839,6 +1883,80 @@ footer {
 .footer .contact-section form .wpcf7-submit {
 	border: none;
 }
+.footer .contact-section #mc_embed_shell {
+	width: 100%;
+}
+.footer .contact-section #mc_embed_shell > link,
+.footer .contact-section #mc_embed_shell > style,
+.footer .contact-section #mc_embed_shell #mc_embed_signup h2,
+.footer .contact-section #mc_embed_shell #mc_embed_signup .indicates-required,
+.footer .contact-section #mc_embed_shell #mc_embed_signup .mc-field-group label,
+.footer .contact-section #mc_embed_shell #mc_embed_signup .response {
+	display: none !important;
+}
+.footer .contact-section #mc_embed_shell #mc_embed_signup {
+	background: transparent !important;
+	clear: none !important;
+	font: inherit !important;
+	width: 100% !important;
+	padding: 0 !important;
+}
+.footer .contact-section #mc_embed_shell #mc-embedded-subscribe-form {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.footer .contact-section #mc_embed_shell #mc_embed_signup_scroll {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 250px;
+	align-items: center;
+	gap: 20px;
+}
+.footer .contact-section #mc_embed_shell #mc_embed_signup .mc-field-group {
+	width: auto !important;
+	min-height: 0 !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+.footer .contact-section #mc_embed_shell #mc_embed_signup input.email {
+	margin: 0 !important;
+	width: 100% !important;
+	min-height: 52px;
+	height: 52px;
+	padding: 12px 16px !important;
+	font-family: "Montserrat", sans-serif;
+	font-size: 34px;
+	font-weight: 400;
+	line-height: 1;
+	color: var(--dark-gray);
+	border: 1px solid var(--dark-gray) !important;
+	background: transparent !important;
+}
+.footer .contact-section #mc_embed_shell #mc_embed_signup .clear {
+	display: flex;
+	margin: 0 !important;
+}
+/* .footer .contact-section #mc_embed_shell #mc_embed_signup .button,
+.footer .contact-section #mc_embed_shell #mc-embedded-subscribe {
+	margin: 0 !important;
+	width: 100% !important;
+	max-width: none !important;
+	min-height: 52px;
+	height: 52px;
+	padding: 10px 20px !important;
+	border: none !important;
+	border-radius: 0 !important;
+	font-family: "Montserrat", sans-serif;
+	font-size: 40px;
+	font-weight: 500;
+	line-height: 1;
+	background: var(--red) !important;
+	color: var(--light) !important;
+	transition: opacity .3s ease;
+}
+.footer .contact-section #mc_embed_shell #mc_embed_signup .button:hover,
+.footer .contact-section #mc_embed_shell #mc-embedded-subscribe:hover {
+	opacity: .8;
+} */
 .footer .form-success-message {
 	border: 4px solid #000;
 	top: -15px;
@@ -2852,6 +2970,9 @@ footer {
 	.footer .contact-section form {
 		max-width: 100%;
 	}
+	.footer .contact-section #mc_embed_shell #mc_embed_signup_scroll {
+		grid-template-columns: 1fr;
+	}
 	.footer .form-success-message {
 		top: -30px;
 		min-height: 100px;
@@ -3192,6 +3313,11 @@ footer {
 		font-size: 64px;
 	}
 
+	/* 404 */
+	.error-section .title-section {
+		font-size: 96px;
+	}
+
 	/* footer */
 	.footer-wrap {
 		grid-template-columns: repeat(4, 1fr);
@@ -3247,4 +3373,52 @@ footer {
 	.blog-slider {
 		padding-left: 20px;
 	}
+}
+
+/* =========================================
+   .prose — formatted rich-text content
+   Restores heading/list styles reset by reset.css
+   ========================================= */
+.prose {
+    line-height: 1.7;
+}
+.prose p {
+    margin: 0 0 1em;
+}
+.prose h1, .prose h2, .prose h3,
+.prose h4, .prose h5, .prose h6 {
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 1.5em 0 0.5em;
+}
+.prose h1 { font-size: 2em; }
+.prose h2 { font-size: 1.6em; }
+.prose h3 { font-size: 1.35em; }
+.prose h4 { font-size: 1.15em; }
+.prose h5 { font-size: 1em; }
+.prose h6 { font-size: 0.9em; }
+.prose ul {
+    list-style: disc;
+    margin: 0 0 1em;
+    padding-left: 1.6em;
+}
+.prose ol {
+    list-style: decimal;
+    margin: 0 0 1em;
+    padding-left: 1.6em;
+}
+.prose ul li,
+.prose ol li {
+    list-style: inherit;
+    margin: 0 0 0.3em;
+}
+.prose strong { font-weight: 700; }
+.prose em     { font-style: italic; }
+.prose a      { color: var(--primary); text-decoration: underline; }
+.prose blockquote {
+    border-left: 3px solid var(--primary);
+    padding-left: 1em;
+    margin: 1em 0;
+    font-style: italic;
+    color: var(--gray);
 }

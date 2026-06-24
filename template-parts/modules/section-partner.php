@@ -1,6 +1,7 @@
 <?php
-$partners       = carbon_get_theme_option( 'partners' );
-$section_title  = carbon_get_theme_option( 'partners_section_title' );
+$prefix         = $args['is_home'] ? 'front_' : '';
+$partners       = carbon_get_theme_option( "{$prefix}partners" );
+$section_title  = carbon_get_theme_option( "{$prefix}partners_section_title" );
 
 if ( empty( $partners ) ) {
     return;
@@ -22,7 +23,7 @@ if ( empty( $partners ) ) {
             <?php
             foreach( $partners as $item ) :
             ?>
-            <img src="<?php echo esc_url( $item['partner_image'] )?>" alt="<?php echo esc_attr( $item['partner_image'] )?>">
+            <img src="<?php echo esc_url( $item["{$prefix}partner_image"] )?>" alt="<?php echo esc_attr( $item["{$prefix}partner_name"] )?>">
             <?php
             endforeach;
             ?>

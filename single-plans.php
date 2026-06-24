@@ -3,7 +3,8 @@ get_header();
 
 $p_ID               = get_the_ID();
 $thumbnail          = get_the_post_thumbnail_url();
-$title              = get_the_title();
+$title              = carbon_get_post_meta( $p_ID, 'plan_name' );
+$title              = ! empty( $title ) ? $title : get_the_title();
 $photos             = carbon_get_post_meta( $p_ID, 'plan_photos' );
 $manufacturer       = carbon_get_post_meta( $p_ID, 'plan_manufacturer' );
 $series             = carbon_get_post_meta( $p_ID, 'plan_series' );
@@ -192,11 +193,11 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                     endif;
 
                     if ( ! empty( $description ) ) :
-                        echo wpautop( $description );
+                        echo '<div class="prose">' . wpautop( $description ) . '</div>';
                     endif;
 
                     if ( ! empty( $content ) ) :
-                        echo $content;
+                        echo '<div class="prose">' . $content . '</div>';
                     endif;
                     ?>
                 </div>

@@ -16,11 +16,6 @@ function hb2_meta_fields() {
         'singular_name' => __( 'Slider items', 'home-boys-2' ),
     ];
 
-    $states_labels = [
-        'plural_name'   => __( 'States', 'home-boys-2' ),
-        'singular_name' => __( 'State', 'home-boys-2' ),
-    ];
-
     $partners_labels = [
         'plural_name'   => __( 'Partners', 'home-boys-2' ),
         'singular_name' => __( 'Partner', 'home-boys-2' ),
@@ -83,7 +78,7 @@ function hb2_meta_fields() {
         2 => __( 'SOLD mark', 'home-boys-2' ),
     ];
 
-    $locations_opt = hb2_get_locations_options();   
+    $locations_opt = hb2_get_locations_options();
 
     // Hero variable section
     Container::make( 'post_meta', __( 'Hero', 'home-boys-2' ) )
@@ -113,66 +108,6 @@ function hb2_meta_fields() {
                         ->set_default_value(236)
                         ->set_width(25)   
                 ) )
-                ->add_fields( 'home', __( 'Home style', 'home-boys-2' ), array(
-                    Field::make( 'complex', 'home_hero_slider', __( 'Slider', 'home-boys-2' ) )
-                        ->setup_labels( $slider_labels )
-                        ->set_collapsed( true )
-                        ->add_fields( array(
-                            Field::make( 'image', 'slide', __( 'Slide', 'home-boys-2' ) )
-                        ) ),
-                    Field::make( 'checkbox', 'include_filter', __( 'Include filter', 'home-boys-2' ) )
-                        ->set_width( 25 )
-                        ->set_default_value( 'yes' ),
-                    Field::make( 'text', 'hero_filter_title', __( 'Filter title', 'home-boys-2' ) )
-                        ->set_width( 75 )
-                        ->set_default_value( 'Find Your Manufactured Home' )
-                        ->set_conditional_logic( array(
-                            array(
-                                'field'   => 'include_filter',
-                                'value'   => true,
-                            )
-                        ) )
-                ) )
-        )
-    );
-
-    // Welcome Section ( front page )
-    Container::make( 'post_meta', __( 'Welcome section', 'home-boys-2' ) )
-        ->where( 'post_id', '=', get_option( 'page_on_front' ) )
-        ->add_fields( array(
-            Field::make( 'separator', 'welcome_heading_block_separate', __( 'Heading', 'home-boys-2' ) ),
-            Field::make( 'text', 'welcome_small_title', __( 'Small title', 'home-boys-2' ) )
-                ->set_default_value( 'Welcome to' ),
-            Field::make( 'text', 'welcome_main_title', __( 'Main title', 'home-boys-2' ) )
-                ->set_default_value( 'The Home Boys' ),
-            Field::make( 'textarea', 'welcome_description_top', __( 'Top description text', 'home-boys-2' ) ),
-            Field::make( 'separator', 'welcome_delivering_block_separate', __( 'Delivering block', 'home-boys-2' ) ),
-            Field::make( 'text', 'welcome_delivering_title', __( 'Block title', 'home-boys-2' ) )
-                ->set_default_value( 'Delivering to' ),
-            Field::make( 'complex', 'welcome_states', __( 'Delivering', 'home-boys-2' ) )
-                ->set_collapsed( true )
-                ->set_max( 5 )
-                ->setup_labels( $states_labels )
-                ->add_fields( array(
-                    Field::make( 'text', 'st_name', __( 'Name', 'home-boys-2' ) )
-                        ->set_width( 70 )
-                        ->set_required( true ),
-                    Field::make( 'image', 'st_image', __( 'Image', 'home-boys-2' ) )
-                        ->set_width( 30 )
-                        ->set_value_type( 'url' )
-                        ->set_required( true )
-                ) )
-                ->set_header_template( '
-                    <% if (st_name) { %>
-                        <%- st_name %>
-                    <% } %>
-                ' ),
-            Field::make( 'separator', 'welcome_video_block_separate', __( 'Video block', 'home-boys-2' ) ),
-            Field::make( 'text', 'welcome_video_embed_url', __( 'Embed source url', 'home-boys-2' ) )
-                ->set_default_value( 'https://www.youtube.com/embed/GNLO3jhL02w' ),
-            Field::make( 'text', 'welcome_video_iframe_title', __( 'Iframe title', 'home-boys-2' ) )
-                ->set_default_value( 'YouTube video player' ),
-            Field::make( 'textarea', 'welcome_description_bottom', __( 'bottom description text', 'home-boys-2' ) ),
         )
     );
 
@@ -247,14 +182,6 @@ function hb2_meta_fields() {
         )
     );
 
-    Container::make( 'post_meta', __( 'Is Soild', 'home-boys-2' ) )
-        ->where( 'post_type', 'IN', ['plans', 'galleries'] )
-        ->set_context( 'side' )
-        ->add_fields( array(
-            Field::make( 'checkbox', 'is_sold', __( 'Mark as Sold', 'home-boys-2' ) ),
-        )
-    );
-
     // Stories post type meta
     Container::make( 'post_meta', __( 'Story content', 'home-boys-2' ) )
         ->where( 'post_type', '=', 'stories' )
@@ -279,42 +206,36 @@ function hb2_meta_fields() {
         ->where( 'post_type', '=', 'galleries' )
         ->add_fields( array(
             Field::make( 'text', 'gallery_name', __( 'Gallery Name', 'home-boys-2' ) )
+                ->set_width( 75 ),
+            Field::make( 'text', 'gallery_order', __( 'Display Order', 'home-boys-2' ) )
+                ->set_default_value( '3' )
+                ->set_attribute( 'type', 'number' )
+                ->set_width( 25 )
                 ->set_required( true ),
+            Field::make( 'text', 'gallery_beds', __( 'Bedrooms', 'home-boys-2' ) )
+                ->set_width(50)
+                ->set_attribute( 'type', 'number' ),
+            Field::make( 'text', 'gallery_baths', __( 'Bathrooms', 'home-boys-2' ) )
+                ->set_width(50)
+                ->set_attribute( 'type', 'number' ),
+            Field::make( 'text', 'gallery_size', __( 'Size', 'home-boys-2' ) )
+                ->set_width(50)
+                ->help_text( 'ft<sup>2</sup>' )
+                ->set_attribute( 'type', 'number' ),
+            Field::make( 'text', 'gallery_price', __( 'Price', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
+                ->set_width(50),    
             Field::make( 'select', 'gallery_series', __( 'Series', 'home-boys-2' ) )
                 ->add_options( $plan_series_opt )
                 ->set_width(50),
             Field::make( 'select', 'gallery_manufacturer', __( 'Manufacturer', 'home-boys-2' ) )
                 ->add_options( $plan_manufacturer_opt )
                 ->set_width(50),
-            Field::make( 'complex', 'gallery_video_embeds', __( 'Video embeds', 'home-boys-2' ) )
-                ->set_collapsed( true )
-                ->setup_labels( $embeds_labels )
-                ->add_fields( array(
-                    Field::make( 'text', 'gve_title', __( 'Title', 'home-boys-2' ) ),
-                    Field::make( 'textarea', 'gve_code', __( 'Embed code', 'home-boys-2' ) )
-                        ->set_required( true ),
-                ) )
-                ->set_header_template( '
-                    <% if (gve_title) { %>
-                        <%- gve_title %>
-                    <% } %>
-                ' ),
-            Field::make( 'complex', 'gallery_tours', __( 'Tour embeds', 'home-boys-2' ) )
-                ->set_collapsed( true )
-                ->setup_labels( $embeds_labels )
-                ->add_fields( array(
-                    Field::make( 'text', 'gvt_title', __( 'Title', 'home-boys-2' ) ),
-                    Field::make( 'text', 'gvt_url', __( 'Tour URL', 'home-boys-2' ) )
-                        ->set_required( true ),
-                ) )
-                ->set_header_template( '
-                    <% if (gvt_title) { %>
-                        <%- gvt_title %>
-                    <% } %>
-                ' ),
+            Field::make( 'textarea', 'gallery_matterport_embed', __( 'Matterport Embed Code', 'home-boys-2' ) ),
+            Field::make( 'textarea', 'gallery_youtube_embed', __( 'YouTube Embed Code', 'home-boys-2' ) ),
             Field::make( 'textarea', 'gallery_description', __( 'Gallery Description', 'home-boys-2' ) ),
             Field::make( 'media_gallery', 'gallery_photos', __( 'Gallery Photos', 'home-boys-2' ) )
-                ->help_text( __( 'First photo will be featured', 'home-boys-2' ) ),    
+                ->help_text( __( 'First photo will be featured', 'home-boys-2' ) ),
         )
     );
 
@@ -328,25 +249,6 @@ function hb2_meta_fields() {
     //     )
     // );
 
-    // Contacts page
-    Container::make( 'post_meta', __( 'Shedules', 'home-boys-2' ) )
-        ->where( 'post_template', '=', 'contacts-template.php' )
-        ->add_fields( array(
-            Field::make( 'complex', 'shedule_strings', __( 'Contancts Shedule Strings', 'home-boys-2' ) )
-                ->set_collapsed( true )
-                ->setup_labels( $shedule_labels )
-                ->add_fields( array(
-                    Field::make( 'text', 'shedule_item', __( 'Shedule', 'home-boys-2' ) )
-                        ->set_required( true )
-                ) )
-                ->set_header_template( '
-                    <% if (shedule_item) { %>
-                        <%- shedule_item %>
-                    <% } %>
-                ' )
-        )
-    );
-
     // Page Titles
     Container::make( 'post_meta', __( 'Page Titles', 'home-boys-2' ) )
         ->where( 'post_template', 'IN', ['process-template.php', 'about-template.php', 'contacts-template.php'] )
@@ -357,28 +259,28 @@ function hb2_meta_fields() {
     );
 
     // Process Template
-    Container::make( 'post_meta', __( 'Process items block', 'home-boys-2' ) )
-        ->where( 'post_template', '=', 'process-template.php' )
-        ->add_fields( array(
-            Field::make( 'checkbox', 'include_process_posts', __( 'Include Process Items', 'home-boys-2' ) )
-                ->set_width( 25 ),
-            Field::make( 'text', 'process_block_title', __( 'Process Items Block title', 'home-boys-2' ) )
-                ->set_width( 75 )
-                ->set_conditional_logic( array(
-                    array(
-                        'field' => 'include_process_posts',
-                        'value' => true,
-                    )
-                ) ),
-            Field::make( 'textarea', 'process_block_desc', __( 'Process Items Block description', 'home-boys-2' ) )
-                ->set_conditional_logic( array(
-                    array(
-                        'field' => 'include_process_posts',
-                        'value' => true,
-                    )
-                ) ),
-        )
-    );
+    // Container::make( 'post_meta', __( 'Process items block', 'home-boys-2' ) )
+    //     ->where( 'post_template', '=', 'process-template.php' )
+    //     ->add_fields( array(
+    //         Field::make( 'checkbox', 'include_process_posts', __( 'Include Process Items', 'home-boys-2' ) )
+    //             ->set_width( 25 ),
+    //         Field::make( 'text', 'process_block_title', __( 'Process Items Block title', 'home-boys-2' ) )
+    //             ->set_width( 75 )
+    //             ->set_conditional_logic( array(
+    //                 array(
+    //                     'field' => 'include_process_posts',
+    //                     'value' => true,
+    //                 )
+    //             ) ),
+    //         Field::make( 'textarea', 'process_block_desc', __( 'Process Items Block description', 'home-boys-2' ) )
+    //             ->set_conditional_logic( array(
+    //                 array(
+    //                     'field' => 'include_process_posts',
+    //                     'value' => true,
+    //                 )
+    //             ) ),
+    //     )
+    // );
     
     // Guidelines Template
     Container::make( 'post_meta', __( 'Page meta', 'home-boys-2' ) )
@@ -497,9 +399,11 @@ function hb2_meta_fields() {
     );
 
     // Process post type meta
-    Container::make( 'post_meta', __( 'Process data', 'home-boys-2' ) )
+    Container::make( 'post_meta', __( 'Finannsing data', 'home-boys-2' ) )
         ->where( 'post_type', '=', 'process' )
         ->add_fields( array(
+            Field::make( 'text', 'process_order', __( 'Display Order', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' ),
             Field::make( 'complex', 'process_contacts', __( 'Contacts', 'home-boys-2' ) )
                 ->set_collapsed( true )
                 ->setup_labels( $contacts_labels )

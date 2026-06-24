@@ -1,0 +1,21 @@
+/* =========================================
+   Home Boys 2 — Admin customizations
+   ========================================= */
+
+/* Hide preview button and permalink row for post types without a frontend */
+.post-type-employees #post-preview,
+.post-type-employees #edit-slug-box {
+    display: none !important;
+}
+
+/* Make media gallery fields resizable vertically */
+.cf-media-gallery__list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-content: flex-start;
+    box-sizing: border-box;
+    height: 455px;
+    overflow-y: auto !important;
+    resize: vertical !important;
+    max-height: none !important;
+}

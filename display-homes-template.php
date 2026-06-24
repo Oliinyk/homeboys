@@ -26,11 +26,11 @@ $plans_query_args = [
                 'compare' => '=',
             ],
         ],
-        'sold_column' => [
-            'key'     => '_is_sold',
-            'value'   => 'yes',
-            'compare' => '!=',
-        ],
+        // 'sold_column' => [
+        //     'key'     => '_is_sold',
+        //     'value'   => 'yes',
+        //     'compare' => '!=',
+        // ],
     ],
     'orderby' => [
         'order_column' => 'ASC',
@@ -152,7 +152,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                             ?>
                                 <div class="label danger">
                                     <span class="label-top">On Display</span>
-                                    <span><?php echo esc_html( $location ); ?></span>
+                                    <span><?php echo wp_kses_post( $location ); ?></span>
                                 </div>
                             <?php endif; ?>
                         </div>

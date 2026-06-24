@@ -6,9 +6,10 @@
 $p_id         = get_the_ID();
 $id_param     = ['id' => $p_id];
 $content      = get_the_content();
+$per_page     = isset( $_GET['per_page'] ) ? intval( $_GET['per_page'] ) : get_option( 'posts_per_page' );
 $query_params = [
     'post_type'      => 'blogposts',
-    'posts_per_page' => get_option( 'posts_per_page' ),
+    'posts_per_page' => $per_page,
     'orderby'        => 'date',
     'order'          => 'DESC',
 ];
@@ -74,6 +75,8 @@ get_template_part( 'template-parts/modules/section', 'hero', $id_param );
             ?>
             </div>
             <?php
+
+            get_template_part( 'template-parts/modules/__show-all-button', null );
         endif;
         ?>
     </div>

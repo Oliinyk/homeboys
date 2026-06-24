@@ -1,11 +1,13 @@
 <?php
-$current = get_the_ID();
-$use_display_lots = (bool) carbon_get_theme_option( 'similar_homes_use_display_lots' );
+$current             = get_the_ID();
+$use_display_homes   = (bool) carbon_get_theme_option( 'similar_homes_use_display_lots' );
+$origin_id           = isset( $args['id'] ) ? intval( $args['id'] ) : $current;
+$origin_price        = carbon_get_post_meta( $origin_id, 'plan_price' );
 
 $q_params = [
     'post_status'       => 'publish',
     'post_type'         => 'plans',
-    'posts_per_page'    => 2, //get_option( 'posts_per_page' )
+    'posts_per_page'    => 2,
     'post__not_in'      => [$current],
     'meta_query'     => [
         'relation' => 'AND',
@@ -14,49 +16,42 @@ $q_params = [
             'compare'  => 'EXISTS',
             'type'     => 'DECIMAL',
         ],
-        'sold_column' => [
-            'key'     => '_is_sold',
-            'value'   => 'yes',
-            'compare' => '!=',
+        [
+            'relation' => 'OR',
+            [
+                'key'     => '_is_sold',
+                'value'   => 'yes',
+                'compare' => '!=',
+            ],
+            [
+                'key'     => '_is_sold',
+                'compare' => 'NOT EXISTS',
+            ],
         ],
     ],
     'order'   => 'DESC',
     'orderby' => 'price_column',
 ];
 
-if ( $use_display_lots ) {
-    $q_params['meta_query'] = [
-        'relation' => 'AND',
-        'order_column' => [
-            'key'     => '_plan_order',
-            'compare' => 'EXISTS',
-        ],
-        'location_column' => [
-            'key'     => '_plan_location',
-            'value'   => '-1',
-            'compare' => 'NOT LIKE',
-        ],
-        'sold_column' => [
-            'key'     => '_is_sold',
-            'value'   => 'yes',
-            'compare' => '!=',
-        ],
+if ( ! empty( $origin_price ) ) {
+    $price_param = [
+        'key'     => '_plan_price',
+        'compare' => 'BETWEEN',
+        'value'   => [ intval( $origin_price ) - 50000, intval( $origin_price ) + 50000 ],
+        'type'    => 'SIGNED',
     ];
-    $q_params['order'] = 'ASC';
-    $q_params['orderby'] = 'order_column';
-} elseif ( isset( $args['id'] ) ) {
-    $orient_price = carbon_get_post_meta( $args['id'], 'plan_price' );
 
-    if ( ! empty( $orient_price ) ) {
-        $price_param = [
-            'key'     => '_plan_price',
-            'compare' => 'BETWEEN',
-            'value'   => [ intval($orient_price)-5000, intval($orient_price)+5000 ],
-            'type'    => 'SIGNED',
-        ];
+    array_push( $q_params['meta_query'], $price_param );
+}
 
-        array_push( $q_params['meta_query'], $price_param );
-    }
+if ( $use_display_homes ) {
+    $display_homes_param = [
+        'key'     => '_plan_location',
+        'value'   => '-1',
+        'compare' => 'NOT LIKE',
+    ];
+
+    array_push( $q_params['meta_query'], $display_homes_param );
 }
 
 $posts = new WP_Query( $q_params );
