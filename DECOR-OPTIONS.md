@@ -70,6 +70,10 @@ shadow root і не торкаються нашої теми.
 - Golden West — ліве меню `[data-option="#панель"]`: розкриття підменю + показ панелі.
 - Marlette — таби Bootstrap 5 (`data-bs-toggle/target`): Interior / Exterior.
 - Cavco — таби Bootstrap 4 (категорії) + кошик «Select / Final Selection».
+- **Лайтбокс** (усі три) — клік по фото відкриває повне зображення в оверлеї. Джерело
+  повного фото: `data-image` (Golden West, абсолютизується в PHP), `data-modal-image`
+  (Marlette), `href` посилання `a[data-fancybox]` (Cavco). Оверлей рендериться в `<body>`
+  (наш UI, світлий DOM), а не в shadow root.
 
 ---
 

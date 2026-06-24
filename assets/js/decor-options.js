@@ -226,6 +226,78 @@
 		} );
 	}
 
+	/**
+	 * Re-create the donors' image lightbox.
+	 *
+	 * Each donor opens a larger photo on click via its own (stripped) JS:
+	 * Golden West uses `[data-image]`, Marlette a Bootstrap modal trigger
+	 * `[data-modal-image]`, Cavco a fancybox link `a[data-fancybox]` (href is the
+	 * full image). We attach our own handler that opens a shared overlay.
+	 *
+	 * @param {ShadowRoot} root Shadow root holding the injected content.
+	 */
+	function wireLightbox( root ) {
+		var triggers = root.querySelectorAll( '[data-image], [data-modal-image], a[data-fancybox]' );
+
+		Array.prototype.forEach.call( triggers, function ( trigger ) {
+			trigger.style.cursor = 'zoom-in';
+			trigger.addEventListener( 'click', function ( event ) {
+				var url = trigger.getAttribute( 'data-modal-image' )
+					|| trigger.getAttribute( 'data-image' )
+					|| trigger.getAttribute( 'href' )
+					|| '';
+				if ( ! url || 0 === url.indexOf( '#' ) ) {
+					return;
+				}
+				event.preventDefault();
+				event.stopPropagation();
+				openLightbox( url, trigger.getAttribute( 'title' ) || '' );
+			} );
+		} );
+	}
+
+	var lightbox = null;
+
+	/** Open (creating once) the shared full-screen image overlay. */
+	function openLightbox( url, caption ) {
+		if ( ! lightbox ) {
+			lightbox = document.createElement( 'div' );
+			lightbox.className = 'decor-lightbox';
+			lightbox.setAttribute( 'hidden', '' );
+			lightbox.innerHTML =
+				'<button type="button" class="decor-lightbox-close" aria-label="Close">&times;</button>'
+				+ '<figure class="decor-lightbox-figure">'
+				+ '<img class="decor-lightbox-img" alt="">'
+				+ '<figcaption class="decor-lightbox-caption"></figcaption>'
+				+ '</figure>';
+			document.body.appendChild( lightbox );
+
+			lightbox.addEventListener( 'click', function ( event ) {
+				if ( event.target === lightbox || event.target.classList.contains( 'decor-lightbox-close' ) ) {
+					closeLightbox();
+				}
+			} );
+			document.addEventListener( 'keydown', function ( event ) {
+				if ( 'Escape' === event.key ) {
+					closeLightbox();
+				}
+			} );
+		}
+
+		lightbox.querySelector( '.decor-lightbox-img' ).setAttribute( 'src', url );
+		var cap = lightbox.querySelector( '.decor-lightbox-caption' );
+		cap.textContent = caption;
+		cap.style.display = caption ? '' : 'none';
+		lightbox.removeAttribute( 'hidden' );
+	}
+
+	function closeLightbox() {
+		if ( lightbox ) {
+			lightbox.setAttribute( 'hidden', '' );
+			lightbox.querySelector( '.decor-lightbox-img' ).setAttribute( 'src', '' );
+		}
+	}
+
 	function panelFor( key ) {
 		return panels.filter( function ( p ) {
 			return p.dataset.key === key;
@@ -262,6 +334,7 @@
 					wireShadowTabs( shadow );
 					wireDecorBoard( shadow );
 					wireOptionMenu( shadow );
+					wireLightbox( shadow );
 				} else {
 					// Very old browsers: fall back to inline (styles may leak).
 					host.innerHTML = markup;

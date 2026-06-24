@@ -333,7 +333,7 @@ function hb2_decor_extract( $html, $base_url, $selector = null ) {
  */
 function hb2_decor_absolutize_node( $node, $base ) {
 	$xpath    = new DOMXPath( $node->ownerDocument );
-	$url_attrs = array( 'src', 'href', 'poster', 'data-src', 'data-lazy-src', 'data-bg' );
+	$url_attrs = array( 'src', 'href', 'poster', 'data-src', 'data-lazy-src', 'data-bg', 'data-image', 'data-modal-image' );
 
 	$elements = array( $node );
 	foreach ( $xpath->query( './/*', $node ) as $el ) {
