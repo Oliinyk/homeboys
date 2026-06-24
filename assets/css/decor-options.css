@@ -1,0 +1,51 @@
+/* Decor Options — tab behaviour overrides + isolated panels.
+ *
+ * The tabs reuse the Display Homes location-box styles (.location-list /
+ * .location-list-item in style.css) so there is a single source of truth — only
+ * the bits specific to Decor Options live here. */
+
+/* Tabs are <button>s reusing .location-list-item; reset native button chrome. */
+.decor-tab {
+	width: 100%;
+	margin: 0;
+	font: inherit;
+	cursor: pointer;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.decor-tab:focus-visible {
+	outline: 2px solid var(--primary);
+	outline-offset: 2px;
+}
+
+/* The hero location-list hides non-active items on mobile (location selector
+ * behaviour). Here every tab must stay visible, so override that. */
+.hero-section .decor-tabs .location-list-item {
+	display: flex;
+}
+
+/* Full-width content area for the proxied manufacturer pages. */
+.decor-panels,
+.decor-panel,
+.decor-shadow-host {
+	display: block;
+	width: 100%;
+}
+
+.decor-panel[hidden] {
+	display: none;
+}
+
+.decor-loading,
+.decor-placeholder,
+.decor-error {
+	padding: 60px 0;
+	text-align: center;
+	font-size: 18px;
+	color: #555;
+}
+
+.decor-error {
+	color: var(--primary);
+}

@@ -217,6 +217,11 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/custom-actions.php';
 
 /**
+ * Decor Options — partner manufacturer decor pages proxied into tabs.
+ */
+require get_template_directory() . '/inc/decor-options.php';
+
+/**
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
