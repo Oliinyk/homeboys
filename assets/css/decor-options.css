@@ -19,11 +19,6 @@
 	outline-offset: 2px;
 }
 
-/* The hero location-list hides non-active items on mobile (location selector
- * behaviour). Here every tab must stay visible, so override that. */
-.hero-section .decor-tabs .location-list-item {
-	display: flex;
-}
 
 /* Full-width content area for the proxied manufacturer pages. */
 .decor-panels {
@@ -95,9 +90,16 @@
 	letter-spacing: 0.5px;
 }
 
-@media (max-width: 767px) {
-	.decor-tabs.location-bottom {
-		display: none;
+/* Bottom tabs: mirror .gallery-section behavior from display-homes.
+ * Mobile: hide the active tab (you're already on it), show the others.
+ * Desktop: show all tabs. */
+.decor-tabs.location-bottom .location-list-item.active {
+	display: none;
+}
+
+@media (min-width: 768px) {
+	.decor-tabs.location-bottom .location-list-item.active {
+		display: flex;
 	}
 }
 

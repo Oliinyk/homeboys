@@ -409,7 +409,10 @@
 					markup += '<link rel="stylesheet" href="' + href + '">';
 				} );
 				if ( panel.dataset.key === 'cavco' ) {
-					markup += '<style>.elementor-element-91b50b4{margin-top:0!important}</style>';
+					markup += '<style>'
+						+ '.elementor-element-91b50b4{margin-top:0!important}'
+						+ '.elementor-element-91b50b4>.elementor-container{min-height:400px!important}'
+						+ '</style>';
 				}
 				if ( panel.dataset.key === 'goldenwest' ) {
 					markup += '<style>'
