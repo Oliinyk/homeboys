@@ -84,6 +84,30 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
 	</div>
 </section>
 
+<div class="container">
+	<div class="location-list decor-tabs location-bottom" role="tablist">
+		<?php
+		$i = 0;
+		foreach ( $manufacturers as $key => $m ) :
+			$is_active = ( 0 === $i );
+			?>
+			<div
+				class="location-list-item decor-tab<?php echo $is_active ? ' active' : ''; ?>"
+				role="tab"
+				aria-selected="<?php echo $is_active ? 'true' : 'false'; ?>"
+				aria-controls="decor-panel-<?php echo esc_attr( $key ); ?>"
+				data-key="<?php echo esc_attr( $key ); ?>"
+			>
+				<h4 class="location-title"><?php echo esc_html( $m['name'] ); ?></h4>
+				<p class="location-subtitle">Decor Options</p>
+			</div>
+			<?php
+			$i++;
+		endforeach;
+		?>
+	</div>
+</div>
+
 <?php
 // Contact section.
 get_template_part( 'template-parts/modules/section', 'contact' );

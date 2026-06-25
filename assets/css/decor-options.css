@@ -95,6 +95,12 @@
 	letter-spacing: 0.5px;
 }
 
+@media (max-width: 767px) {
+	.decor-tabs.location-bottom {
+		display: none;
+	}
+}
+
 .decor-lightbox-close {
 	position: absolute;
 	top: 20px;
