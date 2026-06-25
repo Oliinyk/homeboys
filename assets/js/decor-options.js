@@ -87,13 +87,14 @@
 	 * @param {ShadowRoot} root Shadow root holding the injected content.
 	 */
 	function wireDecorBoard( root ) {
-		var buttons = root.querySelectorAll( '.decor-image-selector' );
-
-		Array.prototype.forEach.call( buttons, function ( btn ) {
+		Array.prototype.forEach.call( root.querySelectorAll( '.decor-image-selector' ), function ( btn ) {
+			if ( btn.closest( '.finalrow' ) ) {
+				return; // Final Selection clones get their own handler.
+			}
 			btn.removeAttribute( 'onclick' );
 			btn.addEventListener( 'click', function () {
 				if ( btn.classList.contains( 'btn-danger' ) ) {
-					decorDeselect( root, btn );
+					decorClearSelection( root, decorGallery( btn ) );
 				} else {
 					decorSelect( root, btn );
 				}
@@ -137,35 +138,64 @@
 		// One selection per category.
 		decorClearFinal( root, gallery );
 
-		var container = document.createElement( 'div' );
-		container.className = 'final-result-container';
-		container.setAttribute( 'data-group', gallery );
-		container.setAttribute( 'data-id', id );
-		var inner = item.querySelector( '.decor-board-inner-image-container' );
-		if ( inner ) {
-			container.appendChild( inner.cloneNode( true ) );
-		}
-		finalrow.appendChild( container );
+		// Clone the whole swatch (keeps the donor's spacing/margins) into the
+		// Final Selection, turning its button into a working Remove.
+		var clone = item.cloneNode( true );
+		clone.classList.add( 'final-result-container' );
+		clone.setAttribute( 'data-group', gallery );
+		clone.setAttribute( 'data-id', id );
+		clone.style.opacity = '1';
 
-		// This swatch becomes "Remove"; the rest of the category resets to "Select".
-		Array.prototype.forEach.call( group.querySelectorAll( '.decor-image-selector' ), function ( b ) {
-			if ( b === btn ) {
-				b.classList.remove( 'btn-info' );
-				b.classList.add( 'btn-danger' );
-				b.textContent = 'Remove';
+		var cloneBtn = clone.querySelector( '.decor-image-selector' );
+		if ( cloneBtn ) {
+			cloneBtn.removeAttribute( 'onclick' );
+			cloneBtn.classList.remove( 'btn-info' );
+			cloneBtn.classList.add( 'btn-danger' );
+			cloneBtn.textContent = 'Remove';
+			cloneBtn.addEventListener( 'click', function () {
+				decorClearSelection( root, gallery );
+			} );
+		}
+		finalrow.appendChild( clone );
+		wireLightbox( clone ); // re-enable zoom on the cloned image
+
+		// Selected swatch: full opacity + Remove. The rest: dimmed + Select.
+		Array.prototype.forEach.call( group.querySelectorAll( '.decor-board-image-container' ), function ( c ) {
+			var b = c.querySelector( '.decor-image-selector' );
+			if ( c === item ) {
+				c.style.opacity = '1';
+				if ( b ) {
+					b.classList.remove( 'btn-info' );
+					b.classList.add( 'btn-danger' );
+					b.textContent = 'Remove';
+				}
 			} else {
+				c.style.opacity = '0.3';
+				if ( b ) {
+					b.classList.remove( 'btn-danger' );
+					b.classList.add( 'btn-info' );
+					b.textContent = 'Select';
+				}
+			}
+		} );
+	}
+
+	/** Remove a category's pick: drop the Final Selection clone, reset the swatches. */
+	function decorClearSelection( root, gallery ) {
+		decorClearFinal( root, gallery );
+		var group = root.getElementById( 'tab-decorgroup_' + gallery );
+		if ( ! group ) {
+			return;
+		}
+		Array.prototype.forEach.call( group.querySelectorAll( '.decor-board-image-container' ), function ( c ) {
+			c.style.opacity = '1';
+			var b = c.querySelector( '.decor-image-selector' );
+			if ( b ) {
 				b.classList.remove( 'btn-danger' );
 				b.classList.add( 'btn-info' );
 				b.textContent = 'Select';
 			}
 		} );
-	}
-
-	function decorDeselect( root, btn ) {
-		decorClearFinal( root, decorGallery( btn ) );
-		btn.classList.remove( 'btn-danger' );
-		btn.classList.add( 'btn-info' );
-		btn.textContent = 'Select';
 	}
 
 	/**
