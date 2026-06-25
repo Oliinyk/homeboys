@@ -26,6 +26,10 @@
 }
 
 /* Full-width content area for the proxied manufacturer pages. */
+.decor-panels {
+	padding: 0;
+}
+
 .decor-panels,
 .decor-panel,
 .decor-shadow-host {

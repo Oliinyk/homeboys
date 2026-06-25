@@ -207,14 +207,17 @@ add_action( 'rest_api_init', function () {
 				if ( null === $payload ) {
 					return new WP_Error( 'hb2_decor_unknown', 'Unknown manufacturer', array( 'status' => 404 ) );
 				}
+				$manufacturers = hb2_decor_manufacturers();
+				$base_url = isset( $manufacturers[ $request['key'] ]['url'] ) ? $manufacturers[ $request['key'] ]['url'] : '';
 				return rest_ensure_response(
 					array(
-						'html'    => $payload['html'],
-						'styles'  => $payload['styles'],
-						'fetched' => isset( $payload['fetched'] ) ? $payload['fetched'] : 0,
-						'checked' => isset( $payload['checked'] ) ? $payload['checked'] : 0,
-						'changed' => isset( $payload['changed'] ) ? $payload['changed'] : 0,
-						'error'   => $payload['error'],
+						'html'     => $payload['html'],
+						'styles'   => $payload['styles'],
+						'base_url' => $base_url,
+						'fetched'  => isset( $payload['fetched'] ) ? $payload['fetched'] : 0,
+						'checked'  => isset( $payload['checked'] ) ? $payload['checked'] : 0,
+						'changed'  => isset( $payload['changed'] ) ? $payload['changed'] : 0,
+						'error'    => $payload['error'],
 					)
 				);
 			},

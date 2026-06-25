@@ -186,19 +186,69 @@
 		}
 
 		var panels = root.querySelectorAll( '[id^="decor-display-panel-"]' );
+		var subMenus = root.querySelectorAll( '[id^="sub-menu-"]' );
+		var subMenuItems = root.querySelectorAll( '[data-option^="#sub-menu-"]' );
 
-		function showPanel( target ) {
-			Array.prototype.forEach.call( panels, function ( p ) {
-				p.style.display = p === target ? 'block' : 'none';
+		function closeAllSubMenus() {
+			Array.prototype.forEach.call( subMenus, function ( sm ) {
+				sm.style.display = 'none';
+				sm.setAttribute( 'data-open', '0' );
 			} );
-			Array.prototype.forEach.call( items, function ( it ) {
+			Array.prototype.forEach.call( subMenuItems, function ( it ) {
 				it.classList.remove( 'active' );
 			} );
 		}
 
-		// Start with only the first panel visible.
+		function openSubMenu( subMenu, parentItem ) {
+			closeAllSubMenus();
+			subMenu.style.display = 'block';
+			subMenu.setAttribute( 'data-open', '1' );
+			parentItem.classList.add( 'active' );
+
+			// Auto-activate the first panel item inside this sub-menu.
+			var firstChild = subMenu.querySelector( '[data-option^="#decor-display-panel-"]' );
+			if ( firstChild ) {
+				var firstSel = firstChild.getAttribute( 'data-option' ).slice( 1 );
+				var firstPanel = root.getElementById( firstSel );
+				if ( firstPanel ) {
+					activatePanel( firstPanel, firstChild );
+				}
+			}
+		}
+
+		function activatePanel( target, item ) {
+			Array.prototype.forEach.call( panels, function ( p ) {
+				p.style.display = p === target ? 'block' : 'none';
+			} );
+			Array.prototype.forEach.call(
+				root.querySelectorAll( '[data-option^="#decor-display-panel-"]' ),
+				function ( it ) { it.classList.remove( 'active' ); }
+			);
+			item.classList.add( 'active' );
+		}
+
+		// Init: open first sub-menu and activate first panel item.
 		if ( panels.length ) {
-			showPanel( panels[ 0 ] );
+			Array.prototype.forEach.call( panels, function ( p ) {
+				p.style.display = 'none';
+			} );
+			panels[ 0 ].style.display = 'block';
+
+			var firstId   = panels[ 0 ].id;
+			var firstItem = root.querySelector( '[data-option="#' + firstId + '"]' );
+			if ( firstItem ) {
+				firstItem.classList.add( 'active' );
+				var parentItem = firstItem.closest( '[data-option^="#sub-menu-"]' );
+				if ( parentItem ) {
+					parentItem.classList.add( 'active' );
+					var smId = parentItem.getAttribute( 'data-option' ).slice( 1 );
+					var sm   = root.getElementById( smId );
+					if ( sm ) {
+						sm.style.display = 'block';
+						sm.setAttribute( 'data-open', '1' );
+					}
+				}
+			}
 		}
 
 		Array.prototype.forEach.call( items, function ( item ) {
@@ -214,13 +264,10 @@
 				}
 
 				if ( 0 === sel.indexOf( '#sub-menu' ) ) {
-					// Toggle a submenu open/closed via inline display.
-					var open = '1' === target.getAttribute( 'data-open' );
-					target.style.display = open ? 'none' : 'block';
-					target.setAttribute( 'data-open', open ? '0' : '1' );
+					// Accordion: open this sub-menu, close all others.
+					openSubMenu( target, item );
 				} else {
-					showPanel( target );
-					item.classList.add( 'active' );
+					activatePanel( target, item );
 				}
 			} );
 		} );
@@ -236,11 +283,11 @@
 	 *
 	 * @param {ShadowRoot} root Shadow root holding the injected content.
 	 */
-	function wireLightbox( root ) {
+	function wireLightbox( root, baseUrl ) {
 		var triggers = root.querySelectorAll( '[data-image], [data-modal-image], a[data-fancybox]' );
 
 		Array.prototype.forEach.call( triggers, function ( trigger ) {
-			trigger.style.cursor = 'zoom-in';
+			trigger.style.cursor = 'pointer';
 			trigger.addEventListener( 'click', function ( event ) {
 				var url = trigger.getAttribute( 'data-modal-image' )
 					|| trigger.getAttribute( 'data-image' )
@@ -248,6 +295,10 @@
 					|| '';
 				if ( ! url || 0 === url.indexOf( '#' ) ) {
 					return;
+				}
+				// Absolutize relative URLs using the donor site's base.
+				if ( baseUrl && 0 !== url.indexOf( 'http' ) && 0 !== url.indexOf( '//' ) ) {
+					url = baseUrl.replace( /\/$/, '' ) + '/' + url.replace( /^\//, '' );
 				}
 				event.preventDefault();
 				event.stopPropagation();
@@ -327,6 +378,17 @@
 				( data.styles || [] ).forEach( function ( href ) {
 					markup += '<link rel="stylesheet" href="' + href + '">';
 				} );
+				if ( panel.dataset.key === 'cavco' ) {
+					markup += '<style>.elementor-element-91b50b4{margin-top:0!important}</style>';
+				}
+				if ( panel.dataset.key === 'goldenwest' ) {
+					markup += '<style>'
+						+ '.app-container{display:flex!important;align-items:stretch!important;height:auto!important;overflow:visible!important}'
+						+ '.main-menu{height:auto!important;overflow:visible!important;flex-shrink:0}'
+						+ '.display-area{height:auto!important;overflow:visible!important;flex:1}'
+						+ '.display-area>div#decor-display-panel-palisade-shower+p{display:none!important}'
+						+ '</style>';
+				}
 				markup += data.html;
 
 				if ( shadow ) {
@@ -334,7 +396,7 @@
 					wireShadowTabs( shadow );
 					wireDecorBoard( shadow );
 					wireOptionMenu( shadow );
-					wireLightbox( shadow );
+					wireLightbox( shadow, data.base_url || '' );
 				} else {
 					// Very old browsers: fall back to inline (styles may leak).
 					host.innerHTML = markup;

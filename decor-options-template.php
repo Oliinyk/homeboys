@@ -36,8 +36,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
 			foreach ( $manufacturers as $key => $m ) :
 				$is_active = ( 0 === $i );
 				?>
-				<button
-					type="button"
+				<div
 					class="location-list-item decor-tab<?php echo $is_active ? ' active' : ''; ?>"
 					role="tab"
 					aria-selected="<?php echo $is_active ? 'true' : 'false'; ?>"
@@ -46,7 +45,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
 				>
 					<h4 class="location-title"><?php echo esc_html( $m['name'] ); ?></h4>
 					<p class="location-subtitle">Decor Options</p>
-				</button>
+			</div>
 				<?php
 				$i++;
 			endforeach;
@@ -56,31 +55,33 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
 </section>
 
 <section class="decor-panels">
-	<?php
-	$i = 0;
-	foreach ( $manufacturers as $key => $m ) :
-		$is_active = ( 0 === $i );
-		?>
-		<div
-			id="decor-panel-<?php echo esc_attr( $key ); ?>"
-			class="decor-panel<?php echo $is_active ? ' active' : ''; ?>"
-			role="tabpanel"
-			data-key="<?php echo esc_attr( $key ); ?>"
-			data-ready="<?php echo ! empty( $m['ready'] ) ? '1' : '0'; ?>"
-			<?php echo $is_active ? '' : 'hidden'; ?>
-		>
-			<?php if ( empty( $m['ready'] ) ) : ?>
-				<div class="decor-placeholder container">
-					<p><?php echo esc_html( $m['name'] ); ?> decor options are coming soon.</p>
-				</div>
-			<?php else : ?>
-				<div class="decor-loading container">Loading <?php echo esc_html( $m['name'] ); ?> decor options&hellip;</div>
-			<?php endif; ?>
-		</div>
+	<div class="container">
 		<?php
-		$i++;
-	endforeach;
-	?>
+		$i = 0;
+		foreach ( $manufacturers as $key => $m ) :
+			$is_active = ( 0 === $i );
+			?>
+			<div
+				id="decor-panel-<?php echo esc_attr( $key ); ?>"
+				class="decor-panel<?php echo $is_active ? ' active' : ''; ?>"
+				role="tabpanel"
+				data-key="<?php echo esc_attr( $key ); ?>"
+				data-ready="<?php echo ! empty( $m['ready'] ) ? '1' : '0'; ?>"
+				<?php echo $is_active ? '' : 'hidden'; ?>
+			>
+				<?php if ( empty( $m['ready'] ) ) : ?>
+					<div class="decor-placeholder container">
+						<p><?php echo esc_html( $m['name'] ); ?> decor options are coming soon.</p>
+					</div>
+				<?php else : ?>
+					<div class="decor-loading container">Loading <?php echo esc_html( $m['name'] ); ?> decor options&hellip;</div>
+				<?php endif; ?>
+			</div>
+			<?php
+			$i++;
+		endforeach;
+		?>
+	</div>
 </section>
 
 <?php
