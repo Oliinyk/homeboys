@@ -419,6 +419,7 @@
 						+ '.app-container{display:flex!important;align-items:stretch!important;height:auto!important;overflow:visible!important}'
 						+ '.main-menu{height:auto!important;overflow:visible!important;flex-shrink:0}'
 						+ '.display-area{height:auto!important;overflow:visible!important;flex:1}'
+						+ '@media(min-width:768px){.main-menu{width:22%!important}.display-area{width:78%!important}}'
 						+ '.display-area>div#decor-display-panel-palisade-shower+p{display:none!important}'
 						+ '.main-menu .active{transition:none!important;}'
 						+ '@media(max-width:768px){.app-container{flex-direction:column!important}.main-menu{width:100%!important;float:none!important}.display-area{top:0!important;left:0!important}}'
