@@ -428,18 +428,41 @@
 				markup += data.html;
 
 				if ( shadow ) {
+					host.style.visibility = 'hidden';
 					shadow.innerHTML = markup;
-					wireShadowTabs( shadow );
-					wireDecorBoard( shadow );
-					wireOptionMenu( shadow );
-					wireLightbox( shadow, data.base_url || '' );
+
+					// Wait for all external stylesheets to load before revealing content.
+					var links = Array.prototype.slice.call( shadow.querySelectorAll( 'link[rel="stylesheet"]' ) );
+					var total = links.length;
+
+					function reveal() {
+						host.style.visibility = '';
+						wireShadowTabs( shadow );
+						wireDecorBoard( shadow );
+						wireOptionMenu( shadow );
+						wireLightbox( shadow, data.base_url || '' );
+					}
+
+					if ( ! total ) {
+						panel.innerHTML = '';
+						panel.appendChild( host );
+						reveal();
+					} else {
+						var loaded = 0;
+						panel.innerHTML = '';
+						panel.appendChild( host );
+						links.forEach( function ( link ) {
+							function onDone() { if ( ++loaded >= total ) { reveal(); } }
+							link.addEventListener( 'load', onDone );
+							link.addEventListener( 'error', onDone );
+						} );
+					}
 				} else {
 					// Very old browsers: fall back to inline (styles may leak).
 					host.innerHTML = markup;
+					panel.innerHTML = '';
+					panel.appendChild( host );
 				}
-
-				panel.innerHTML = '';
-				panel.appendChild( host );
 			} )
 			.catch( function () {
 				panel.dataset.loaded = '';
