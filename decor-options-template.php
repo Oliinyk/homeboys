@@ -74,7 +74,9 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
 						<p><?php echo esc_html( $m['name'] ); ?> decor options are coming soon.</p>
 					</div>
 				<?php else : ?>
-					<div class="decor-loading container">Loading <?php echo esc_html( $m['name'] ); ?> decor options&hellip;</div>
+					<div class="decor-loading container">
+						<div class="decor-spinner"></div>
+					</div>
 				<?php endif; ?>
 			</div>
 			<?php
