@@ -115,7 +115,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                         if ( ! empty( $plan_sqft ) ) :
                             $sqft = number_format( intval( $plan_sqft ), 0, ',', ',' );
                             ?>
-                            <li><?php echo esc_html( $sqft ); ?> ft²</li>
+                            <li><?php echo esc_html( $sqft ); ?> <span class="ft">ft</span><sup>2</sup></li>
                         <?php
                         endif;
 

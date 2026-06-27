@@ -1283,12 +1283,20 @@ section {
 	top: 12px;
 	left: 8px;
 }
+.card-top-info li sup {
+	text-transform: none;
+	margin-left: -2px;
+	top: -0.2em;
+}
 .card-top-info li {
 	position: relative;
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 2px;
 	z-index: 2;
+}
+.card-top-info li .ft {
+	text-transform: lowercase;
 }
 .card-top-info li:not(:last-child)::after {
     position: absolute;
@@ -3156,6 +3164,18 @@ footer {
 	}
 	.card-top-info {
 		font-size: 24px;
+	}
+	.card-top-info li {
+		gap: 5px;
+	}
+	.card-top-info li sup {
+		margin-left: -5px;
+	}
+	.md-col-4 .card-top-info li {
+		gap: 2px;
+	}
+	.md-col-4 .card-top-info li sup {
+		margin-left: -2px;
 	}
 	.label {
 		padding: 6px 14px;

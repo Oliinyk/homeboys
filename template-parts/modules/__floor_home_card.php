@@ -21,7 +21,7 @@ $data = $args['data-floor'];
         if ( isset( $data['size'] ) && ! empty( $data['size'] ) ) :
             ?>
             <li>
-                <?php echo sprintf( "%s ft2", $data['size'] )?>
+                <?php echo sprintf( '%s <span class="ft">ft</span><sup>2</sup>', $data['size'] )?>
             </li>
             <?php
         endif;
