@@ -9,9 +9,11 @@ $selected_location  = carbon_get_post_meta( $post_id, 'display_homes_location' )
 $manufacturer_arr   = apply_filters( 'hb2_get_manufacturers_list', true );
 $series_arr         = apply_filters( 'hb2_get_series_list', true );
 
+$per_page = isset( $_GET['per_page'] ) ? -1 : ( (int) carbon_get_theme_option( 'display_homes_per_page' ) ?: 6 );
+
 $plans_query_args = [
     'post_type'      => 'plans',
-    'posts_per_page' => -1,
+    'posts_per_page' => $per_page,
     'post_status'    => 'publish',
     'meta_query'     => [
         'relation' => 'AND',
@@ -182,8 +184,11 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                 <?php
             endwhile;
 
-            // get_template_part( 'template-parts/modules/__show-all-button', null );
-        
+            get_template_part( 'template-parts/modules/__show-all-button', null, [
+                'total'    => $plans->found_posts,
+                'per_page' => $per_page,
+            ] );
+
             wp_reset_postdata();
 
         else :

@@ -7,10 +7,12 @@ get_header();
 $p_id = get_the_ID();
 $hero_params = ['id' => $p_id];
 
+$per_page = isset( $_GET['per_page'] ) ? -1 : ( (int) carbon_get_theme_option( 'galleries_per_page' ) ?: 6 );
+
 $q_params = [
     'post_status'    => 'publish',
     'post_type'      => 'galleries',
-    'posts_per_page' => $_GET['per_page'] ?? 6,
+    'posts_per_page' => $per_page,
     'meta_query'     => [
         'relation' => 'AND',
         'order_column' => [
@@ -127,7 +129,10 @@ get_template_part( 'template-parts/modules/section', 'hero', $hero_params );
             ?>
         </div>
         <?php
-        get_template_part( 'template-parts/modules/__show-all-button', null );
+        get_template_part( 'template-parts/modules/__show-all-button', null, [
+            'total'    => $query->found_posts,
+            'per_page' => $per_page,
+        ] );
         ?>
     </div>
 </section>

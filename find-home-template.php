@@ -16,7 +16,7 @@ if ( isset( $_GET['sort'] ) ) {
     $order = $_GET['sort'];
 }
 
-$per_page = isset( $_GET['per_page'] ) ? -1 : 12;
+$per_page = isset( $_GET['per_page'] ) ? -1 : ( (int) carbon_get_theme_option( 'find_home_per_page' ) ?: 12 );
 
 $query_params = [
     'post_status'       => 'publish',
@@ -240,7 +240,10 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
         </div>
 
         <?php
-            get_template_part( 'template-parts/modules/__show-all-button', null );
+            get_template_part( 'template-parts/modules/__show-all-button', null, [
+                'total'    => $homes->found_posts,
+                'per_page' => $per_page,
+            ] );
 
             wp_reset_postdata();
         ?>

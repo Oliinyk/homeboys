@@ -246,6 +246,32 @@ function hb2_options_fields() {
                 ->set_rows( 2 )
                 ->set_default_value( '<span class="label-top">Home Was</span><span>Sold</span>' ),
         ) )
+        ->add_tab( __( 'Homes per page', 'home-boys-2' ), array(
+            Field::make( 'text', 'display_homes_per_page', __( 'Display Homes — cards per load', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
+                ->set_attribute( 'min', '1' )
+                ->set_default_value( '6' )
+                ->set_help_text( __( 'How many home cards to show on the Display Homes page before "Show All".', 'home-boys-2' ) )
+                ->set_width( 50 ),
+            Field::make( 'text', 'adu_homes_per_page', __( 'ADU — cards per load', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
+                ->set_attribute( 'min', '1' )
+                ->set_default_value( '8' )
+                ->set_help_text( __( 'How many home cards to show on the ADU page before "Show All".', 'home-boys-2' ) )
+                ->set_width( 50 ),
+            Field::make( 'text', 'find_home_per_page', __( 'Find Your Home — cards per load', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
+                ->set_attribute( 'min', '1' )
+                ->set_default_value( '12' )
+                ->set_help_text( __( 'How many home cards to show on the Find Your Home page before "Show All".', 'home-boys-2' ) )
+                ->set_width( 50 ),
+            Field::make( 'text', 'galleries_per_page', __( 'Sold Homes Galleries — cards per load', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
+                ->set_attribute( 'min', '1' )
+                ->set_default_value( '6' )
+                ->set_help_text( __( 'How many gallery cards to show on the Sold Homes Galleries page before "Show All".', 'home-boys-2' ) )
+                ->set_width( 50 ),
+        ) )
         ->add_tab( 'FOOTER', array(
             Field::make( 'image', 'footer_site_logo', __( 'Footer logo', 'home-boys-2' ) )
                 ->set_value_type( 'url' ),

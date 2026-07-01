@@ -6,7 +6,7 @@
 get_header();
 
 $p_ID = get_the_ID();
-$per_page = isset( $_GET['per_page'] ) ? intval( $_GET['per_page'] ) : 8;
+$per_page = isset( $_GET['per_page'] ) ? intval( $_GET['per_page'] ) : ( (int) carbon_get_theme_option( 'adu_homes_per_page' ) ?: 8 );
 $adu_upper_limit = carbon_get_theme_option( 'adu_upper_limit' ) ?: 1200;
 
 $order = 'desc';
@@ -131,7 +131,10 @@ get_template_part( "template-parts/modules/section", "hero", ['id' => $p_ID ] );
                 </div>
 
                 <?php
-                get_template_part( 'template-parts/modules/__show-all-button', null );
+                get_template_part( 'template-parts/modules/__show-all-button', null, [
+                    'total'    => $query->found_posts,
+                    'per_page' => $per_page,
+                ] );
 
                 wp_reset_postdata();
             else :
