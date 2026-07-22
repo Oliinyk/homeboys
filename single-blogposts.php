@@ -39,7 +39,7 @@ get_template_part( 'template-parts/modules/nav_overlay', null );
                 <?php
                 endif;
                 ?>
-                <?php echo $content ?>
+                <?php echo '<div class="prose">' . wpautop( $content ) . '</div>'; ?>
             </div>
             <?php
         endif

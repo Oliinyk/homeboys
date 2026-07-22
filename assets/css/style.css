@@ -3442,3 +3442,27 @@ footer {
     font-style: italic;
     color: var(--gray);
 }
+.prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 1.5em;
+}
+.prose table th,
+.prose table td {
+    border: 1px solid var(--light-gray, #ccc);
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+}
+.prose table th {
+    font-weight: 700;
+    text-align: center;
+}
+.prose table tr:nth-child(even) td {
+    background: #f7f7f7;
+}
+.prose figure.wp-block-table,
+.prose .wp-block-table {
+    margin: 0 0 1.5em;
+    overflow-x: auto;
+}
