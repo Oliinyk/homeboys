@@ -272,6 +272,22 @@ function hb2_options_fields() {
                 ->set_help_text( __( 'How many gallery cards to show on the Sold Homes Galleries page before "Show All".', 'home-boys-2' ) )
                 ->set_width( 50 ),
         ) )
+        ->add_tab( __( 'Price filter', 'home-boys-2' ), array(
+            Field::make( 'text', 'price_filter_min', __( 'Price slider — lower bound', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
+                ->set_attribute( 'min', '0' )
+                ->set_attribute( 'step', '1000' )
+                ->set_default_value( '50000' )
+                ->set_help_text( __( 'Lowest value the price slider can reach on the home page and Find Your Home. Only widens the range — if a home is cheaper than this, the slider still goes down to that home. Leave empty to follow the actual prices.', 'home-boys-2' ) )
+                ->set_width( 50 ),
+            Field::make( 'text', 'price_filter_max', __( 'Price slider — upper bound', 'home-boys-2' ) )
+                ->set_attribute( 'type', 'number' )
+                ->set_attribute( 'min', '0' )
+                ->set_attribute( 'step', '1000' )
+                ->set_default_value( '400000' )
+                ->set_help_text( __( 'Highest value the price slider can reach. Only widens the range — if a home costs more than this, the slider still goes up to that home. Leave empty to follow the actual prices.', 'home-boys-2' ) )
+                ->set_width( 50 ),
+        ) )
         ->add_tab( 'FOOTER', array(
             Field::make( 'image', 'footer_site_logo', __( 'Footer logo', 'home-boys-2' ) )
                 ->set_value_type( 'url' ),

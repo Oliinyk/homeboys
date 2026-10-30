@@ -452,9 +452,23 @@ function hb2_get_all_homes_prices_range() {
         return null;
     }
 
+    $min_price = floatval( $results->min_price );
+    $max_price = floatval( $results->max_price );
+
+    $bound_min = carbon_get_theme_option( 'price_filter_min' );
+    $bound_max = carbon_get_theme_option( 'price_filter_max' );
+
+    if ( '' !== $bound_min && null !== $bound_min ) {
+        $min_price = min( $min_price, floatval( $bound_min ) );
+    }
+
+    if ( '' !== $bound_max && null !== $bound_max ) {
+        $max_price = max( $max_price, floatval( $bound_max ) );
+    }
+
     return [
-        'min' => floatval( $results->min_price ),
-        'max' => floatval( $results->max_price ),
+        'min' => $min_price,
+        'max' => $max_price,
     ];
 }
 
