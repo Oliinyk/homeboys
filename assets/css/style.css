@@ -2712,7 +2712,7 @@ footer {
 		max-width: 75px;
 	}
 	.filter-wrap .filter-container .filter-row .value-box[data-type="price"] {
-		max-width: 95px;
+		max-width: 80px;
 	}
 	.filter-label,
 	.value-display {
